@@ -7,6 +7,7 @@ import houricon from "@/app/assets/icons/hour.svg"
 import locationIcon from "@/app/assets/icons/location.svg"
 import supporterImage from "@/app/assets/images/supporer.png"
 import perfume from "@/app/assets/images/perfume.png"
+import logo from "@/app/assets/images/logo.png";
 export const IMAGES = {
     serviceBgImage,
     serviceCardImage1,
@@ -17,4 +18,5 @@ export const IMAGES = {
     locationIcon,
     supporterImage,
     perfume,
+    logo,
 }
