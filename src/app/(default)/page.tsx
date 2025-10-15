@@ -1,20 +1,18 @@
 import Banner from '@/components/Banner/Banner'
 import Service from '@/components/service/Service'
 import About from '@/components/About/About'
-import AppointmentSection from '@/components/Appointment/Appointment'
+import AppointmentSection from '@/components/Appoinment/Appointment'
 import React from 'react'
 import ContactSection from '@/components/Contant us/ContactUs'
 
 function Home() {
   return (
-    <div className='bg-gradient-to-r  from-[#FFFFFF] via-[#FFF6F7] to-[#FFC0CB]'>
+    <div className='inset-0 bg-gradient-to-br from-[#fdeaea] via-[#fff1f3] to-[#ffdae1]'>
       <Banner />
       <Service />
-      <div >
-        <About />
-        <AppointmentSection />
-        <ContactSection />
-      </div>
+      <About />
+      <AppointmentSection />
+      <ContactSection />
     </div>
   )
 }

@@ -21,7 +21,7 @@ export function DynamicBanner({ title, className = "" }: DynamicBannerProps) {
 
             {/* Dynamic text content */}
             <div className="relative flex h-full items-center justify-center">
-                <h1 className="text-balance text-center text-4xl font-bold text-white md:text-5xl">
+                <h1 className="text-balance text-center text-4xl font-bold text-white md:text-7xl">
                     {title}
                 </h1>
             </div>

@@ -7,7 +7,7 @@ import Image from "next/image"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { IMAGES } from "@/constant/image.index"
+import { IMAGES } from "@/constants/image.index"
 
 interface StepOneProfileProps {
     onContinue: (data: ProfileData) => void
