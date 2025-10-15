@@ -6,7 +6,7 @@ import { useState, useRef } from "react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Upload, User, ChevronLeft, ChevronRight } from "lucide-react"
-import { IMAGES } from "@/constant/image.index"
+import { IMAGES } from "@/constants/image.index"
 
 interface StepThreePhotoProps {
     onContinue: (photoData: PhotoData) => void

@@ -8,6 +8,9 @@ import locationIcon from "@/app/assets/icons/location.svg"
 import supporterImage from "@/app/assets/images/supporer.png"
 import perfume from "@/app/assets/images/perfume.png"
 import logo from "@/app/assets/images/logo.png";
+import profile from "@/app/assets/images/profile.png";
+import userIcon from "@/app/assets/icons/user-icon.svg"
+import workerProfile from "@/app/assets/images/worker-profile.jpg"
 export const IMAGES = {
     serviceBgImage,
     serviceCardImage1,
@@ -19,4 +22,7 @@ export const IMAGES = {
     supporterImage,
     perfume,
     logo,
+    profile,
+    userIcon,
+    workerProfile,
 }

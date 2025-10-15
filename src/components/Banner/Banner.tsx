@@ -4,10 +4,11 @@ import React from "react";
 import { PhoneCall } from "lucide-react";
 import { PrimaryButton } from "../ui/PrimaryButton";
 import { OutlineButton } from "../ui/OutlineButton";
+import Link from "next/link";
 
 const Banner = () => {
     return (
-        <section className="relative w-full h-[600px] md:h-[760px] flex items-center justify-center overflow-hidden">
+        <section className="relative w-full h-[600px] md:h-screen flex items-center justify-center overflow-hidden">
             {/* ✅ Background Video from public folder */}
             <video
                 autoPlay
@@ -37,8 +38,8 @@ const Banner = () => {
 
                 {/* Buttons */}
                 <div className="flex justify-evenly items-center rounded-lg mb-10 py-8 bg-white/20 md:mx-12">
-                    <PrimaryButton name="Register Now" />
-                    <OutlineButton name="Sign In" />
+                    <Link href="/auth/sign-up"><PrimaryButton name="Register Now" /></Link>
+                    <Link href="/auth/sign-in"><OutlineButton name="Sign In" /></Link>
                 </div>
 
                 {/* Phone Contact */}

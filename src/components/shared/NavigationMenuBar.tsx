@@ -1,36 +1,84 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
-import logo from "@/app/assets/images/logo.png";
-import userIcon from "@/app/assets/icons/user-icon.svg";
-import Link from "next/link";
+import { useState } from "react"
+import Image from "next/image"
+import { usePathname } from "next/navigation"
+import { Menu, X, User, ChevronDown } from "lucide-react"
+import Link from "next/link"
+import { useAuth } from "@/contexts/auth-context"
+import { IMAGES } from "@/constants/image.index"
 
 const NavigationMenuBar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const pathname = usePathname()
+  const { user, logout } = useAuth()
 
   const navItems = [
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
+    ...(user?.email ? [{ name: "Bookings", href: "/bookings" }] : []),
     { name: "Services", href: "/services" },
     { name: "Contact Us", href: "/contact" },
-  ];
+  ]
+
+  const handleSignOut = () => {
+    logout()
+    setIsDropdownOpen(false)
+  }
 
   return (
     <nav className="sticky top-0 bg-white shadow-sm border-b border-pink-100 z-50">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-        {/* Left Icon */}
-        <div className="h-10">
-          <Image
-            src={userIcon}
-            alt="User Icon"
-            width={52}
-            height={52}
-            className="object-contain w-full h-full"
-          />
+        <div className="relative h-10">
+          {
+            user?.email ? <button
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 border-2 transition-colors"
+            >
+              <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+                <Image
+                  src={IMAGES.profile.src}
+                  alt="IHBS Logo"
+                  width={40}
+                  height={40}
+                  className="rounded-full"
+                />
+              </div>
+              <p className="text-sm font-medium text-gray-900">{"Jhon Wick"}</p>
+              <ChevronDown className="w-4 h-4 text-gray-600" />
+            </button> :
+              <div>
+                <Image
+                  src={IMAGES.userIcon.src}
+                  alt="IHBS Logo"
+                  width={50}
+                  height={50}
+                  className=""
+                />
+              </div>
+          }
+
+          {/* Dropdown Menu */}
+          {isDropdownOpen && (
+            <>
+              <div className="fixed inset-0 z-10" onClick={() => setIsDropdownOpen(false)} />
+              <div className="absolute left-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-20">
+                {user?.email && (
+                  <div className="px-4 py-2 border-b border-gray-100">
+                    <p className="text-sm font-medium text-gray-900">{"Jhon Wick"}</p>
+                    <p className="text-xs text-gray-500">{user.email}</p>
+                  </div>
+                )}
+                <button
+                  onClick={handleSignOut}
+                  className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                >
+                  Sign Out
+                </button>
+              </div>
+            </>
+          )}
         </div>
 
         {/* Center Menu (desktop) */}
@@ -39,9 +87,7 @@ const NavigationMenuBar = () => {
             <Link
               href={item?.href}
               key={item?.href}
-              className={`cursor-pointer transition-colors text-xl ${pathname === item.href
-                ? "text-pink-600 border-b-2 border-pink-600 pb-1"
-                : "hover:text-pink-700"
+              className={`cursor-pointer transition-colors text-xl ${pathname === item.href ? "text-pink-600 border-b-2 border-pink-600 pb-1" : "hover:text-pink-700"
                 }`}
             >
               {item.name}
@@ -49,33 +95,18 @@ const NavigationMenuBar = () => {
           ))}
         </div>
 
-        {/* Right Logo */}
         <div className="flex-shrink-0 w-[180px] flex items-center justify-center md:justify-end">
-          <Image
-            src={logo}
-            alt="IHBS Logo"
-            width={84}
-            height={86}
-            className="object-contain"
-          />
+          <Image src={IMAGES.logo.src} alt="IHBS Logo" width={84} height={86} className="object-contain" />
         </div>
 
         {/* Mobile Menu Button */}
-        <button
-          className="md:hidden text-gray-700"
-          onClick={() => setIsOpen(!isOpen)}
-        >
+        <button className="md:hidden text-gray-700" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
       {/* Overlay */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black/40 z-40"
-          onClick={() => setIsOpen(false)}
-        ></div>
-      )}
+      {isOpen && <div className="fixed inset-0 bg-black/40 z-40" onClick={() => setIsOpen(false)}></div>}
 
       {/* Left Drawer */}
       <div
@@ -83,7 +114,7 @@ const NavigationMenuBar = () => {
           }`}
       >
         <div className="flex items-center justify-between p-4 border-b">
-          <Image src={logo} alt="IHBS Logo" width={80} height={60} />
+          <Image src={IMAGES.logo.src} alt="IHBS Logo" width={80} height={60} />
           <button onClick={() => setIsOpen(false)}>
             <X className="text-gray-700" size={28} />
           </button>
@@ -94,9 +125,7 @@ const NavigationMenuBar = () => {
               <Link
                 href={item.href}
                 onClick={() => setIsOpen(false)}
-                className={`block text-lg ${pathname === item.href
-                  ? "text-pink-600 font-semibold"
-                  : "hover:text-pink-700"
+                className={`block text-lg ${pathname === item.href ? "text-pink-600 font-semibold" : "hover:text-pink-700"
                   }`}
               >
                 {item.name}
@@ -106,7 +135,7 @@ const NavigationMenuBar = () => {
         </ul>
       </div>
     </nav>
-  );
-};
+  )
+}
 
-export default NavigationMenuBar;
+export default NavigationMenuBar
