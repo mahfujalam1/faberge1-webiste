@@ -5,7 +5,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import Image from "next/image"
-import { IMAGES } from "@/constant/image.index"
+import { IMAGES } from "@/constants/image.index"
 
 interface StepOneEmailProps {
     onContinue: (email: string) => void

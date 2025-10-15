@@ -1,0 +1,436 @@
+{
+  "members": [
+    {
+      "id": "1",
+      "workerId": "9645655",
+      "firstName": "John",
+      "lastName": "Wick",
+      "name": "John Wick",
+      "address": "45 Elm Avenue",
+      "city": "New York",
+      "state": "NY",
+      "location": "New York, USA",
+      "phone": "2139876543",
+      "email": "john.wick@example.com",
+      "price": "$1,000",
+      "image": "/placeholder.svg?height=200&width=200",
+      "services": [
+        { "id": "manicure", "name": "Manicure", "price": 25, "code": "M" },
+        { "id": "pedicure", "name": "Pedicure", "price": 25, "code": "P" },
+        { "id": "nail-art", "name": "Nail Art", "price": 30, "code": "N" }
+      ],
+      "extraServices": [
+        { "id": "gel", "name": "Gel", "price": 10, "code": "G" },
+        { "id": "water", "name": "Water", "price": 10, "code": "W" }
+      ]
+    },
+    {
+      "id": "2",
+      "workerId": "9645656",
+      "firstName": "John",
+      "lastName": "Wick",
+      "name": "John Wick",
+      "address": "45 Elm Avenue",
+      "city": "New York",
+      "state": "NY",
+      "location": "New York, USA",
+      "phone": "2139876544",
+      "email": "john.wick2@example.com",
+      "price": "$1,000",
+      "image": "/placeholder.svg?height=200&width=200",
+      "services": [
+        { "id": "manicure", "name": "Manicure", "price": 25, "code": "M" },
+        { "id": "pedicure", "name": "Pedicure", "price": 25, "code": "P" },
+        { "id": "nail-art", "name": "Nail Art", "price": 30, "code": "N" }
+      ],
+      "extraServices": [
+        { "id": "gel", "name": "Gel", "price": 10, "code": "G" },
+        { "id": "water", "name": "Water", "price": 10, "code": "W" }
+      ]
+    },
+    {
+      "id": "3",
+      "workerId": "9645657",
+      "firstName": "John",
+      "lastName": "Wick",
+      "name": "John Wick",
+      "address": "45 Elm Avenue",
+      "city": "New York",
+      "state": "NY",
+      "location": "New York, USA",
+      "phone": "2139876545",
+      "email": "john.wick3@example.com",
+      "price": "$1,000",
+      "image": "/placeholder.svg?height=200&width=200",
+      "services": [
+        { "id": "manicure", "name": "Manicure", "price": 25, "code": "M" },
+        { "id": "pedicure", "name": "Pedicure", "price": 25, "code": "P" },
+        { "id": "nail-art", "name": "Nail Art", "price": 30, "code": "N" }
+      ],
+      "extraServices": [
+        { "id": "gel", "name": "Gel", "price": 10, "code": "G" },
+        { "id": "water", "name": "Water", "price": 10, "code": "W" }
+      ]
+    },
+    {
+      "id": "4",
+      "workerId": "9645658",
+      "firstName": "John",
+      "lastName": "Wick",
+      "name": "John Wick",
+      "address": "45 Elm Avenue",
+      "city": "New York",
+      "state": "NY",
+      "location": "New York, USA",
+      "phone": "2139876546",
+      "email": "john.wick4@example.com",
+      "price": "$1,000",
+      "image": "/placeholder.svg?height=200&width=200",
+      "services": [
+        { "id": "manicure", "name": "Manicure", "price": 25, "code": "M" },
+        { "id": "pedicure", "name": "Pedicure", "price": 25, "code": "P" },
+        { "id": "nail-art", "name": "Nail Art", "price": 30, "code": "N" }
+      ],
+      "extraServices": [
+        { "id": "gel", "name": "Gel", "price": 10, "code": "G" },
+        { "id": "water", "name": "Water", "price": 10, "code": "W" }
+      ]
+    },
+    {
+      "id": "5",
+      "workerId": "9645659",
+      "firstName": "John",
+      "lastName": "Wick",
+      "name": "John Wick",
+      "address": "45 Elm Avenue",
+      "city": "New York",
+      "state": "NY",
+      "location": "New York, USA",
+      "phone": "2139876547",
+      "email": "john.wick5@example.com",
+      "price": "$1,000",
+      "image": "/placeholder.svg?height=200&width=200",
+      "services": [
+        { "id": "manicure", "name": "Manicure", "price": 25, "code": "M" },
+        { "id": "pedicure", "name": "Pedicure", "price": 25, "code": "P" },
+        { "id": "nail-art", "name": "Nail Art", "price": 30, "code": "N" }
+      ],
+      "extraServices": [
+        { "id": "gel", "name": "Gel", "price": 10, "code": "G" },
+        { "id": "water", "name": "Water", "price": 10, "code": "W" }
+      ]
+    },
+    {
+      "id": "6",
+      "workerId": "9645660",
+      "firstName": "John",
+      "lastName": "Wick",
+      "name": "John Wick",
+      "address": "45 Elm Avenue",
+      "city": "New York",
+      "state": "NY",
+      "location": "New York, USA",
+      "phone": "2139876548",
+      "email": "john.wick6@example.com",
+      "price": "$1,000",
+      "image": "/placeholder.svg?height=200&width=200",
+      "services": [
+        { "id": "manicure", "name": "Manicure", "price": 25, "code": "M" },
+        { "id": "pedicure", "name": "Pedicure", "price": 25, "code": "P" },
+        { "id": "nail-art", "name": "Nail Art", "price": 30, "code": "N" }
+      ],
+      "extraServices": [
+        { "id": "gel", "name": "Gel", "price": 10, "code": "G" },
+        { "id": "water", "name": "Water", "price": 10, "code": "W" }
+      ]
+    },
+    {
+      "id": "7",
+      "workerId": "9645661",
+      "firstName": "John",
+      "lastName": "Wick",
+      "name": "John Wick",
+      "address": "45 Elm Avenue",
+      "city": "New York",
+      "state": "NY",
+      "location": "New York, USA",
+      "phone": "2139876549",
+      "email": "john.wick7@example.com",
+      "price": "$1,000",
+      "image": "/placeholder.svg?height=200&width=200",
+      "services": [
+        { "id": "manicure", "name": "Manicure", "price": 25, "code": "M" },
+        { "id": "pedicure", "name": "Pedicure", "price": 25, "code": "P" },
+        { "id": "nail-art", "name": "Nail Art", "price": 30, "code": "N" }
+      ],
+      "extraServices": [
+        { "id": "gel", "name": "Gel", "price": 10, "code": "G" },
+        { "id": "water", "name": "Water", "price": 10, "code": "W" }
+      ]
+    },
+    {
+      "id": "8",
+      "workerId": "9645662",
+      "firstName": "John",
+      "lastName": "Wick",
+      "name": "John Wick",
+      "address": "45 Elm Avenue",
+      "city": "New York",
+      "state": "NY",
+      "location": "New York, USA",
+      "phone": "2139876550",
+      "email": "john.wick8@example.com",
+      "price": "$1,000",
+      "image": "/placeholder.svg?height=200&width=200",
+      "services": [
+        { "id": "manicure", "name": "Manicure", "price": 25, "code": "M" },
+        { "id": "pedicure", "name": "Pedicure", "price": 25, "code": "P" },
+        { "id": "nail-art", "name": "Nail Art", "price": 30, "code": "N" }
+      ],
+      "extraServices": [
+        { "id": "gel", "name": "Gel", "price": 10, "code": "G" },
+        { "id": "water", "name": "Water", "price": 10, "code": "W" }
+      ]
+    },
+    {
+      "id": "9",
+      "workerId": "9645663",
+      "firstName": "John",
+      "lastName": "Wick",
+      "name": "John Wick",
+      "address": "45 Elm Avenue",
+      "city": "New York",
+      "state": "NY",
+      "location": "New York, USA",
+      "phone": "2139876551",
+      "email": "john.wick9@example.com",
+      "price": "$1,000",
+      "image": "/placeholder.svg?height=200&width=200",
+      "services": [
+        { "id": "manicure", "name": "Manicure", "price": 25, "code": "M" },
+        { "id": "pedicure", "name": "Pedicure", "price": 25, "code": "P" },
+        { "id": "nail-art", "name": "Nail Art", "price": 30, "code": "N" }
+      ],
+      "extraServices": [
+        { "id": "gel", "name": "Gel", "price": 10, "code": "G" },
+        { "id": "water", "name": "Water", "price": 10, "code": "W" }
+      ]
+    },
+    {
+      "id": "10",
+      "workerId": "9645664",
+      "firstName": "John",
+      "lastName": "Wick",
+      "name": "John Wick",
+      "address": "45 Elm Avenue",
+      "city": "New York",
+      "state": "NY",
+      "location": "New York, USA",
+      "phone": "2139876552",
+      "email": "john.wick10@example.com",
+      "price": "$1,000",
+      "image": "/placeholder.svg?height=200&width=200",
+      "services": [
+        { "id": "manicure", "name": "Manicure", "price": 25, "code": "M" },
+        { "id": "pedicure", "name": "Pedicure", "price": 25, "code": "P" },
+        { "id": "nail-art", "name": "Nail Art", "price": 30, "code": "N" }
+      ],
+      "extraServices": [
+        { "id": "gel", "name": "Gel", "price": 10, "code": "G" },
+        { "id": "water", "name": "Water", "price": 10, "code": "W" }
+      ]
+    },
+    {
+      "id": "11",
+      "workerId": "9645665",
+      "firstName": "John",
+      "lastName": "Wick",
+      "name": "John Wick",
+      "address": "45 Elm Avenue",
+      "city": "New York",
+      "state": "NY",
+      "location": "New York, USA",
+      "phone": "2139876553",
+      "email": "john.wick11@example.com",
+      "price": "$1,000",
+      "image": "/placeholder.svg?height=200&width=200",
+      "services": [
+        { "id": "manicure", "name": "Manicure", "price": 25, "code": "M" },
+        { "id": "pedicure", "name": "Pedicure", "price": 25, "code": "P" },
+        { "id": "nail-art", "name": "Nail Art", "price": 30, "code": "N" }
+      ],
+      "extraServices": [
+        { "id": "gel", "name": "Gel", "price": 10, "code": "G" },
+        { "id": "water", "name": "Water", "price": 10, "code": "W" }
+      ]
+    },
+    {
+      "id": "12",
+      "workerId": "9645666",
+      "firstName": "John",
+      "lastName": "Wick",
+      "name": "John Wick",
+      "address": "45 Elm Avenue",
+      "city": "New York",
+      "state": "NY",
+      "location": "New York, USA",
+      "phone": "2139876554",
+      "email": "john.wick12@example.com",
+      "price": "$1,000",
+      "image": "/placeholder.svg?height=200&width=200",
+      "services": [
+        { "id": "manicure", "name": "Manicure", "price": 25, "code": "M" },
+        { "id": "pedicure", "name": "Pedicure", "price": 25, "code": "P" },
+        { "id": "nail-art", "name": "Nail Art", "price": 30, "code": "N" }
+      ],
+      "extraServices": [
+        { "id": "gel", "name": "Gel", "price": 10, "code": "G" },
+        { "id": "water", "name": "Water", "price": 10, "code": "W" }
+      ]
+    },
+    {
+      "id": "13",
+      "workerId": "9645667",
+      "firstName": "John",
+      "lastName": "Wick",
+      "name": "John Wick",
+      "address": "45 Elm Avenue",
+      "city": "New York",
+      "state": "NY",
+      "location": "New York, USA",
+      "phone": "2139876555",
+      "email": "john.wick13@example.com",
+      "price": "$1,000",
+      "image": "/placeholder.svg?height=200&width=200",
+      "services": [
+        { "id": "manicure", "name": "Manicure", "price": 25, "code": "M" },
+        { "id": "pedicure", "name": "Pedicure", "price": 25, "code": "P" },
+        { "id": "nail-art", "name": "Nail Art", "price": 30, "code": "N" }
+      ],
+      "extraServices": [
+        { "id": "gel", "name": "Gel", "price": 10, "code": "G" },
+        { "id": "water", "name": "Water", "price": 10, "code": "W" }
+      ]
+    },
+    {
+      "id": "14",
+      "workerId": "9645668",
+      "firstName": "John",
+      "lastName": "Wick",
+      "name": "John Wick",
+      "address": "45 Elm Avenue",
+      "city": "New York",
+      "state": "NY",
+      "location": "New York, USA",
+      "phone": "2139876556",
+      "email": "john.wick14@example.com",
+      "price": "$1,000",
+      "image": "/placeholder.svg?height=200&width=200",
+      "services": [
+        { "id": "manicure", "name": "Manicure", "price": 25, "code": "M" },
+        { "id": "pedicure", "name": "Pedicure", "price": 25, "code": "P" },
+        { "id": "nail-art", "name": "Nail Art", "price": 30, "code": "N" }
+      ],
+      "extraServices": [
+        { "id": "gel", "name": "Gel", "price": 10, "code": "G" },
+        { "id": "water", "name": "Water", "price": 10, "code": "W" }
+      ]
+    },
+    {
+      "id": "15",
+      "workerId": "9645669",
+      "firstName": "John",
+      "lastName": "Wick",
+      "name": "John Wick",
+      "address": "45 Elm Avenue",
+      "city": "New York",
+      "state": "NY",
+      "location": "New York, USA",
+      "phone": "2139876557",
+      "email": "john.wick15@example.com",
+      "price": "$1,000",
+      "image": "/placeholder.svg?height=200&width=200",
+      "services": [
+        { "id": "manicure", "name": "Manicure", "price": 25, "code": "M" },
+        { "id": "pedicure", "name": "Pedicure", "price": 25, "code": "P" },
+        { "id": "nail-art", "name": "Nail Art", "price": 30, "code": "N" }
+      ],
+      "extraServices": [
+        { "id": "gel", "name": "Gel", "price": 10, "code": "G" },
+        { "id": "water", "name": "Water", "price": 10, "code": "W" }
+      ]
+    },
+    {
+      "id": "16",
+      "workerId": "9645670",
+      "firstName": "John",
+      "lastName": "Wick",
+      "name": "John Wick",
+      "address": "45 Elm Avenue",
+      "city": "New York",
+      "state": "NY",
+      "location": "New York, USA",
+      "phone": "2139876558",
+      "email": "john.wick16@example.com",
+      "price": "$1,000",
+      "image": "/placeholder.svg?height=200&width=200",
+      "services": [
+        { "id": "manicure", "name": "Manicure", "price": 25, "code": "M" },
+        { "id": "pedicure", "name": "Pedicure", "price": 25, "code": "P" },
+        { "id": "nail-art", "name": "Nail Art", "price": 30, "code": "N" }
+      ],
+      "extraServices": [
+        { "id": "gel", "name": "Gel", "price": 10, "code": "G" },
+        { "id": "water", "name": "Water", "price": 10, "code": "W" }
+      ]
+    },
+    {
+      "id": "17",
+      "workerId": "9645671",
+      "firstName": "John",
+      "lastName": "Wick",
+      "name": "John Wick",
+      "address": "45 Elm Avenue",
+      "city": "New York",
+      "state": "NY",
+      "location": "New York, USA",
+      "phone": "2139876559",
+      "email": "john.wick17@example.com",
+      "price": "$1,000",
+      "image": "/placeholder.svg?height=200&width=200",
+      "services": [
+        { "id": "manicure", "name": "Manicure", "price": 25, "code": "M" },
+        { "id": "pedicure", "name": "Pedicure", "price": 25, "code": "P" },
+        { "id": "nail-art", "name": "Nail Art", "price": 30, "code": "N" }
+      ],
+      "extraServices": [
+        { "id": "gel", "name": "Gel", "price": 10, "code": "G" },
+        { "id": "water", "name": "Water", "price": 10, "code": "W" }
+      ]
+    },
+    {
+      "id": "18",
+      "workerId": "9645672",
+      "firstName": "John",
+      "lastName": "Wick",
+      "name": "John Wick",
+      "address": "45 Elm Avenue",
+      "city": "New York",
+      "state": "NY",
+      "location": "New York, USA",
+      "phone": "2139876560",
+      "email": "john.wick18@example.com",
+      "price": "$1,000",
+      "image": "/placeholder.svg?height=200&width=200",
+      "services": [
+        { "id": "manicure", "name": "Manicure", "price": 25, "code": "M" },
+        { "id": "pedicure", "name": "Pedicure", "price": 25, "code": "P" },
+        { "id": "nail-art", "name": "Nail Art", "price": 30, "code": "N" }
+      ],
+      "extraServices": [
+        { "id": "gel", "name": "Gel", "price": 10, "code": "G" },
+        { "id": "water", "name": "Water", "price": 10, "code": "W" }
+      ]
+    }
+  ]
+}
