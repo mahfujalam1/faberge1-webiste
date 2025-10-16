@@ -134,9 +134,3 @@
   /* Gradient from top to bottom */
 }
 
-.btn-outline:hover {
-  background: linear-gradient(to top, #5C0830, #E90975);
-  /* Reverse gradient on hover */
-  color: white;
-  /* Change text color to white on hover */
-}

@@ -1,0 +1,80 @@
+"use client";
+
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import Image from "next/image";
+import { bookings } from "@/constants/booking";
+import { IMAGES } from "@/constants/image.index";
+
+interface BookingCardProps {
+    booking: typeof bookings[0];
+}
+
+export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
+    return (
+        <Card className="mb-6 rounded-lg shadow-md overflow-hidden overflow-x-auto bg-[#FFEBEF] mt-5 max-w-full">
+            <CardContent className="p-0 flex flex-col md:flex-row">
+                {/* Image Section */}
+                <div className="flex-shrink-0 px-6 md:pb-0 pb-3 flex justify-center md:justify-start">
+                    <Image
+                        src={IMAGES.logo.src}
+                        alt="team member"
+                        width={120}
+                        height={120}
+                        className="object-cover border bg-white rounded"
+                        priority
+                    />
+                </div>
+
+                {/* Content Section */}
+                <div className="flex-grow min-w-0">
+                    {/* Header Row */}
+                    <div className="grid grid-cols-5 bg-[#FFC0CB] px-4 py-3 text-xs sm:text-sm font-bold text-gray-800">
+                        <div>Date</div>
+                        <div>Time</div>
+                        <div>Service</div>
+                        <div>Add-Ons</div>
+                        <div className="text-right">
+                            <Badge
+                                className={`${booking.status === "Completed"
+                                        ? "bg-green-100 text-green-700"
+                                        : "bg-yellow-100 text-yellow-700"
+                                    } text-xs px-2 rounded-sm`}
+                            >
+                                {booking.status}
+                            </Badge>
+                        </div>
+                    </div>
+
+                    {/* Content Row */}
+                    <div className="grid grid-cols-5 items-center px-4 py-4 text-xs sm:text-sm text-gray-800 border-b border-pink-100">
+                        <div>{booking.date}</div>
+                        <div>{booking.time}</div>
+                        <div>{booking.service}</div>
+                        <div>{booking.addOns}</div>
+                        <div className="text-right font-semibold">${booking.price}</div>
+                    </div>
+
+                    {/* Footer - Team Member Info */}
+                    <div className="pt-2 border-t-2 px-4">
+                        <p className="text-sm flex flex-col sm:flex-row sm:items-center gap-2 font-medium text-gray-600">
+                            <span className="font-semibold text-gray-700">Team Member:</span>
+                            <span className="flex items-center gap-1">
+                                <Image
+                                    src={IMAGES.workerProfile.src}
+                                    alt="profile"
+                                    height={20}
+                                    width={20}
+                                    className="rounded-full"
+                                    priority
+                                />
+                                <span className="text-blue-600 font-semibold whitespace-nowrap">{booking.name}</span>
+                                <span className="text-gray-500 whitespace-nowrap">({booking.location})</span>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
+    );
+};

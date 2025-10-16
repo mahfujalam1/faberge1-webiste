@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { Menu, X, User, ChevronDown } from "lucide-react"
+import { Menu, X, ChevronDown } from "lucide-react"
 import Link from "next/link"
 import { useAuth } from "@/contexts/auth-context"
 import { IMAGES } from "@/constants/image.index"
@@ -27,12 +27,20 @@ const NavigationMenuBar = () => {
     setIsDropdownOpen(false)
   }
 
+  // ✅ Improved route matching logic
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/"
+    const firstSegment = "/" + pathname.split("/")[1]
+    return firstSegment === href
+  }
+
   return (
     <nav className="sticky top-0 bg-white shadow-sm border-b border-pink-100 z-50">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+        {/* Left User Section */}
         <div className="relative h-10">
-          {
-            user?.email ? <button
+          {user?.email ? (
+            <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 border-2 transition-colors"
             >
@@ -45,29 +53,34 @@ const NavigationMenuBar = () => {
                   className="rounded-full"
                 />
               </div>
-              <p className="text-sm font-medium text-gray-900">{"Jhon Wick"}</p>
-              <ChevronDown className="w-4 h-4 text-gray-600" />
-            </button> :
               <div>
-                <Image
-                  src={IMAGES.userIcon.src}
-                  alt="IHBS Logo"
-                  width={50}
-                  height={50}
-                  className=""
-                />
+                <p className="text-sm font-medium text-gray-900">{"Jhon Wick"}</p>
+                <p className="text-xs text-start text-gray-900">New York</p>
               </div>
-          }
+              <ChevronDown className="w-4 h-4 text-gray-600" />
+            </button>
+          ) : (
+            <div>
+              <Image
+                src={IMAGES.userIcon.src}
+                alt="IHBS Logo"
+                width={50}
+                height={50}
+              />
+            </div>
+          )}
 
           {/* Dropdown Menu */}
           {isDropdownOpen && (
             <>
-              <div className="fixed inset-0 z-10" onClick={() => setIsDropdownOpen(false)} />
+              <div
+                className="fixed inset-0 z-10"
+                onClick={() => setIsDropdownOpen(false)}
+              />
               <div className="absolute left-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-20">
                 {user?.email && (
-                  <div className="px-4 py-2 border-b border-gray-100">
-                    <p className="text-sm font-medium text-gray-900">{"Jhon Wick"}</p>
-                    <p className="text-xs text-gray-500">{user.email}</p>
+                  <div className="px-4 py-2 border-b border-gray-100 hover:bg-gray-100 hover:text-primary">
+                    <Link href={'/my-bookings'}>My Bookings</Link>
                   </div>
                 )}
                 <button
@@ -81,13 +94,15 @@ const NavigationMenuBar = () => {
           )}
         </div>
 
-        {/* Center Menu (desktop) */}
+        {/* Center Menu (Desktop) */}
         <div className="hidden md:flex space-x-8 text-gray-700 font-medium">
           {navItems.map((item) => (
             <Link
-              href={item?.href}
-              key={item?.href}
-              className={`cursor-pointer transition-colors text-xl ${pathname === item.href ? "text-pink-600 border-b-2 border-pink-600 pb-1" : "hover:text-pink-700"
+              href={item.href}
+              key={item.href}
+              className={`cursor-pointer transition-colors text-xl ${isActive(item.href)
+                ? "text-primary border-b-2 border-primary pb-1"
+                : "hover:text-pink-700"
                 }`}
             >
               {item.name}
@@ -95,20 +110,37 @@ const NavigationMenuBar = () => {
           ))}
         </div>
 
+        {/* Right Logo */}
         <div className="flex-shrink-0 w-[180px] flex items-center justify-center md:justify-end">
-          <Image src={IMAGES.logo.src} alt="IHBS Logo" width={84} height={86} className="object-contain" />
+          <Image
+            src={IMAGES.logo.src}
+            alt="IHBS Logo"
+            width={84}
+            height={86}
+            className="object-contain"
+          />
         </div>
 
         {/* Mobile Menu Button */}
-        <button className="md:hidden text-gray-700" onClick={() => setIsOpen(!isOpen)}>
+        <button
+          className="md:hidden text-gray-700"
+          onClick={() => setIsOpen(!isOpen)}
+        >
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
       {/* Overlay */}
-      {isOpen && <div className="fixed inset-0 bg-black/40 z-40" onClick={() => setIsOpen(false)}></div>}
+      {
+        isOpen && (
+          <div
+            className="fixed inset-0 bg-black/40 z-40"
+            onClick={() => setIsOpen(false)}
+          ></div>
+        )
+      }
 
-      {/* Left Drawer */}
+      {/* Left Drawer (Mobile) */}
       <div
         className={`fixed top-0 left-0 h-full w-64 bg-white z-50 shadow-lg transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
           }`}
@@ -119,13 +151,16 @@ const NavigationMenuBar = () => {
             <X className="text-gray-700" size={28} />
           </button>
         </div>
+
         <ul className="flex flex-col p-6 space-y-6 text-gray-700 font-medium">
           {navItems.map((item) => (
             <li key={item.name}>
               <Link
                 href={item.href}
                 onClick={() => setIsOpen(false)}
-                className={`block text-lg ${pathname === item.href ? "text-pink-600 font-semibold" : "hover:text-pink-700"
+                className={`block text-lg ${isActive(item.href)
+                  ? "text-primary font-semibold"
+                  : "hover:text-pink-700"
                   }`}
               >
                 {item.name}
@@ -134,7 +169,7 @@ const NavigationMenuBar = () => {
           ))}
         </ul>
       </div>
-    </nav>
+    </nav >
   )
 }
 

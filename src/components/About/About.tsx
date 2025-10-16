@@ -35,7 +35,7 @@ export default function About() {
                     <div className="space-y-6 mb-5">
                         <div>
                             <div className="md:border-4 border-2 border-primary rounded-xl w-20" />
-                            <h2 className="md:text-4xl text-xl font-bold text-pink-600 mb-6">
+                            <h2 className="md:text-4xl text-xl font-bold text-primary mb-6">
                                 About Us
                             </h2>
                         </div>
@@ -51,7 +51,7 @@ export default function About() {
 
                         <Button
                             variant="outline"
-                            className="border-2 border-pink-600 text-pink-600 hover:bg-pink-600 hover:text-white px-8 py-6 text-base font-semibold rounded-lg transition-colors bg-transparent"
+                            className="border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-6 text-base font-semibold rounded-lg transition-colors bg-transparent"
                         >
                             Learn More
                         </Button>
