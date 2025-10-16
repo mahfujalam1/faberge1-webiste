@@ -5,7 +5,7 @@ interface DynamicBannerProps {
 
 export function DynamicBanner({ title, className = "" }: DynamicBannerProps) {
     return (
-        <div className={`relative h-[500px] w-full overflow-hidden border-t-4 border-[#FCCAB8] ${className}`}>
+        <div className={`relative h-[200px] md:h-[500px] w-full overflow-hidden border-t-4 border-[#FCCAB8] ${className}`}>
             <video
                 autoPlay
                 loop

@@ -11,6 +11,7 @@ import logo from "@/app/assets/images/logo.png";
 import profile from "@/app/assets/images/profile.png";
 import userIcon from "@/app/assets/icons/user-icon.svg"
 import workerProfile from "@/app/assets/images/worker-profile.jpg"
+import paymentSuccess from "@/app/assets/images/payment-success.png"
 export const IMAGES = {
     serviceBgImage,
     serviceCardImage1,
@@ -25,4 +26,5 @@ export const IMAGES = {
     profile,
     userIcon,
     workerProfile,
+    paymentSuccess,
 }
