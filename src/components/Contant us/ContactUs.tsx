@@ -77,7 +77,7 @@ export default function ContactSection() {
                             <div className="flex justify-center lg:justify-center">
                                 <button
                                     type="submit"
-                                    className="w-full sm:w-auto px-12 py-3 bg-pink-600 hover:bg-pink-700 text-white font-semibold rounded-md transition-colors duration-200 shadow-md hover:shadow-lg"
+                                    className="w-full sm:w-auto px-12 py-3 bg-primary hover:bg-pink-700 text-white font-semibold rounded-md transition-colors duration-200 shadow-md hover:shadow-lg"
                                 >
                                     Send Message
                                 </button>

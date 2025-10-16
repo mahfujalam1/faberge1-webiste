@@ -15,7 +15,7 @@ interface ServiceCardProps {
 
 export function ServiceCard({ title, image, services, serviceTypes }: ServiceCardProps) {
     return (
-        <div className="w-full max-w-xl mt-10">
+        <div className="w-full container mx-auto mt-10">
             {/* Card Header with Gradient */}
             <div className="bg-gradient-to-b from-[#E88764] to-[#FCCAB8] rounded-t-2xl px-6 py-4">
                 <h3 className="text-gray-900 font-semibold text-lg text-center">{title}</h3>
@@ -24,7 +24,7 @@ export function ServiceCard({ title, image, services, serviceTypes }: ServiceCar
             {/* Card Body */}
             <div className="bg-white rounded-b-2xl p-6 shadow-lg">
                 {/* Service Image */}
-                <div className="relative w-full h-80 mb-6 rounded-lg overflow-hidden bg-gray-100">
+                <div className="relative w-full h-96 mb-6 rounded-lg overflow-hidden bg-gray-100">
                     <Image src={image || "/placeholder.svg"} alt={title} fill className="object-cover" />
                 </div>
 

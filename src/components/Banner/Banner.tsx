@@ -37,7 +37,7 @@ const Banner = () => {
                 </p>
 
                 {/* Buttons */}
-                <div className="flex justify-evenly items-center rounded-lg mb-10 py-8 bg-white/20 md:mx-12">
+                <div className="flex justify-evenly items-center rounded-lg mb-10 py-8 bg-white/10 md:mx-12">
                     <Link href="/auth/sign-up"><PrimaryButton name="Register Now" /></Link>
                     <Link href="/auth/sign-in"><OutlineButton name="Sign In" /></Link>
                 </div>
@@ -46,7 +46,7 @@ const Banner = () => {
                 <div className="flex flex-col items-center justify-center space-y-2">
                     <div className="flex items-center gap-2">
                         <PhoneCall size={22} className="text-white" />
-                        <span className="text-xl font-semibold">1(855) 622-6264</span>
+                        <span className="text-2xl font-bold">1(855) 622-6264</span>
                     </div>
                     <span className="text-sm text-gray-300">Call for Appointment</span>
                 </div>
