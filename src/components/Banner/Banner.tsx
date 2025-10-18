@@ -4,11 +4,13 @@ import React from "react";
 import { PhoneCall } from "lucide-react";
 import { PrimaryButton } from "../ui/PrimaryButton";
 import { OutlineButton } from "../ui/OutlineButton";
+import { useAuth } from "@/contexts/auth-context";
 import Link from "next/link";
 
 const Banner = () => {
+    const { user } = useAuth()
     return (
-        <section className="relative w-full h-[600px] md:h-screen flex items-center justify-center overflow-hidden">
+        <section className="relative w-full h-[100vh] flex items-center justify-center overflow-hidden -mt-[80px]">
             {/* ✅ Background Video from public folder */}
             <video
                 autoPlay
@@ -37,9 +39,13 @@ const Banner = () => {
                 </p>
 
                 {/* Buttons */}
-                <div className="flex justify-evenly items-center rounded-lg mb-10 py-8 bg-white/10 md:mx-12">
-                    <Link href="/auth/sign-up"><PrimaryButton name="Register Now" /></Link>
-                    <Link href="/auth/sign-in"><OutlineButton name="Sign In" /></Link>
+                <div className="rounded-lg mb-10 py-8 bg-white/10 md:mx-12">
+                    {
+                        user?.email ? <Link href="/bookings"><PrimaryButton name="Book Appointment" /></Link> : <div className="flex justify-evenly">
+                            <Link href="/auth/sign-up"><PrimaryButton name="Register Now" /></Link>
+                            <Link href="/auth/sign-in"><OutlineButton name="Sign In" /></Link>
+                        </div>
+                    }
                 </div>
 
                 {/* Phone Contact */}

@@ -119,7 +119,9 @@
   }
 }
 
-
+body {
+  font-family: "Poppins", serif;
+}
 
 
 /* Global CSS (styles.css or similar) */

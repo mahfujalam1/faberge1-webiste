@@ -5,7 +5,7 @@ import AboutImage from "@/app/assets/images/makeup-artits.png"
 import mobileIcon from "@/app/assets/icons/mobile.svg"
 import houricon from "@/app/assets/icons/hour.svg"
 import locationIcon from "@/app/assets/icons/location.svg"
-import supporterImage from "@/app/assets/images/supporer.png"
+import supporterImage from "@/app/assets/images/supporter.png"
 import perfume from "@/app/assets/images/perfume.png"
 import logo from "@/app/assets/images/logo.png";
 import profile from "@/app/assets/images/profile.png";

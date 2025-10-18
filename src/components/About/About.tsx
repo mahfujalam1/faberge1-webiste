@@ -16,7 +16,7 @@ export default function About() {
 
     return (
         <section className={`flex items-center py-16 ${sectionBg} transition-all duration-500`}>
-            <div className="container mx-auto">
+            <div className="container mx-auto flex flex-col items-center justify-center">
                 <div className="grid md:grid-cols-2 gap-12 items-center md:px-0 px-4">
                     {/* Left side - Image */}
                     <div className="relative">
@@ -32,7 +32,7 @@ export default function About() {
                     </div>
 
                     {/* Right side - Content */}
-                    <div className="space-y-6 mb-5">
+                    <div className="space-y-6 mb-5 ">
                         <div>
                             <div className="md:border-4 border-2 border-primary rounded-xl w-20" />
                             <h2 className="md:text-4xl text-xl font-bold text-primary mb-6">
@@ -51,7 +51,7 @@ export default function About() {
 
                         <Button
                             variant="outline"
-                            className="border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-6 text-base font-semibold rounded-lg transition-colors bg-transparent"
+                            className="border-2 border-primary cursor-pointer text-primary hover:bg-primary hover:text-white px-8 py-6 text-base font-semibold rounded-lg transition-colors bg-transparent"
                         >
                             Learn More
                         </Button>

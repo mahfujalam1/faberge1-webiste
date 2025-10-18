@@ -24,9 +24,7 @@ export interface PasswordData {
 
 export default function StepTwoPassword({
     onContinue,
-    onNext,
     onPrev,
-    currentStep,
     initialData,
 }: StepTwoPasswordProps) {
     const [password, setPassword] = useState(initialData?.password || "")

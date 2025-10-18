@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation"
 import Image from "next/image"
-import { MapPin, Scissors } from "lucide-react"
+import { MapPin } from "lucide-react"
 import teammembersData from "@/constants/team-members.json"
 import { IMAGES } from "@/constants/image.index"
 import { DynamicBanner } from "@/components/shared/DynamicBanner"
@@ -13,6 +13,7 @@ export default function TeamMembersPage({
     params: { stateName: string }
 }) {
     const router = useRouter()
+    console.log(params)
 
     const handleMemberClick = (workerId: string) => {
         router.push(`/bookings/book-appointment/${workerId}`)
@@ -24,10 +25,7 @@ export default function TeamMembersPage({
             <div className="min-h-screen flex items-center justify-center bg-gradient-to-tl from-[#fdeaea] via-[#fff1f3] to-[#ffdae1] p-4 md:p-8">
                 <div className="w-full px-6 md:px-10 rounded-[2rem] md:rounded-[3rem]">
                     <div className="container mx-auto my-10">
-                        {/* Title */}
-                        <h1 className="text-2xl font-serif text-start mb-12 text-balance">
-                            Select Your Team Member
-                        </h1>
+
 
                         {/* Team Members Grid */}
                         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
@@ -35,7 +33,7 @@ export default function TeamMembersPage({
                                 <button
                                     key={member.workerId}
                                     onClick={() => handleMemberClick(member.workerId)}
-                                    className="bg-white rounded-lg p-4 hover:shadow-lg duration-300 transition-all hover:scale-105 text-left"
+                                    className="bg-white rounded-lg p-4 cursor-pointer hover:shadow-lg duration-300 transition-all hover:scale-105 text-left"
                                 >
                                     {/* Member Image */}
                                     <div className="relative w-full aspect-square mb-3 rounded-lg overflow-hidden bg-gray-200">
@@ -52,16 +50,18 @@ export default function TeamMembersPage({
                                         {member.firstName} {member.lastName}
                                     </h3>
 
-                                    <div className="flex items-center gap-1 text-xs text-gray-600 mb-1">
-                                        <MapPin className="w-3 h-3" />
-                                        <span>
-                                            {member.city}, {member.state}
-                                        </span>
-                                    </div>
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-1 text-xs text-gray-600 mb-1">
+                                            <MapPin className="w-3 h-3" />
+                                            <span>
+                                                {member.city}, {member.state}
+                                            </span>
+                                        </div>
 
-                                    <div className="flex items-center gap-1 text-xs text-gray-700">
-                                        <Scissors className="w-3 h-3" />
-                                        <span>{member.services.join(", ")}</span>
+                                        <div className="flex items-end gap-1 text-xs text-gray-700">
+                                            <span>ID:</span>
+                                            <span>{member.workerId}</span>
+                                        </div>
                                     </div>
                                 </button>
                             ))}

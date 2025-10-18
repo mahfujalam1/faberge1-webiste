@@ -3,7 +3,7 @@ import { IMAGES } from "@/constants/image.index";
 
 export default function AppointmentSection() {
     return (
-        <div className="w-full container mx-auto px-4 py-10">
+        <div className="w-full container !mx-auto flex flex-col items-center justify-center px-4 py-10">
             <div className="flex justify-between items-center md:flex-row flex-col md:gap-0">
                 {/* Left Content */}
                 <div>
