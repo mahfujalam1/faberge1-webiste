@@ -7,7 +7,7 @@ import { setAuthToken, getAuthToken, removeAuthToken, generateToken } from "@/li
 
 interface AuthContextType {
     isLoggedIn: boolean
-    user: { email: string } | null
+    user: { email: string, role?: string } | null
     login: (email: string, password: string) => void
     logout: () => void
     register: (email: string) => void
@@ -18,7 +18,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
-    const [user, setUser] = useState<{ email: string } | null>(null)
+    const [user, setUser] = useState<{ email: string, role?: string } | null>(null)
     const [isLoading, setIsLoading] = useState(true)
     const [isMounted, setIsMounted] = useState(false)
 
@@ -32,7 +32,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                     // Decode token to get email (in production, validate with backend)
                     const decoded = atob(token)
                     const email = decoded.split("-")[0]
-                    setUser({ email })
+                    setUser({ email, role:'worker' })
                     setIsLoggedIn(true)
                     console.log("[v0] User authenticated from cookie:", { email })
                 } catch (error) {

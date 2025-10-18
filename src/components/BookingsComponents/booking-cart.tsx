@@ -7,13 +7,13 @@ import { BookingCartProps } from "@/types/booking/appointment"
 export default function BookingCart({ bookings, memberName, workerId, onCheckout }: BookingCartProps) {
     if (bookings.length === 0) return null
 
-    const calculateTotal = () => {
-        return bookings.reduce((total, booking) => {
-            const servicePrice = booking.service.price
-            const addOnsPrice = booking.addOns.reduce((sum, addon) => sum + addon.price, 0)
-            return total + servicePrice + addOnsPrice
-        }, 0)
-    }
+    // const calculateTotal = () => {
+    //     return bookings.reduce((total, booking) => {
+    //         const servicePrice = booking.service.price
+    //         const addOnsPrice = booking.addOns.reduce((sum, addon) => sum + addon.price, 0)
+    //         return total + servicePrice + addOnsPrice
+    //     }, 0)
+    // }
 
     return (
         <div className="bg-white rounded-3xl shadow-2xl p-6 md:p-10">

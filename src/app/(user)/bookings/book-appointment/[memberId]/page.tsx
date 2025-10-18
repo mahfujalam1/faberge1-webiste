@@ -14,7 +14,7 @@ import { MapPin } from "lucide-react"
 
 
 
-type DateStatus = "available" | "booked" | "off" | "past"
+// type DateStatus = "available" | "booked" | "off" | "past"
 
 export default function BookAppointmentPage({ params }: { params: Promise<{ memberId: string }> }) {
     const router = useRouter()
@@ -33,23 +33,23 @@ export default function BookAppointmentPage({ params }: { params: Promise<{ memb
         }
     }, [memberId])
 
-    const getDateStatus = (day: number): DateStatus => {
-        const today = new Date()
-        const dateToCheck = new Date(currentYear, currentMonth, day)
+    // const getDateStatus = (day: number): DateStatus => {
+    //     const today = new Date()
+    //     const dateToCheck = new Date(currentYear, currentMonth, day)
 
-        if (dateToCheck < today) return "past"
+    //     if (dateToCheck < today) return "past"
 
-        // Mock data: green (available), red (off), orange (booked)
-        const availableDates = [8, 9, 12, 13, 27, 28, 29]
-        const offDates = [7, 10, 11, 14, 15, 16, 17, 23, 24]
-        const bookedDates = [18, 19, 20, 21, 22, 25, 26, 30, 31]
+    //     // Mock data: green (available), red (off), orange (booked)
+    //     const availableDates = [8, 9, 12, 13, 27, 28, 29]
+    //     const offDates = [7, 10, 11, 14, 15, 16, 17, 23, 24]
+    //     const bookedDates = [18, 19, 20, 21, 22, 25, 26, 30, 31]
 
-        if (availableDates.includes(day)) return "available"
-        if (offDates.includes(day)) return "off"
-        if (bookedDates.includes(day)) return "booked"
+    //     if (availableDates.includes(day)) return "available"
+    //     if (offDates.includes(day)) return "off"
+    //     if (bookedDates.includes(day)) return "booked"
 
-        return "past"
-    }
+    //     return "past"
+    // }
 
     const createServiceSlots = () => {
         if (!member) return []

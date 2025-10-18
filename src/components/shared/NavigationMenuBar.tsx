@@ -1,38 +1,49 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Image from "next/image"
-import { usePathname } from "next/navigation"
-import { Menu, X, ChevronDown } from "lucide-react"
-import Link from "next/link"
-import { useAuth } from "@/contexts/auth-context"
-import { IMAGES } from "@/constants/image.index"
+import { useState } from "react";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { Menu, X, ChevronDown } from "lucide-react";
+import Link from "next/link";
+import { useAuth } from "@/contexts/auth-context";
+import { IMAGES } from "@/constants/image.index";
 
 const NavigationMenuBar = () => {
-  const [isOpen, setIsOpen] = useState(false)
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const pathname = usePathname()
-  const { user, logout } = useAuth()
+  const [isOpen, setIsOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const pathname = usePathname();
+  const { user, logout } = useAuth();
 
-  const navItems = [
+
+  const navItemsCustomer = [
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
     ...(user?.email ? [{ name: "Bookings", href: "/bookings" }] : []),
     { name: "Services", href: "/services" },
     { name: "Contact Us", href: "/contact" },
-  ]
+  ];
+
+  const navItemsWorker = [
+    { name: "Dashboard", href: "/dashboard" },
+    { name: "Schedule", href: "/schedule" },
+    { name: "Bookings", href: "/all-bookings" },
+    { name: "Contact Us", href: "/contact" },
+  ];
 
   const handleSignOut = () => {
-    logout()
-    setIsDropdownOpen(false)
-  }
+    logout();
+    setIsDropdownOpen(false);
+  };
 
   // ✅ Improved route matching logic
   const isActive = (href: string) => {
-    if (href === "/") return pathname === "/"
-    const firstSegment = "/" + pathname.split("/")[1]
-    return firstSegment === href
-  }
+    if (href === "/") return pathname === "/";
+    const firstSegment = "/" + pathname.split("/")[1];
+    return firstSegment === href;
+  };
+
+  // ✅ Which nav to use
+  const navItems = user?.role === "worker" ? navItemsWorker : navItemsCustomer;
 
   return (
     <nav className="sticky top-0 bg-white shadow-sm border-b border-pink-100 z-50">
@@ -78,8 +89,9 @@ const NavigationMenuBar = () => {
                 onClick={() => setIsDropdownOpen(false)}
               />
               <div className="absolute left-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-20">
-                {user?.email && (
-                  <Link href={'/my-bookings'} >
+                {/* ✅ My Bookings visible only if NOT worker */}
+                {user?.email && user?.role !== "worker" && (
+                  <Link href={"/my-bookings"}>
                     <div className="px-4 py-2 border-b border-gray-100 hover:bg-gray-100 hover:text-primary">
                       <p>My Bookings</p>
                     </div>
@@ -103,8 +115,8 @@ const NavigationMenuBar = () => {
               href={item.href}
               key={item.href}
               className={`cursor-pointer transition-colors text-xl ${isActive(item.href)
-                ? "text-primary border-b-2 border-primary pb-1"
-                : "hover:text-pink-700"
+                  ? "text-primary border-b-2 border-primary pb-1"
+                  : "hover:text-pink-700"
                 }`}
             >
               {item.name}
@@ -133,14 +145,12 @@ const NavigationMenuBar = () => {
       </div>
 
       {/* Overlay */}
-      {
-        isOpen && (
-          <div
-            className="fixed inset-0 bg-black/40 z-40"
-            onClick={() => setIsOpen(false)}
-          ></div>
-        )
-      }
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 z-40"
+          onClick={() => setIsOpen(false)}
+        ></div>
+      )}
 
       {/* Left Drawer (Mobile) */}
       <div
@@ -161,8 +171,8 @@ const NavigationMenuBar = () => {
                 href={item.href}
                 onClick={() => setIsOpen(false)}
                 className={`block text-lg ${isActive(item.href)
-                  ? "text-primary font-semibold"
-                  : "hover:text-pink-700"
+                    ? "text-primary font-semibold"
+                    : "hover:text-pink-700"
                   }`}
               >
                 {item.name}
@@ -171,8 +181,8 @@ const NavigationMenuBar = () => {
           ))}
         </ul>
       </div>
-    </nav >
-  )
-}
+    </nav>
+  );
+};
 
-export default NavigationMenuBar
+export default NavigationMenuBar;

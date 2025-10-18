@@ -2,7 +2,6 @@
 
 import { useState, useMemo } from "react"
 import { useRouter } from "next/navigation"
-import Image from "next/image"
 import statesData from "@/constants/states.json"
 import { DynamicBanner } from "@/components/shared/DynamicBanner"
 

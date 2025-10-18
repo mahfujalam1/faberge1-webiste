@@ -19,19 +19,19 @@ export const BookingTabs = () => {
       <TabsList className="flex gap-2">
         <TabsTrigger
           value="All"
-          className={`${tab === "All" ? "bg-primary text-primary" : "bg-transparent text-black"}`}
+          className={`${tab === "All" ? "bg-primary text-primary" : "bg-transparent text-black cursor-pointer"}`}
         >
           All Bookings
         </TabsTrigger>
         <TabsTrigger
           value="Upcoming"
-          className={`${tab === "Upcoming" ? "bg-primary text-primary" : "bg-transparent text-black"}`}
+          className={`${tab === "Upcoming" ? "bg-primary text-primary" : "bg-transparent text-black cursor-pointer"}`}
         >
           Upcoming
         </TabsTrigger>
         <TabsTrigger
           value="Completed"
-          className={`${tab === "Completed" ? "bg-primary text-primary" : "bg-transparent text-black"}`}
+          className={`${tab === "Completed" ? "bg-primary text-primary" : "bg-transparent text-black cursor-pointer"}`}
         >
           Completed
         </TabsTrigger>

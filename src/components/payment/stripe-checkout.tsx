@@ -10,12 +10,12 @@ import {
 } from "@stripe/react-stripe-js"
 
 export default function StripeCheckoutForm({
-    amountInCents,
-    description,
+    // amountInCents,
+    // description,
     onSuccess,
 }: {
-    amountInCents: number
-    description: string
+    // amountInCents: number
+    // description: string
     onSuccess: () => void
 }) {
     const stripe = useStripe()
@@ -52,8 +52,12 @@ export default function StripeCheckoutForm({
             } else {
                 onSuccess()
             }
-        } catch (err: any) {
-            setError(err.message)
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                setError(err.message)
+            } else {
+                setError(String(err) || "An unexpected error occurred")
+            }
         }
         setLoading(false)
     }

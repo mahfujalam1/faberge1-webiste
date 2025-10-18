@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation"
 import Image from "next/image"
-import { MapPin, Scissors } from "lucide-react"
+import { MapPin } from "lucide-react"
 import teammembersData from "@/constants/team-members.json"
 import { IMAGES } from "@/constants/image.index"
 import { DynamicBanner } from "@/components/shared/DynamicBanner"
@@ -13,6 +13,7 @@ export default function TeamMembersPage({
     params: { stateName: string }
 }) {
     const router = useRouter()
+    console.log(params)
 
     const handleMemberClick = (workerId: string) => {
         router.push(`/bookings/book-appointment/${workerId}`)
@@ -24,10 +25,7 @@ export default function TeamMembersPage({
             <div className="min-h-screen flex items-center justify-center bg-gradient-to-tl from-[#fdeaea] via-[#fff1f3] to-[#ffdae1] p-4 md:p-8">
                 <div className="w-full px-6 md:px-10 rounded-[2rem] md:rounded-[3rem]">
                     <div className="container mx-auto my-10">
-                        {/* Title */}
-                        <h1 className="text-2xl font-serif text-start mb-12 text-balance">
-                            Select Your Team Member
-                        </h1>
+
 
                         {/* Team Members Grid */}
                         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">

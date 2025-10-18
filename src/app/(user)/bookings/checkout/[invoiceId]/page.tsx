@@ -5,14 +5,14 @@ import { useRouter } from "next/navigation";
 import { IMAGES } from "@/constants/image.index";
 import Image from "next/image";
 
-export default function CheckoutPage({ params }: { params: { invoiceId: string } }) {
+export default function CheckoutPage({ }: { params: { invoiceId: string } }) {
     const router = useRouter();
 
     // ✅ Redirect after 5 seconds
     useEffect(() => {
         const timer = setTimeout(() => {
             router.push("/my-bookings");
-        }, 5000);
+        }, 3000);
 
         return () => clearTimeout(timer); // cleanup
     }, [router]);

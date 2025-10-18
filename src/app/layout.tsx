@@ -3,11 +3,11 @@ import "./globals.css";
 import { Metadata } from "next";
 import { AuthProvider } from "@/contexts/auth-context";
 
+// Import Poppins font
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700"], // optional: add weights you need
   variable: "--font-poppins",
-
 });
 
 export const metadata: Metadata = {
