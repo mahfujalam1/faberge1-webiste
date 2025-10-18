@@ -79,13 +79,15 @@ const NavigationMenuBar = () => {
               />
               <div className="absolute left-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-20">
                 {user?.email && (
-                  <div className="px-4 py-2 border-b border-gray-100 hover:bg-gray-100 hover:text-primary">
-                    <Link href={'/my-bookings'}>My Bookings</Link>
-                  </div>
+                  <Link href={'/my-bookings'} >
+                    <div className="px-4 py-2 border-b border-gray-100 hover:bg-gray-100 hover:text-primary">
+                      <p>My Bookings</p>
+                    </div>
+                  </Link>
                 )}
                 <button
                   onClick={handleSignOut}
-                  className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                  className="w-full cursor-pointer text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                 >
                   Sign Out
                 </button>

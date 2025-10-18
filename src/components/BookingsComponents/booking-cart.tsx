@@ -58,7 +58,7 @@ export default function BookingCart({ bookings, memberName, workerId, onCheckout
             <div className="mt-6 flex justify-center">
                 <button
                     onClick={onCheckout}
-                    className="bg-primary text-white px-32 py-4 rounded-lg font-medium hover:bg-pink-700 transition-colors"
+                    className="bg-primary cursor-pointer text-white px-32 py-4 rounded-lg font-medium hover:bg-pink-700 transition-colors"
                 >
                     Check Out
                 </button>

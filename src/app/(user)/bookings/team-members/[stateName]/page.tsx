@@ -35,7 +35,7 @@ export default function TeamMembersPage({
                                 <button
                                     key={member.workerId}
                                     onClick={() => handleMemberClick(member.workerId)}
-                                    className="bg-white rounded-lg p-4 hover:shadow-lg duration-300 transition-all hover:scale-105 text-left"
+                                    className="bg-white rounded-lg p-4 cursor-pointer hover:shadow-lg duration-300 transition-all hover:scale-105 text-left"
                                 >
                                     {/* Member Image */}
                                     <div className="relative w-full aspect-square mb-3 rounded-lg overflow-hidden bg-gray-200">
@@ -52,16 +52,18 @@ export default function TeamMembersPage({
                                         {member.firstName} {member.lastName}
                                     </h3>
 
-                                    <div className="flex items-center gap-1 text-xs text-gray-600 mb-1">
-                                        <MapPin className="w-3 h-3" />
-                                        <span>
-                                            {member.city}, {member.state}
-                                        </span>
-                                    </div>
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-1 text-xs text-gray-600 mb-1">
+                                            <MapPin className="w-3 h-3" />
+                                            <span>
+                                                {member.city}, {member.state}
+                                            </span>
+                                        </div>
 
-                                    <div className="flex items-center gap-1 text-xs text-gray-700">
-                                        <Scissors className="w-3 h-3" />
-                                        <span>{member.services.join(", ")}</span>
+                                        <div className="flex items-end gap-1 text-xs text-gray-700">
+                                            <span>ID:</span>
+                                            <span>{member.workerId}</span>
+                                        </div>
                                     </div>
                                 </button>
                             ))}

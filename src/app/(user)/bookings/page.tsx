@@ -49,7 +49,7 @@ export default function BookingsPage() {
                     ${state.enabled
                       ? selectedState === state.id
                         ? "bg-emerald-500 text-white shadow-md"
-                        : "bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
+                      : "bg-emerald-50 text-emerald-700 hover:bg-emerald-100 cursor-pointer"
                       : "bg-[#FDE4DB] text-gray-700 cursor-not-allowed shadow-md"
                     }
                   `}
@@ -64,7 +64,7 @@ export default function BookingsPage() {
               <button
                 onClick={handleContinue}
                 disabled={!selectedState}
-                className="bg-primary hover:bg-pink-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white px-16 py-3 rounded-lg font-medium transition-colors"
+                className="bg-primary hover:bg-pink-700 cursor-pointer disabled:bg-gray-300 disabled:cursor-not-allowed text-white px-16 py-3 rounded-lg font-medium transition-colors"
               >
                 Continue
               </button>

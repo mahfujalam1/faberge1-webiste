@@ -135,7 +135,7 @@ export default function CalendarComponent({
                                 disabled={status !== "available"}
                                 className={`
                   md:w-20 w-12 md:h-20 h-12 rounded-lg text-sm font-medium transition-colors mx-auto my-3
-                  ${status === "available" && !isSelected ? "bg-green-200 hover:bg-green-300 text-gray-900" : ""}
+                  ${status === "available" && !isSelected ? "bg-green-200 hover:bg-green-300 text-gray-900 cursor-pointer" : ""}
                   ${status === "available" && isSelected ? "bg-green-400 text-white" : ""}
                   ${status === "booked" ? "bg-orange-200 text-gray-500 cursor-not-allowed" : ""}
                   ${status === "off" ? "bg-red-200 text-gray-500 cursor-not-allowed" : ""}

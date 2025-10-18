@@ -3,7 +3,9 @@
 import { BookingTabs } from "@/components/myBookings/BookingTabs";
 import { Pagination } from "@/components/myBookings/Pagination";
 import { DynamicBanner } from "@/components/shared/DynamicBanner";
+import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { bookings } from "@/constants/booking";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function BookingsPage() {
@@ -27,6 +29,14 @@ export default function BookingsPage() {
                             pageSize={pageSize}
                             onPageChange={setCurrentPage}
                         />
+                        <Link href={'/bookings'} className="flex justify-center lg:justify-end mt-5">
+                            <button
+                                type="submit"
+                                className="w-full sm:w-auto px-12 py-3 cursor-pointer bg-primary hover:bg-pink-700 text-white font-semibold rounded-md transition-colors duration-200 shadow-md hover:shadow-lg"
+                            >
+                                Book Appointment
+                            </button>
+                        </Link>
                     </div>
                 </div>
             </div>
