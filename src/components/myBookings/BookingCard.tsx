@@ -5,12 +5,14 @@ import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import { bookings } from "@/constants/booking";
 import { IMAGES } from "@/constants/image.index";
+import { useAuth } from "@/contexts/auth-context";
 
 interface BookingCardProps {
     booking: typeof bookings[0];
 }
 
 export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
+    const { user } = useAuth()
     return (
         <Card className="mb-6 rounded-lg shadow-md overflow-hidden overflow-x-auto bg-[#FFEBEF] mt-5 max-w-full">
             <CardContent className="p-0 flex flex-col md:flex-row">
@@ -37,8 +39,8 @@ export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                         <div className="text-right">
                             <Badge
                                 className={`${booking.status === "Completed"
-                                        ? "bg-green-100 text-green-700"
-                                        : "bg-yellow-100 text-yellow-700"
+                                    ? "bg-green-100 text-green-700"
+                                    : "bg-yellow-100 text-yellow-700"
                                     } text-xs px-2 rounded-sm`}
                             >
                                 {booking.status}
@@ -56,8 +58,8 @@ export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                     </div>
 
                     {/* Footer - Team Member Info */}
-                    <div className="pt-2 border-t-2 px-4">
-                        <p className="text-sm flex flex-col sm:flex-row sm:items-center gap-2 font-medium text-gray-600">
+                    <div className="pt-2 border-t-2 px-4 flex justify-between">
+                        <div className="text-sm flex flex-col sm:flex-row sm:items-center gap-2 font-medium text-gray-600">
                             <span className="font-semibold text-gray-700">Team Member:</span>
                             <span className="flex items-center gap-1">
                                 <Image
@@ -68,10 +70,15 @@ export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                                     className="rounded-full"
                                     priority
                                 />
-                                <span className="text-blue-600 font-semibold whitespace-nowrap">{booking.name}</span>
+                                <span className="text-gray-600 font-semibold whitespace-nowrap">{booking.name}</span>
                                 <span className="text-gray-500 whitespace-nowrap">({booking.location})</span>
                             </span>
-                        </p>
+                        </div>
+                        {
+                            user?.role == 'worker' && <div>
+                                <button className="rounded-sm bg-primary cursor-pointer text-white text-sm px-2">Close</button>
+                            </div>
+                        }
                     </div>
                 </div>
             </CardContent>

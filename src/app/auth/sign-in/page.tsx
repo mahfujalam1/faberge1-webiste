@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { use, useState } from "react"
+import {useState } from "react"
 import { Eye, EyeOff } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -126,7 +126,7 @@ function LoginForm() {
 
           {/* Sign Up Link */}
           <p className="mt-6 text-center text-sm text-gray-900">
-            Don't have an account?{" "}
+            Don not have an account?{" "}
             <Link href="/auth/sign-up" className="font-semibold hover:underline">
               Sign Up
             </Link>

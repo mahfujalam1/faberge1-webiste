@@ -10,10 +10,11 @@ import CalendarComponent from "@/components/BookingsComponents/calendar-componen
 import ServiceSelectionTable from "@/components/BookingsComponents/service-selection"
 import { IMAGES } from "@/constants/image.index"
 import { DynamicBanner } from "@/components/shared/DynamicBanner"
+import { MapPin } from "lucide-react"
 
 
 
-type DateStatus = "available" | "booked" | "off" | "past"
+// type DateStatus = "available" | "booked" | "off" | "past"
 
 export default function BookAppointmentPage({ params }: { params: Promise<{ memberId: string }> }) {
     const router = useRouter()
@@ -32,23 +33,23 @@ export default function BookAppointmentPage({ params }: { params: Promise<{ memb
         }
     }, [memberId])
 
-    const getDateStatus = (day: number): DateStatus => {
-        const today = new Date()
-        const dateToCheck = new Date(currentYear, currentMonth, day)
+    // const getDateStatus = (day: number): DateStatus => {
+    //     const today = new Date()
+    //     const dateToCheck = new Date(currentYear, currentMonth, day)
 
-        if (dateToCheck < today) return "past"
+    //     if (dateToCheck < today) return "past"
 
-        // Mock data: green (available), red (off), orange (booked)
-        const availableDates = [8, 9, 12, 13, 27, 28, 29]
-        const offDates = [7, 10, 11, 14, 15, 16, 17, 23, 24]
-        const bookedDates = [18, 19, 20, 21, 22, 25, 26, 30, 31]
+    //     // Mock data: green (available), red (off), orange (booked)
+    //     const availableDates = [8, 9, 12, 13, 27, 28, 29]
+    //     const offDates = [7, 10, 11, 14, 15, 16, 17, 23, 24]
+    //     const bookedDates = [18, 19, 20, 21, 22, 25, 26, 30, 31]
 
-        if (availableDates.includes(day)) return "available"
-        if (offDates.includes(day)) return "off"
-        if (bookedDates.includes(day)) return "booked"
+    //     if (availableDates.includes(day)) return "available"
+    //     if (offDates.includes(day)) return "off"
+    //     if (bookedDates.includes(day)) return "booked"
 
-        return "past"
-    }
+    //     return "past"
+    // }
 
     const createServiceSlots = () => {
         if (!member) return []
@@ -135,7 +136,19 @@ export default function BookAppointmentPage({ params }: { params: Promise<{ memb
                                     </div>
                                     <div>
                                         <h3 className="font-semibold text-lg">{member.name}</h3>
-                                        <p className="text-gray-600 text-sm">{member.price}</p>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-1 text-xs text-gray-600 mb-1">
+                                            <MapPin className="w-3 h-3" />
+                                            <span>
+                                                {member.city}, {member.state}
+                                            </span>
+                                        </div>
+
+                                        <div className="flex items-end gap-1 text-xs text-gray-700">
+                                            <span>ID:</span>
+                                            <span>{member.workerId}</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -165,7 +178,7 @@ export default function BookAppointmentPage({ params }: { params: Promise<{ memb
                                             <button
                                                 onClick={handleAddBookings}
                                                 disabled={selectedSlots.length === 0}
-                                                className=" w-34 bg-primary text-white py-3 rounded-lg font-medium hover:bg-pink-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+                                                className=" w-34 bg-primary cursor-pointer text-white py-3 rounded-lg font-medium hover:bg-pink-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
                                             >
                                                 Add
                                             </button>
@@ -174,7 +187,7 @@ export default function BookAppointmentPage({ params }: { params: Promise<{ memb
                                                     setSelectedDate(null)
                                                     setSelectedSlots([])
                                                 }}
-                                                className="w-34 bg-white text-gray-700 py-3 rounded-lg font-medium border border-gray-300 hover:bg-gray-50 transition-colors"
+                                                className="w-34 bg-white cursor-pointer text-gray-700 py-3 rounded-lg font-medium border border-gray-300 hover:bg-gray-50 transition-colors"
                                             >
                                                 Cancel
                                             </button>

@@ -21,7 +21,7 @@ export interface PhotoData {
     photoFile: File | null
 }
 
-export default function StepThreePhoto({ onContinue, onNext, onPrev, currentStep, initialData }: StepThreePhotoProps) {
+export default function StepThreePhoto({ onContinue, onPrev, initialData }: StepThreePhotoProps) {
     const [photoPreview, setPhotoPreview] = useState<string | null>(initialData?.photoUrl || null)
     const [photoFile, setPhotoFile] = useState<File | null>(initialData?.photoFile || null)
     const fileInputRef = useRef<HTMLInputElement>(null)

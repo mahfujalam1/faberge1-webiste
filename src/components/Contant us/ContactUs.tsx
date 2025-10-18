@@ -21,7 +21,7 @@ export default function ContactSection() {
 
     return (
         <section className={`py-20 px-4 ${sectionBg} transition-all duration-500`}>
-            <div className="container mx-auto ">
+            <div className="container !mx-auto flex flex-col items-center justify-center">
                 <div className="md:flex">
                     {/* Image Section */}
                     <div>
@@ -77,7 +77,7 @@ export default function ContactSection() {
                             <div className="flex justify-center lg:justify-center">
                                 <button
                                     type="submit"
-                                    className="w-full sm:w-auto px-12 py-3 bg-primary hover:bg-pink-700 text-white font-semibold rounded-md transition-colors duration-200 shadow-md hover:shadow-lg"
+                                    className="w-full cursor-pointer sm:w-auto px-12 py-3 bg-primary hover:bg-pink-700 text-white font-semibold rounded-md transition-colors duration-200 shadow-md hover:shadow-lg"
                                 >
                                     Send Message
                                 </button>

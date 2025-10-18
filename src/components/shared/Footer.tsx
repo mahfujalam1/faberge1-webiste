@@ -3,6 +3,7 @@
 
 import React from "react";
 import { MapPin, Phone, Facebook, Instagram } from "lucide-react";
+import Link from "next/link";
 
 const Footer: React.FC = () => {
   return (
@@ -15,15 +16,16 @@ const Footer: React.FC = () => {
             How Can We Help?
           </h3>
           <ul className="space-y-2 text-sm text-black">
-            <li className="cursor-pointer hover:text-primary transition">
+            <Link href={'/services'} className="cursor-pointer hover:text-primary transition">
               Services
-            </li>
-            <li className="cursor-pointer hover:text-primary transition">
+            </Link>
+            <br />
+            {/* <li className="cursor-pointer hover:text-primary transition">
               FAQ
-            </li>
-            <li className="cursor-pointer hover:text-primary transition">
+            </li> */}
+            <Link href={'/contact'} className="cursor-pointer hover:text-primary transition mt-5">
               Contact Us
-            </li>
+            </Link>
           </ul>
         </div>
 
@@ -45,7 +47,7 @@ const Footer: React.FC = () => {
             />
             <button
               type="submit"
-              className="px-4 py-2 border border-primary text-primary hover:bg-primary hover:text-white transition rounded-md"
+              className="px-4 py-2 cursor-pointer border border-primary text-primary hover:bg-primary hover:text-white transition rounded-md"
             >
               Subscribe
             </button>

@@ -27,7 +27,7 @@ export interface ProfileData {
     email: string
 }
 
-export default function StepOneProfile({ onContinue, onNext, onPrev, currentStep, initialData }: StepOneProfileProps) {
+export default function StepOneProfile({ onContinue, onPrev, currentStep, initialData }: StepOneProfileProps) {
     const [formData, setFormData] = useState<ProfileData>(
         initialData || {
             firstName: "",

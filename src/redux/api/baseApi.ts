@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { tagTypes, tagTypeList } from "../tagTypes"; // Adjust the path as necessary
+import { tagTypeList } from "../tagTypes"; // Adjust the path as necessary
 
 // Define a service using a base URL and expected endpoints
 export const baseApi = createApi({
@@ -9,7 +9,7 @@ export const baseApi = createApi({
     baseUrl: ``,
   }),
   tagTypes: tagTypeList,
-  endpoints: (builder) => ({
+  endpoints: () => ({
     
   }),
 });
