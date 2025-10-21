@@ -82,7 +82,7 @@ export default function TeamMembersPage({
                         {/* No Members Found */}
                         {filteredMembers.length === 0 && (
                             <p className="text-center text-gray-500 mt-6">
-                                No team members found for "{stateName}".
+                                No team members found for {stateName}.
                             </p>
                         )}
                     </div>

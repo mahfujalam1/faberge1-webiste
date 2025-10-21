@@ -65,7 +65,7 @@ export default function CalendarScheduler() {
             return { date: dateStr, status: "unavailable" }
         })
         return allDates
-    }, [selectedMonth, selectedYear])
+    }, [selectedMonth, selectedYear, monthIndex, today, totalDays])
 
     // ✅ Handle clicking on a day
     const handleDayClick = (date: string, status: string) => {
