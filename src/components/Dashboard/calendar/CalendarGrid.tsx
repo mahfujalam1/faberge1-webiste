@@ -1,11 +1,12 @@
 "use client"
 
 import { cn } from "@/lib/utils"
+import { toast } from "sonner"  
 
 interface CalendarGridProps {
     totalDays: number
     firstDay: number
-    getDayStatus: (day: number) => "available" | "booked" | "unavailable"
+    getDayStatus: (day: number) => "available" | "booked" | "unavailable" | "past"
     handleDayClick: (date: string, status: string) => void
     selectedYear: string
     monthIndex: number
@@ -21,16 +22,35 @@ export default function CalendarGrid({
 }: CalendarGridProps) {
     const getStatusColor = (status: string) => {
         switch (status) {
-            case "available": return "bg-green-200 hover:bg-green-300 cursor-pointer text-green-600"
-            case "booked": return "bg-red-300 text-gray-500  cursor-pointer"
-            default: return "bg-gray-200 cursor-not-allowed text-gray-800"
+            case "available":
+                return "bg-[#22C55E] shadow-lg hover:bg-green-600 cursor-pointer text-white"
+            case "booked":
+                return "bg-[#CA0965] shadow-lg text-white cursor-pointer"
+            case "unavailable":
+                return "bg-gray-400 shadow-lg text-white cursor-pointer"
+            case "past":
+                return "bg-white shadow-lg text-black cursor-pointer"
+            default:
+                return "bg-gray-200 shadow-lg cursor-not-allowed text-gray-800"
         }
+    }
+
+    // 🔹 handle click logic
+    const handleClick = (date: string, status: string) => {
+        if (status === "unavailable") {
+            toast.warning("This a weekend date.")
+            return
+        }
+
+        handleDayClick(date, status)
     }
 
     return (
         <div className="grid grid-cols-7 gap-3 sm:gap-4 text-center text-xs sm:text-sm">
             {["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"].map((d) => (
-                <div key={d} className="font-semibold">{d}</div>
+                <div key={d} className="font-semibold">
+                    {d}
+                </div>
             ))}
 
             {Array.from({ length: firstDay }).map((_, i) => (
@@ -40,11 +60,15 @@ export default function CalendarGrid({
             {Array.from({ length: totalDays }).map((_, i) => {
                 const day = i + 1
                 const status = getDayStatus(day)
-                const date = `${selectedYear}-${String(monthIndex + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`
+                const date = `${selectedYear}-${String(monthIndex + 1).padStart(
+                    2,
+                    "0"
+                )}-${String(day).padStart(2, "0")}`
+
                 return (
                     <button
                         key={day}
-                        onClick={() => handleDayClick(date, status)}
+                        onClick={() => handleClick(date, status)}
                         className={cn(
                             "rounded-lg py-3 sm:py-4 text-xs sm:text-sm font-medium transition w-full",
                             getStatusColor(status)

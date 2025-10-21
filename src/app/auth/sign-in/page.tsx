@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import {useState } from "react"
+import { useState } from "react"
 import { Eye, EyeOff } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -22,15 +22,24 @@ function LoginForm() {
   const router = useRouter()
   const { login } = useAuth()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     console.log("[v0] Form submitted with data:", {
       email,
       password,
       rememberMe,
     })
+
+    const role = 'worker'
+
     login(email, password)
-    router.push("/")
+
+    // login করার পর user রোল চেক করে redirect করা হচ্ছে
+    if (role === "worker") {
+      router.push("/dashboard")
+    } else {
+      router.push("/")
+    }
   }
 
   return (
