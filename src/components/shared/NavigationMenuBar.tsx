@@ -41,10 +41,10 @@ const NavigationMenuBar = () => {
     const firstSegment = "/" + pathname.split("/")[1];
     return firstSegment === href;
   };
-  const role = 'worker'
+  const role = ''
 
   // ✅ Which nav to use
-  const navItems = role === "worker" ? navItemsWorker : navItemsCustomer;
+  const navItems = role  ? navItemsWorker : navItemsCustomer;
 
   return (
     <nav className="sticky top-0 bg-white shadow-sm border-b border-pink-100 z-50">
