@@ -75,7 +75,7 @@ export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                             </span>
                         </div>
                         {
-                            user?.role == 'worker' && <div>
+                            user?.role == '' && <div>
                                 <button className="rounded-sm bg-primary cursor-pointer text-white text-sm px-2">Close</button>
                             </div>
                         }

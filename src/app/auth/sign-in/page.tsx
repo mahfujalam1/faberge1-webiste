@@ -30,16 +30,12 @@ function LoginForm() {
       rememberMe,
     })
 
-    const role = 'worker'
+    const role = ''
 
     login(email, password)
 
-    // login করার পর user রোল চেক করে redirect করা হচ্ছে
-    if (role === "worker") {
-      router.push("/dashboard")
-    } else {
-      router.push("/")
-    }
+
+    router.push("/")
   }
 
   return (

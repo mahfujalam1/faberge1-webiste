@@ -28,7 +28,7 @@ export default function BookingsPage() {
                             onPageChange={setCurrentPage}
                         />
                         {
-                            user?.role !== 'worker' && <Link href={'/bookings'} className="flex justify-center lg:justify-end mt-5">
+                            user?.role !== '' && <Link href={'/bookings'} className="flex justify-center lg:justify-end mt-5">
                                 <button
                                     type="submit"
                                     className="w-full sm:w-auto px-12 py-3 cursor-pointer bg-primary hover:bg-pink-700 text-white font-semibold rounded-md transition-colors duration-200 shadow-md hover:shadow-lg"
