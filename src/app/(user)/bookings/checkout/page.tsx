@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { IMAGES } from "@/constants/image.index";
 import Image from "next/image";
 
-export default function CheckoutPage({ }: { params: { invoiceId: string } }) {
+export default function CheckoutPage() {
     const router = useRouter();
 
     // ✅ Redirect after 5 seconds
