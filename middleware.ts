@@ -16,5 +16,5 @@ export function middleware(request: NextRequest) {
 
 // Specify which routes to protect
 export const config = {
-    matcher: ['/dashboard/:path*', '/profile/:path*', '/register/:path*', 'appoinment/:path*'],
+    matcher: [ '/profile/:path*', '/register/:path*', 'appoinment/:path*'],
 }
