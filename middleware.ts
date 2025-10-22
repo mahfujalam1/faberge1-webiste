@@ -6,9 +6,10 @@ export function middleware(request: NextRequest) {
     // Check if user is authenticated (e.g., check for auth token in cookies)
     const token = request.cookies.get('auth-token')
 
+    // If the token is missing and the user is trying to access a protected route
     if (!token) {
-        // Redirect to login if not authenticated
-        return NextResponse.redirect(new URL('/login', request.url))
+        // Redirect to login page
+        return NextResponse.redirect(new URL('/auth/sign-in', request.url))
     }
 
     return NextResponse.next()
@@ -16,5 +17,11 @@ export function middleware(request: NextRequest) {
 
 // Specify which routes to protect
 export const config = {
-    matcher: [ '/profile/:path*', '/register/:path*', 'appoinment/:path*'],
+    matcher: [
+        '/',
+        '/dashboard/:path*',
+        '/profile/:path*',
+        '/register/:path*',
+        '/appointment/:path*'
+    ],
 }

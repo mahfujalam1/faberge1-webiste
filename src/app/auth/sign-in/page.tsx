@@ -22,6 +22,8 @@ function LoginForm() {
   const router = useRouter()
   const { login } = useAuth()
 
+  const role = 'worker'
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     console.log("[v0] Form submitted with data:", {
@@ -33,8 +35,13 @@ function LoginForm() {
 
     login(email, password)
 
+    if (role === 'worker') {
+      router.push("/dashboard")
+    } else {
+      router.push("/")
+    }
 
-    router.push("/")
+
   }
 
   return (

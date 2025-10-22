@@ -35,9 +35,15 @@ export default function RegisterPage() {
     }
     console.log("[v0] Registration Complete! All data:", completeData)
 
+    const role = 'worker'
+
     if (completeData.profile?.email) {
       register(completeData.profile.email)
-      router.push("/")
+      if (role === 'worker') {
+        router.push("/dashboard")
+      } else {
+        router.push("/")
+      }
     }
   }
 
