@@ -41,7 +41,7 @@ const NavigationMenuBar = () => {
     const firstSegment = "/" + pathname.split("/")[1];
     return firstSegment === href;
   };
-  const role = ''
+  const role = 'worker'
 
   // ✅ Which nav to use
   const navItems = role  ? navItemsWorker : navItemsCustomer;
@@ -91,7 +91,7 @@ const NavigationMenuBar = () => {
               />
               <div className="absolute left-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-20">
                 {/* ✅ My Bookings visible only if NOT worker */}
-                {user?.email && user?.role !== "" && (
+                {user?.email && user?.role !== "worker" && (
                   <Link href={"/my-bookings"}>
                     <div className="px-4 py-2 border-b border-gray-100 hover:bg-gray-100 hover:text-primary">
                       <p>My Bookings</p>

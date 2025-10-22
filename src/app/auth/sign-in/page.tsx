@@ -30,7 +30,7 @@ function LoginForm() {
       rememberMe,
     })
 
-    const role = ''
+    const role = 'worker'
 
     login(email, password)
 

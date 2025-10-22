@@ -9,11 +9,11 @@ import Link from "next/link";
 import { useState } from "react";
 
 export default function BookingsPage() {
-    const {user} = useAuth()
+    const { user } = useAuth()
     const [, setCurrentPage] = useState(1);
     const pageSize = 2;
 
-
+    const role = 'worker'
 
     return (
         <div>
@@ -28,7 +28,7 @@ export default function BookingsPage() {
                             onPageChange={setCurrentPage}
                         />
                         {
-                            user?.role !== '' && <Link href={'/bookings'} className="flex justify-center lg:justify-end mt-5">
+                            !role && <Link href={'/bookings'} className="flex justify-center lg:justify-end mt-5">
                                 <button
                                     type="submit"
                                     className="w-full sm:w-auto px-12 py-3 cursor-pointer bg-primary hover:bg-pink-700 text-white font-semibold rounded-md transition-colors duration-200 shadow-md hover:shadow-lg"
