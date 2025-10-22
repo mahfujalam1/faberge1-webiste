@@ -4,12 +4,10 @@ import { BookingTabs } from "@/components/myBookings/BookingTabs";
 import { Pagination } from "@/components/myBookings/Pagination";
 import { DynamicBanner } from "@/components/shared/DynamicBanner";
 import { bookings } from "@/constants/booking";
-import { useAuth } from "@/contexts/auth-context";
 import Link from "next/link";
 import { useState } from "react";
 
 export default function BookingsPage() {
-    const { user } = useAuth()
     const [, setCurrentPage] = useState(1);
     const pageSize = 2;
 
