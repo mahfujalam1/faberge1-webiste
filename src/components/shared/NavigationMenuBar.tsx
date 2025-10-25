@@ -40,7 +40,7 @@ const NavigationMenuBar = () => {
     return firstSegment === href;
   };
 
-  const role = user?.email ? true : false; // example
+  const role = 'worker' // example
   const navItems = !role ? navItemsWorker : navItemsCustomer;
 
   const isLoggedIn = Boolean(user?.email);
