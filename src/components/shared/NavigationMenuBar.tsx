@@ -47,7 +47,7 @@ const NavigationMenuBar = () => {
 
   return (
     <nav className="sticky top-0 bg-white shadow-sm border-b border-pink-100 z-50">
-      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+      <div className="container mx-auto px-4 py-1 flex items-center justify-between">
         {/* 🔹 Layout changes based on login state */}
         {!isLoggedIn ? (
           // 🧭 LOGGED OUT LAYOUT — logo left, menu right
