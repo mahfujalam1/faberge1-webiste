@@ -32,12 +32,8 @@ function LoginForm() {
       rememberMe,
     })
 
-
     login(email, password)
-
-    
-      router.push("/")
-
+    router.push("/")
 
   }
 
