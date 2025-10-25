@@ -18,7 +18,7 @@ export function ServiceCard({ title, image, services, serviceTypes }: ServiceCar
         <div className="w-full container mx-auto mt-10">
             {/* Card Header with Gradient */}
             <div className="bg-gradient-to-b from-[#E88764] to-[#FCCAB8] rounded-t-2xl px-6 py-4">
-                <h3 className="text-gray-900 font-semibold text-lg text-center">{title}</h3>
+                <h3 className="text-gray-900 font-semibold text-4xl text-center">{title}</h3>
             </div>
 
             {/* Card Body */}

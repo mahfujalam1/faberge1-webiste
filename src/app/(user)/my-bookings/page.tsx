@@ -2,7 +2,7 @@
 
 import { BookingTabs } from "@/components/myBookings/BookingTabs";
 import { Pagination } from "@/components/myBookings/Pagination";
-import { DynamicBanner } from "@/components/shared/DynamicBanner";
+// import { DynamicBanner } from "@/components/shared/DynamicBanner";
 import { bookings } from "@/constants/booking";
 import Link from "next/link";
 import { useState } from "react";
@@ -15,7 +15,7 @@ export default function BookingsPage() {
 
     return (
         <div>
-            <DynamicBanner title="My Bookings" />
+            {/* <DynamicBanner title="My Bookings" /> */}
             <div className="min-h-screen bg-gradient-to-tr from-[#fdeaea] via-[#fff1f3] to-[#ffdae1] p-4 md:py-20">
                 <div className="container mx-auto">
                     <div className="p-8 bg-white">

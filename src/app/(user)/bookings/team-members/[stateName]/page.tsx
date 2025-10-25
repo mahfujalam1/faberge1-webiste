@@ -6,7 +6,7 @@ import Image from "next/image"
 import { MapPin } from "lucide-react"
 import teammembersData from "@/constants/team-members.json"
 import { IMAGES } from "@/constants/image.index"
-import { DynamicBanner } from "@/components/shared/DynamicBanner"
+// import { DynamicBanner } from "@/components/shared/DynamicBanner"
 
 export default function TeamMembersPage({
     params,
@@ -28,8 +28,8 @@ export default function TeamMembersPage({
 
     return (
         <div>
-            <DynamicBanner title="Team Members" />
-            <div className="min-h-screen flex items-center justify-center bg-gradient-to-tl from-[#fdeaea] via-[#fff1f3] to-[#ffdae1] p-4 md:p-8">
+            {/* <DynamicBanner title="Team Members" /> */}
+            <div className="flex items-center justify-center bg-gradient-to-tl from-[#fdeaea] via-[#fff1f3] to-[#ffdae1] p-4 md:p-8">
                 <div className="w-full px-6 md:px-10 rounded-[2rem] md:rounded-[3rem]">
                     <div className="container mx-auto my-10">
                         {/* Page Header */}
@@ -38,7 +38,7 @@ export default function TeamMembersPage({
                         </h2>
 
                         {/* Team Members Grid */}
-                        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+                        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-9 gap-4">
                             {(filteredMembers.length > 0 ? filteredMembers : teammembersData.members).map(
                                 (member) => (
                                     <button
@@ -61,7 +61,7 @@ export default function TeamMembersPage({
                                             {member.firstName} {member.lastName}
                                         </h3>
 
-                                        <div className="flex items-center justify-between">
+                                        <div className="">
                                             <div className="flex items-center gap-1 text-xs text-gray-600 mb-1">
                                                 <MapPin className="w-3 h-3" />
                                                 <span>
@@ -70,7 +70,7 @@ export default function TeamMembersPage({
                                             </div>
 
                                             <div className="flex items-end gap-1 text-xs text-gray-700">
-                                                <span>ID:</span>
+                                                <span>ID#:</span>
                                                 <span>{member.workerId}</span>
                                             </div>
                                         </div>
@@ -80,11 +80,11 @@ export default function TeamMembersPage({
                         </div>
 
                         {/* No Members Found */}
-                        {filteredMembers.length === 0 && (
+                        {/* {filteredMembers.length === 0 && (
                             <p className="text-center text-gray-500 mt-6">
                                 No team members found for {stateName}.
                             </p>
-                        )}
+                        )} */}
                     </div>
                 </div>
             </div>

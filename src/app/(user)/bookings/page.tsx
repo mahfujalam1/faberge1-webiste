@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react"
 import { useRouter } from "next/navigation"
 import statesData from "@/constants/states.json"
-import { DynamicBanner } from "@/components/shared/DynamicBanner"
+// import { DynamicBanner } from "@/components/shared/DynamicBanner"
 
 export default function BookingsPage() {
   const router = useRouter()
@@ -27,7 +27,7 @@ export default function BookingsPage() {
 
   return (
     <div>
-      <DynamicBanner title="States" />
+      {/* <DynamicBanner title="States" /> */}
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-tl from-[#fdeaea] via-[#fff1f3] to-[#ffdae1] p-4 md:p-8">
         <div className="w-full px-6 md:px-10 rounded-[2rem] md:rounded-[3rem]">
           <div className="container mx-auto">

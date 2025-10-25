@@ -21,6 +21,7 @@ export interface ProfileData {
     firstName: string
     lastName: string
     address: string
+    zip:string
     city: string
     state: string
     phone: string
@@ -33,6 +34,7 @@ export default function StepOneProfile({ onContinue, onPrev, currentStep, initia
             firstName: "",
             lastName: "",
             address: "",
+            zip:"",
             city: "",
             state: "",
             phone: "",
@@ -125,18 +127,33 @@ export default function StepOneProfile({ onContinue, onPrev, currentStep, initia
                 </div>
 
                 {/* Address */}
-                <div>
-                    <label htmlFor="address" className="mb-2 block text-sm font-medium text-gray-900">
-                        Address
-                    </label>
-                    <Input
-                        id="address"
-                        type="text"
-                        placeholder="Enter your address"
-                        className="h-12 rounded-lg border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-400"
-                        value={formData.address}
-                        onChange={(e) => handleChange("address", e.target.value)}
-                    />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label htmlFor="address" className="mb-2 block text-sm font-medium text-gray-900">
+                            Address
+                        </label>
+                        <Input
+                            id="address"
+                            type="text"
+                            placeholder="Enter your address"
+                            className="h-12 rounded-lg border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-400"
+                            value={formData.address}
+                            onChange={(e) => handleChange("address", e.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="zip" className="mb-2 block text-sm font-medium text-gray-900">
+                            Zip Code
+                        </label>
+                        <Input
+                            id="zip"
+                            type="text"
+                            placeholder="Enter your zip code"
+                            className="h-12 rounded-lg border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-400"
+                            value={formData.zip}
+                            onChange={(e) => handleChange("zip", e.target.value)}
+                        />
+                    </div>
                 </div>
 
                 {/* City & State */}

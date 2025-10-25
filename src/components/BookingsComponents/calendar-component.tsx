@@ -1,5 +1,6 @@
 "use client"
 
+import { toast } from "sonner"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
 
 type DateStatus = "available" | "booked" | "off" | "past"
@@ -22,18 +23,8 @@ export default function CalendarComponent({
     onYearChange,
 }: CalendarProps) {
     const monthNames = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December",
     ]
 
     const years = Array.from({ length: 10 }, (_, i) => currentYear - 2 + i)
@@ -41,10 +32,9 @@ export default function CalendarComponent({
     const getDateStatus = (day: number): DateStatus => {
         const today = new Date()
         const dateToCheck = new Date(currentYear, currentMonth, day)
-
         if (dateToCheck < today) return "past"
 
-        // Mock data: green (available), red (off), orange (booked)
+        // Mock data
         const availableDates = [4, 5, 6, 12, 13, 14, 27, 28, 29]
         const offDates = [7, 8, 15, 25, 26]
         const bookedDates = [1, 2, 3, 9, 10, 16, 17, 18, 19, 20, 21, 22, 23, 24, 30, 31]
@@ -52,30 +42,42 @@ export default function CalendarComponent({
         if (availableDates.includes(day)) return "available"
         if (offDates.includes(day)) return "off"
         if (bookedDates.includes(day)) return "booked"
-
         return "past"
     }
 
-    const getDaysInMonth = (month: number, year: number) => {
-        return new Date(year, month + 1, 0).getDate()
-    }
+    const getDaysInMonth = (month: number, year: number) =>
+        new Date(year, month + 1, 0).getDate()
 
-    const getFirstDayOfMonth = (month: number, year: number) => {
-        return new Date(year, month, 1).getDay()
-    }
+    const getFirstDayOfMonth = (month: number, year: number) =>
+        new Date(year, month, 1).getDay()
 
     const daysInMonth = getDaysInMonth(currentMonth, currentYear)
     const firstDay = getFirstDayOfMonth(currentMonth, currentYear)
 
+    const handleDateClick = (day: number, status: DateStatus) => {
+        if (status === "available") {
+            onDateSelect(day)
+        } else {
+            toast.error(`This date is ${status.toUpperCase()}`, {
+                style: {
+                    background: "#fff",
+                    color: "#000",
+                    border: "1px solid #ddd",
+                },
+                icon: "⚠️",
+            })
+        }
+    }
+
     return (
         <div>
+
             <h2 className="text-xl font-medium mb-4">
                 Scheduling <span className="text-red-500">*</span>
             </h2>
 
-            {/* Month and Year Dropdowns */}
+            {/* Month and Year Select */}
             <div className="grid grid-cols-2 gap-4 mb-6">
-                {/* Month Select */}
                 <Select
                     value={String(currentMonth)}
                     onValueChange={(value) => onMonthChange(Number(value))}
@@ -92,7 +94,6 @@ export default function CalendarComponent({
                     </SelectContent>
                 </Select>
 
-                {/* Year Select */}
                 <Select
                     value={String(currentYear)}
                     onValueChange={(value) => onYearChange(Number(value))}
@@ -119,6 +120,7 @@ export default function CalendarComponent({
                         </div>
                     ))}
                 </div>
+
                 <div className="grid grid-cols-7 gap-2">
                     {Array.from({ length: firstDay === 0 ? 6 : firstDay - 1 }).map((_, i) => (
                         <div key={`empty-${i}`} />
@@ -131,16 +133,15 @@ export default function CalendarComponent({
                         return (
                             <button
                                 key={day}
-                                onClick={() => status === "available" && onDateSelect(day)}
-                                disabled={status !== "available"}
+                                onClick={() => handleDateClick(day, status)}
                                 className={`
-                  md:w-20 w-12 md:h-20 h-12 rounded-lg text-sm font-medium transition-colors mx-auto my-3
-                  ${status === "available" && !isSelected ? "bg-green-200 hover:bg-green-300 text-gray-900 cursor-pointer" : ""}
-                  ${status === "available" && isSelected ? "bg-green-400 text-white" : ""}
-                  ${status === "booked" ? "bg-orange-200 text-gray-500 cursor-not-allowed" : ""}
-                  ${status === "off" ? "bg-red-200 text-gray-500 cursor-not-allowed" : ""}
-                  ${status === "past" ? "bg-gray-200 text-gray-400 cursor-not-allowed" : ""}
-                `}
+                                    md:w-20 w-12 md:h-20 h-12 rounded-lg text-sm font-medium transition-colors mx-auto my-3 shadow-lg
+                                    ${status === "available" && !isSelected ? "bg-[#22C55E]/30 hover:bg-[#22C55E]/50 text-gray-900 cursor-pointer" : ""}
+                                    ${status === "available" && isSelected ? "bg-[#22C55E] text-white" : ""}
+                                    ${status === "booked" ? "bg-[#CA0965]/40 text-gray-700 cursor-pointer" : ""}
+                                    ${status === "off" ? "bg-gray-400 text-gray-600 cursor-pointer" : ""}
+                                    ${status === "past" ? "bg-white text-black cursor-pointer" : ""}
+                                `}
                             >
                                 {day}
                             </button>

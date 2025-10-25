@@ -106,7 +106,7 @@ export default function RegisterPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-tr from-[#fdeaea] via-[#fff1f3] to-[#ffdae1] p-4">
-      <div className="w-full h-full max-w-[1700px] shadow-2xl bg-white px-10 rounded-[2rem]">{renderStep()}</div>
+      <div className="bg-white rounded-xl shadow-md w-full max-w-2xl p-10">{renderStep()}</div>
     </div>
   )
 }

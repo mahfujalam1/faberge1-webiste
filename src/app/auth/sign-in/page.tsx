@@ -45,9 +45,9 @@ function LoginForm() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-tr from-[#fdeaea] via-[#fff1f3] to-[#ffdae1] p-4">
-      <div className="w-full h-full max-w-[1700px] md:h-[800px] shadow-2xl bg-white px-10 rounded-4xl">
-        <div className="w-full max-w-xl mx-auto py-10">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#fdeaea] via-[#fff1f3] to-[#ffdae1]">
+      <div className="bg-white rounded-xl shadow-md w-full max-w-lg p-10">
+        <div className="w-full max-w-xl mx-auto">
           {/* Logo */}
           <div className="mb-8 flex justify-center">
             <div className="text-center">

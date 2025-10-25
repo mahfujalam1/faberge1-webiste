@@ -39,8 +39,8 @@ export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                         <div className="text-right">
                             <Badge
                                 className={`${booking.status === "Completed"
-                                    ? "bg-green-100 text-green-700"
-                                    : "bg-yellow-100 text-yellow-700"
+                                    ? "bg-red-500 text-white"
+                                    : "bg-green-100 text-green-700"
                                     } text-xs px-2 rounded-sm`}
                             >
                                 {booking.status}
