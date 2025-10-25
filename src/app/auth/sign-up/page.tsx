@@ -39,11 +39,8 @@ export default function RegisterPage() {
 
     if (completeData.profile?.email) {
       register(completeData.profile.email)
-      if (role === 'worker') {
-        router.push("/dashboard")
-      } else {
+      
         router.push("/")
-      }
     }
   }
 
