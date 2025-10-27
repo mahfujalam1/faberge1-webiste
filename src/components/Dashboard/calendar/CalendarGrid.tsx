@@ -6,7 +6,7 @@ import { toast } from "sonner"
 interface CalendarGridProps {
     totalDays: number
     firstDay: number
-    getDayStatus: (day: number) => "available" | "booked" | "unavailable" | "past"
+    getDayStatus: (day: number) => "available" | "booked" | "unavailable" | "Completed"
     handleDayClick: (date: string, status: string) => void
     selectedYear: string
     monthIndex: number
@@ -23,13 +23,13 @@ export default function CalendarGrid({
     const getStatusColor = (status: string) => {
         switch (status) {
             case "available":
-                return "bg-[#22C55E] shadow-lg hover:bg-green-600 cursor-pointer text-white"
+                return "bg-white shadow-lg  cursor-pointer text-black"
             case "booked":
-                return "bg-[#CA0965] shadow-lg text-white cursor-pointer"
+                return "bg-green-500 shadow-lg text-white cursor-pointer"
             case "unavailable":
-                return "bg-gray-400 shadow-lg text-white cursor-pointer"
-            case "past":
-                return "bg-white shadow-lg text-black cursor-pointer"
+                return "bg-red-500 shadow-lg text-white cursor-pointer"
+            case "Completed":
+                return "bg-gray-400 shadow-lg text-black cursor-pointer"
             default:
                 return "bg-gray-200 shadow-lg cursor-not-allowed text-gray-800"
         }

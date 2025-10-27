@@ -9,7 +9,7 @@ import UpdateScheduleModal from "./UpdateScheduleModal"
 
 interface DayStatus {
     date: string
-    status: "available" | "booked" | "unavailable" | "past"
+    status: "available" | "booked" | "unavailable" | "Completed"
 }
 
 // ✅ Base mock data
@@ -38,13 +38,13 @@ export default function CalendarScheduler() {
     const firstDay = new Date(parseInt(selectedYear), monthIndex, 1).getDay()
     const today = new Date()
 
-    // ✅ Build merged calendar with availability + past days
+    // ✅ Build merged calendar with availability + Completed days
     const fullMonthData: DayStatus[] = useMemo(() => {
         const allDates: DayStatus[] = Array.from({ length: totalDays }, (_, i) => {
             const day = i + 1
             const dateStr = `${selectedYear}-${String(monthIndex + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`
             const dateObj = new Date(dateStr)
-            const isPast = dateObj < new Date(today.getFullYear(), today.getMonth(), today.getDate())
+            const isCompleted = dateObj < new Date(today.getFullYear(), today.getMonth(), today.getDate())
 
             const found = mockAvailability.find((d) => d.date === dateStr)
 
@@ -53,14 +53,14 @@ export default function CalendarScheduler() {
                 if (found.status === "unavailable") {
                     return { date: dateStr, status: "unavailable" }
                 }
-                if (isPast) {
-                    return { date: dateStr, status: "past" }
+                if (isCompleted) {
+                    return { date: dateStr, status: "Completed" }
                 }
                 return found
             }
 
             // Not found
-            if (isPast) return { date: dateStr, status: "past" }
+            if (isCompleted) return { date: dateStr, status: "Completed" }
 
             return { date: dateStr, status: "unavailable" }
         })
@@ -69,7 +69,7 @@ export default function CalendarScheduler() {
 
     // ✅ Handle clicking on a day
     const handleDayClick = (date: string, status: string) => {
-        if (status === "available" || status === "booked" || status === "past") {
+        if (status === "available" || status === "booked" || status === "Completed") {
             setSelectedDate(date)
             setOpen(true)
         }
@@ -88,16 +88,16 @@ export default function CalendarScheduler() {
             <div className="flex flex-wrap items-center justify-end mb-4 gap-2">
                 <div className="flex flex-wrap gap-3 text-xs sm:text-sm">
                     <div className="flex items-center gap-1">
-                        <span className="w-3 h-3 bg-[#22C55E] rounded-full" /> Available
+                        <span className="w-3 h-3 bg-white border-2 rounded-full" /> Available
                     </div>
                     <div className="flex items-center gap-1">
-                        <span className="w-3 h-3 bg-[#CA0965] rounded-full" /> Booked
+                        <span className="w-3 h-3 bg-green-500 rounded-full" /> Booked
                     </div>
                     <div className="flex items-center gap-1">
-                        <span className="w-3 h-3 bg-gray-400 rounded-full" /> Unavailable
+                        <span className="w-3 h-3 bg-red-500 rounded-full" /> Unavailable
                     </div>
                     <div className="flex items-center gap-1">
-                        <span className="w-3 h-3 bg-white border-2 rounded-full" /> Past
+                        <span className="w-3 h-3 bg-gray-400  rounded-full" /> Completed
                     </div>
                 </div>
             </div>

@@ -41,7 +41,7 @@ const NavigationMenuBar = () => {
   };
 
   const role = 'worker' // example
-  const navItems = !role ? navItemsWorker : navItemsCustomer;
+  const navItems = user?.email && role ? navItemsWorker : navItemsCustomer;
 
   const isLoggedIn = Boolean(user?.email);
 

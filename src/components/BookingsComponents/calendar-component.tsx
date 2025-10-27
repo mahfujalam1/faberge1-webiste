@@ -3,7 +3,7 @@
 import { toast } from "sonner"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
 
-type DateStatus = "available" | "booked" | "off" | "past"
+type DateStatus = "available" | "booked" | "off" | "Completed"
 
 type CalendarProps = {
     selectedDate: number | null
@@ -32,7 +32,7 @@ export default function CalendarComponent({
     const getDateStatus = (day: number): DateStatus => {
         const today = new Date()
         const dateToCheck = new Date(currentYear, currentMonth, day)
-        if (dateToCheck < today) return "past"
+        if (dateToCheck < today) return "Completed"
 
         // Mock data
         const availableDates = [4, 5, 6, 12, 13, 14, 27, 28, 29]
@@ -42,7 +42,7 @@ export default function CalendarComponent({
         if (availableDates.includes(day)) return "available"
         if (offDates.includes(day)) return "off"
         if (bookedDates.includes(day)) return "booked"
-        return "past"
+        return "Completed"
     }
 
     const getDaysInMonth = (month: number, year: number) =>
@@ -136,11 +136,11 @@ export default function CalendarComponent({
                                 onClick={() => handleDateClick(day, status)}
                                 className={`
                                     md:w-20 w-12 md:h-20 h-12 rounded-lg text-sm font-medium transition-colors mx-auto my-3 shadow-lg
-                                    ${status === "available" && !isSelected ? "bg-[#22C55E]/30 hover:bg-[#22C55E]/50 text-gray-900 cursor-pointer" : ""}
-                                    ${status === "available" && isSelected ? "bg-[#22C55E] text-white" : ""}
-                                    ${status === "booked" ? "bg-[#CA0965]/40 text-gray-700 cursor-pointer" : ""}
+                                    ${status === "available" && !isSelected ? "bg-white text-gray-900 cursor-pointer" : ""}
+                                    ${status === "available" && isSelected ? "bg-white text-black" : ""}
+                                    ${status === "booked" ? "bg-green-400 text-white cursor-pointer" : ""}
                                     ${status === "off" ? "bg-gray-400 text-gray-600 cursor-pointer" : ""}
-                                    ${status === "past" ? "bg-white text-black cursor-pointer" : ""}
+                                    ${status === "Completed" ? "bg-gray-300 text-black cursor-pointer" : ""}
                                 `}
                             >
                                 {day}

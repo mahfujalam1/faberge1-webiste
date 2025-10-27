@@ -156,10 +156,10 @@ export default function CalendarModal({ open, onOpenChange }: CalendarModalProps
                 </DialogFooter>
 
                 <div className="flex flex-wrap gap-3 text-xs sm:text-sm mt-3">
-                    <div className="flex items-center gap-1"><span className="w-3 h-3 bg-[#22C55E] rounded-full" /> Available</div>
-                    <div className="flex items-center gap-1"><span className="w-3 h-3 bg-[#CA0965] rounded-full" /> Booked</div>
-                    <div className="flex items-center gap-1"><span className="w-3 h-3 bg-[#EF4444] rounded-full" /> Unavailable</div>
-                    <div className="flex items-center gap-1"><span className="w-3 h-3 bg-white text-black border-2 rounded-full" /> Past</div>
+                    <div className="flex items-center gap-1"><span className="w-3 h-3 bg-white border-2 text-black rounded-full" /> Available</div>
+                    <div className="flex items-center gap-1"><span className="w-3 h-3 bg-green-400 rounded-full" /> Booked</div>
+                    <div className="flex items-center gap-1"><span className="w-3 h-3 bg-red-400 rounded-full" /> Unavailable</div>
+                    <div className="flex items-center gap-1"><span className="w-3 h-3 bg-gray-300 rounded-full" /> Completed</div>
                 </div>
             </DialogContent>
         </Dialog>

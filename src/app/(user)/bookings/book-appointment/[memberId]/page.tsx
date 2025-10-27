@@ -142,7 +142,7 @@ export default function BookAppointmentPage({
                         {/* Team Member Card */}
                         <div className="flex flex-col items-center justify-center md:mt-20 bg-gray-50/50 rounded-lg shadow-md h-[400px] mx-10">
                             <div className="shadow-lg bg-white p-3 rounded-lg">
-                                <div className="md:w-60 w-52 md:h-60 h-52 rounded-lg overflow-hidden mb-4">
+                                <div className="md:w-40 w-40 md:h-40 h-52 rounded-lg overflow-hidden mb-4">
                                     <Image
                                         src={IMAGES.workerProfile.src}
                                         alt={member.name}

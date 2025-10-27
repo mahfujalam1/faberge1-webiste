@@ -21,7 +21,7 @@ export function StepThreePassword({ onComplete }: StepThreePasswordProps) {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         if (newPassword === confirmPassword && newPassword.length >= 8) {
-            console.log("[v0] Password reset completed:", { newPassword })
+            console.log("[v0] Password reset Completed:", { newPassword })
             onComplete(newPassword)
         }
     }

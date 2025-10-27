@@ -33,7 +33,12 @@ function LoginForm() {
     })
 
     login(email, password)
-    router.push("/")
+    if (role === 'worker') {
+
+      router.push("/dashboard")
+    } else {
+      router.push("/dashboard")
+    }
 
   }
 

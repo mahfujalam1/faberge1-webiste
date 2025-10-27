@@ -6,6 +6,7 @@ import { MapPin, Phone, Facebook, Instagram } from "lucide-react";
 import Link from "next/link";
 
 const Footer: React.FC = () => {
+  const role = 'worker'
   return (
     <footer className="w-full bg-[#F48CB840] text-white">
       {/* === Top Section === */}
@@ -16,16 +17,11 @@ const Footer: React.FC = () => {
             How Can We Help?
           </h3>
           <ul className="space-y-2 text-sm text-black">
-            <Link href={'/services'} className="cursor-pointer hover:text-primary transition">
-              Services
-            </Link>
-            <br />
-            {/* <li className="cursor-pointer hover:text-primary transition">
-              FAQ
-            </li> */}
-            <Link href={'/contact'} className="cursor-pointer hover:text-primary transition mt-5">
-              Contact Us
-            </Link>
+            {
+              !role && <Link href={'/contact'} className="cursor-pointer hover:text-primary transition">
+                Contact Us
+              </Link>
+            }
           </ul>
         </div>
 

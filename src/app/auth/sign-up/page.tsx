@@ -29,17 +29,21 @@ export default function RegisterPage() {
 
   const handleStepThreeComplete = (data: PhotoData) => {
     setRegistrationData((prev) => ({ ...prev, photo: data }))
-    const completeData = {
+    const Completedata = {
       ...registrationData,
       photo: data,
     }
-    console.log("[v0] Registration Complete! All data:", completeData)
+    console.log("[v0] Registration Complete! All data:", Completedata)
 
     const role = 'worker'
 
-    if (completeData.profile?.email) {
-      register(completeData.profile.email)
-        router.push("/")
+    if (Completedata.profile?.email) {
+      register(Completedata.profile.email)
+        if(role === 'worker'){
+          router.push("/dashboard")
+        }else{
+          router.push("/")
+        }
     }
   }
 

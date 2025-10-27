@@ -11,14 +11,14 @@ export default function AppointmentSection() {
                     <div className="text-end mb-20">
                         <div className="relative inline-block">
                             <h2 className="md:text-4xl text-xl font-bold text-primary mb-2">
-                                Call For Appointment
+                                Call Or Book Online
                             </h2>
                             <div className="absolute -top-2 right-1 md:border-4 border-2 border-primary rounded-xl w-20" />
                         </div>
                     </div>
 
                     {/* Contact Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mx-auto text-center md:text-left">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mx-auto text-center items-center justify-center md:text-left">
                         {/* Contact */}
                         <div className="flex flex-col items-center md:items-start justify-center">
                             <Image
@@ -36,22 +36,22 @@ export default function AppointmentSection() {
                         </div>
 
                         {/* Hours */}
-                        <div className="flex flex-col items-center md:items-start justify-center">
+                        <div className="flex flex-col items-center md:items-start justify-center mb-9">
                             <Image
                                 src={IMAGES.houricon.src}
                                 alt="Hours"
                                 width={100}
                                 height={100}
-                                className="object-contain mb-5"
+                                className="object-contain mb-7"
                             />
-                            <div>
-                                <h2 className="text-xl font-bold">HOURS</h2>
+                            <div className="ms-4">
+                                <h2 className="text-xl font-bold">Hours</h2>
                                 <p>Mon–Sun 9am–7pm</p>
                             </div>
                         </div>
 
                         {/* Location */}
-                        <div className="flex flex-col items-center md:items-start justify-center">
+                        <div className="flex flex-col items-center md:items-start justify-center mt-4">
                             <Image
                                 src={IMAGES.locationIcon.src}
                                 alt="Location"
@@ -60,7 +60,7 @@ export default function AppointmentSection() {
                                 className="object-contain mb-5"
                             />
                             <div>
-                                <h2 className="text-xl font-bold">LOCATION</h2>
+                                <h2 className="text-xl font-bold">Location</h2>
                                 <p>
                                     Main Office:
                                     <br /> 31 W. 34th St. Suite 7162

@@ -7,7 +7,7 @@ interface CalendarModalProps {
     open: boolean
     onOpenChange: (v: boolean) => void
     selectedDate: string | null
-    status: "available" | "booked" | "unavailable" | "past" | null
+    status: "available" | "booked" | "unavailable" | "Completed" | null
 }
 
 const timeSlots = [
@@ -71,10 +71,10 @@ export default function CalendarModal({
 
                         {/* Legend */}
                         <div className="flex justify-center gap-4 mt-4 text-xs">
-                            <div className="flex items-center gap-1"><span className="w-3 h-3 bg-green-400 rounded-full" /> Available</div>
-                            <div className="flex items-center gap-1"><span className="w-3 h-3 bg-pink-400 rounded-full" /> Booked</div>
-                            <div className="flex items-center gap-1"><span className="w-3 h-3 bg-gray-400 rounded-full" /> Unavailable</div>
-                            <div className="flex items-center gap-1"><span className="w-3 h-3 bg-white text-black border-2 rounded-full" /> Past</div>
+                            <div className="flex items-center gap-1"><span className="w-3 h-3 bg-white text-black rounded-full" /> Available</div>
+                            <div className="flex items-center gap-1"><span className="w-3 h-3 bg-green-400 rounded-full" /> Booked</div>
+                            <div className="flex items-center gap-1"><span className="w-3 h-3 bg-red-400 rounded-full" /> Unavailable</div>
+                            <div className="flex items-center gap-1"><span className="w-3 h-3 bg-gray-300 border-2 rounded-full" /> Completed</div>
                         </div>
                     </>
                 )}
