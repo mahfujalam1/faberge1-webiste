@@ -34,16 +34,17 @@ export default function CalendarModal({
                 {selectedDate && (
                     <>
                         {/* Services */}
+                        <h1 className="font-semibold">Services:</h1>
                         <div className="flex justify-between mb-2 text-sm">
                             <div>
-                                <p>Manicure $25</p>
-                                <p>Water ($10)</p>
-                                <p>Gel ($10)</p>
+                                <p>Manicure</p>
+                                <p>Water</p>
+                                <p>Gel</p>
                             </div>
                             <div>
-                                <p>Pedicure $25</p>
-                                <p>Water ($10)</p>
-                                <p>Gel ($10)</p>
+                                <p>Pedicure</p>
+                                <p>Water </p>
+                                <p>Gel </p>
                             </div>
                         </div>
 
