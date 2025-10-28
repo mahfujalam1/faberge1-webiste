@@ -63,7 +63,7 @@ const NavigationMenuBar = () => {
             </div>
 
             {/* Right Menu */}
-            <div className=" space-x-8 text-gray-700 font-medium justify-end flex-1">
+            <div className="hidden lg:flex space-x-8 text-gray-700 font-medium justify-end flex-1">
               {navItems.map((item) => (
                 <Link
                   href={item.href}
@@ -112,7 +112,7 @@ const NavigationMenuBar = () => {
                     onClick={() => setIsDropdownOpen(false)}
                   />
                   <div className="absolute left-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-20">
-                    <div className="block xl:hidden ps-4">
+                    <div className="block lg:hidden ps-4">
                       <p className="text-sm font-medium text-gray-900">
                         {"John Wick"}
                       </p>
