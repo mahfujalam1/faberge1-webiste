@@ -52,9 +52,9 @@ const Banner = () => {
                 <div className="flex flex-col items-center justify-center space-y-2">
                     <div className="flex items-center gap-2">
                         <PhoneCall size={40} className="text-white" />
-                        <span className="text-6xl font-bold">1(855) 622-6264</span>
+                        <span className="text-5xl font-bold">1(855) 622-6264</span>
                     </div>
-                    <span className="text-4xl text-gray-300">Call Or Book Online</span>
+                    <span className="text-3xl text-gray-300">Call Or Book Online</span>
                 </div>
             </div>
         </section>

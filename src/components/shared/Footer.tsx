@@ -13,16 +13,21 @@ const Footer: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 py-12 flex flex-col lg:flex-row justify-between gap-10">
         {/* Left Section: Links */}
         <div className="flex-1">
-          <h3 className="text-lg font-bold mb-4 text-primary">
-            How Can We Help?
-          </h3>
-          <ul className="space-y-2 text-sm text-black">
-            {
-              !role && <Link href={'/contact'} className="cursor-pointer hover:text-primary transition">
-                Contact Us
-              </Link>
-            }
-          </ul>
+          {
+            !role && <>
+              <h3 className="text-lg font-bold mb-4 text-primary">
+                How Can We Help?
+              </h3>
+              <ul className="space-y-2 flex flex-col text-sm text-black">
+                <Link href={'/contact'} className="cursor-pointer hover:text-primary transition">
+                  Contact Us
+                </Link>
+                <Link href={'/services'} className="cursor-pointer hover:text-primary transition">
+                  Services
+                </Link>
+              </ul>
+            </>
+          }
         </div>
 
         {/* Right Section: Newsletter */}

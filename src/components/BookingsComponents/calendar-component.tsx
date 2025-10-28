@@ -3,7 +3,7 @@
 import { toast } from "sonner"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
 
-type DateStatus = "available" | "booked" | "off" | "Completed"
+type DateStatus = "available" | "booked" | "Unavailable" | "Completed"
 
 type CalendarProps = {
     selectedDate: number | null
@@ -29,20 +29,21 @@ export default function CalendarComponent({
 
     const years = Array.from({ length: 10 }, (_, i) => currentYear - 2 + i)
 
+    // Mock data for the statuses
+    const availableDates = [4, 5, 6, 12, 13, 14, 27, 28, 29]
+    const unavailableDates = [7, 8, 15, 25, 26]
+    const bookedDates = [1, 2, 3, 9, 10, 16, 17, 18, 19, 20, 21, 22, 23, 24, 30, 31]
+
     const getDateStatus = (day: number): DateStatus => {
         const today = new Date()
         const dateToCheck = new Date(currentYear, currentMonth, day)
-        if (dateToCheck < today) return "Completed"
 
-        // Mock data
-        const availableDates = [4, 5, 6, 12, 13, 14, 27, 28, 29]
-        const offDates = [7, 8, 15, 25, 26]
-        const bookedDates = [1, 2, 3, 9, 10, 16, 17, 18, 19, 20, 21, 22, 23, 24, 30, 31]
-
+        if (dateToCheck < today) return "Completed" // Past dates are "Completed"
         if (availableDates.includes(day)) return "available"
-        if (offDates.includes(day)) return "off"
+        if (unavailableDates.includes(day)) return "Unavailable"
         if (bookedDates.includes(day)) return "booked"
-        return "Completed"
+
+        return "Completed" // Default for any other date
     }
 
     const getDaysInMonth = (month: number, year: number) =>
@@ -69,20 +70,36 @@ export default function CalendarComponent({
         }
     }
 
+    // Function to assign colors based on the date status
+    const getStatusColor = (status: DateStatus) => {
+        switch (status) {
+            case "available":
+                return "bg-white text-black cursor-pointer"
+            case "booked":
+                return "bg-green-500 text-white cursor-pointer"
+            case "Unavailable":
+                return "bg-red-500 text-white cursor-pointer"
+            case "Completed":
+                return "bg-gray-400 text-black cursor-pointer"
+            default:
+                return "bg-gray-200 text-gray-800 cursor-not-allowed"
+        }
+    }
+
     return (
-        <div>
+        <div className="px-5 overflow-x-auto flex-nowrap py-5 shadow-lg rounded-2xl w-full md:w-[600px] mx-auto mb-5">
 
             <h2 className="text-xl font-medium mb-4">
                 Scheduling <span className="text-red-500">*</span>
             </h2>
 
             {/* Month and Year Select */}
-            <div className="grid grid-cols-2 gap-4 mb-6">
+            <div className="grid grid-cols-2 mb-6">
                 <Select
                     value={String(currentMonth)}
                     onValueChange={(value) => onMonthChange(Number(value))}
                 >
-                    <SelectTrigger className="md:w-80 w-30">
+                    <SelectTrigger className="xl:w-68 sm:w-52 w-fit">
                         <SelectValue placeholder="Select month" />
                     </SelectTrigger>
                     <SelectContent>
@@ -98,7 +115,7 @@ export default function CalendarComponent({
                     value={String(currentYear)}
                     onValueChange={(value) => onYearChange(Number(value))}
                 >
-                    <SelectTrigger className="md:w-80 w-30">
+                    <SelectTrigger className="xl:w-68 sm:w-52 w-fit">
                         <SelectValue placeholder="Select year" />
                     </SelectTrigger>
                     <SelectContent>
@@ -113,7 +130,8 @@ export default function CalendarComponent({
 
             {/* Calendar Grid */}
             <div>
-                <div className="grid grid-cols-7 gap-2 mb-2">
+                {/* Day Labels */}
+                <div className="grid grid-cols-7 mb-2">
                     {["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"].map((day) => (
                         <div key={day} className="text-center text-sm font-medium text-gray-700">
                             {day}
@@ -121,26 +139,26 @@ export default function CalendarComponent({
                     ))}
                 </div>
 
-                <div className="grid grid-cols-7 gap-2">
+                {/* Calendar Days */}
+                <div className="grid grid-cols-7">
+                    {/* Empty spaces before the first day of the month */}
                     {Array.from({ length: firstDay === 0 ? 6 : firstDay - 1 }).map((_, i) => (
                         <div key={`empty-${i}`} />
                     ))}
+                    {/* Days in the current month */}
                     {Array.from({ length: daysInMonth }).map((_, i) => {
                         const day = i + 1
                         const status = getDateStatus(day)
                         const isSelected = selectedDate === day
+                        const date = `${currentYear}-${String(currentMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`
 
                         return (
                             <button
                                 key={day}
                                 onClick={() => handleDateClick(day, status)}
                                 className={`
-                                    md:w-20 w-12 md:h-20 h-12 rounded-lg text-sm font-medium transition-colors mx-auto my-3 shadow-lg
-                                    ${status === "available" && !isSelected ? "bg-white text-gray-900 cursor-pointer" : ""}
-                                    ${status === "available" && isSelected ? "bg-white text-black" : ""}
-                                    ${status === "booked" ? "bg-green-400 text-white cursor-pointer" : ""}
-                                    ${status === "off" ? "bg-gray-400 text-gray-600 cursor-pointer" : ""}
-                                    ${status === "Completed" ? "bg-gray-300 text-black cursor-pointer" : ""}
+                                    md:w-14 w-8 md:h-14 h-8 rounded-lg text-sm font-medium transition-colors mx-auto my-2 shadow-lg
+                                    ${getStatusColor(status)} // Applying the correct color based on the status
                                 `}
                             >
                                 {day}

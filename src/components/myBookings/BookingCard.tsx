@@ -71,7 +71,7 @@ export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                                     priority
                                 />
                                 <span className="text-gray-600 font-semibold whitespace-nowrap">{booking.name}</span>
-                                <span className="text-gray-500 whitespace-nowrap">({booking.location})</span>
+                                <span className="text-gray-500 whitespace-nowrap"> (Nail Tech)</span>
                             </span>
                         </div>
                         {

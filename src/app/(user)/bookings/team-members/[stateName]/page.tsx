@@ -31,10 +31,10 @@ export default function TeamMembersPage({
             {/* <DynamicBanner title="Team Members" /> */}
             <div className="flex items-center justify-center bg-gradient-to-tl from-[#fdeaea] via-[#fff1f3] to-[#ffdae1] p-4 md:p-8">
                 <div className="w-full px-6 md:px-10 rounded-[2rem] md:rounded-[3rem]">
-                    <div className="container mx-auto my-10">
+                    <div className="container mx-auto">
                         {/* Page Header */}
                         <h2 className="text-2xl md:text-3xl font-semibold mb-6 text-gray-800 text-center">
-                            Our Team Members in {stateName}
+                            Team Members
                         </h2>
 
                         {/* Team Members Grid */}

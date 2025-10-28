@@ -18,10 +18,10 @@ export default function ServiceSelectionTable({
     }
 
     return (
-        <div className="border rounded-lg overflow-hidden bg-white">
-            {/* Horizontal scroll container */}
-            <div className="md:w-full w-[400px] overflow-x-auto">
-                <table className="min-w-[700px] w-full border-collapse">
+        <div className="border rounded-lg flex-nowrap overflow-x-auto">
+            {/* Horizontal scroll container for smaller screens */}
+            <div className="w-full  ">
+                <table className="w-full border-collapse">
                     <thead className="bg-gray-50">
                         <tr>
                             <th className="text-left py-3 px-4 font-medium text-gray-700 whitespace-nowrap sticky left-0 bg-gray-50 z-10 border-r">
@@ -52,7 +52,7 @@ export default function ServiceSelectionTable({
                                 {/* First Service */}
                                 <td className="py-3 px-4 align-top min-w-[150px]">
                                     {slot.services[0] && (
-                                        <label className="flex items-start gap-2 cursor-pointer group">
+                                        <label className="flex items-start gap-2  cursor-pointer group">
                                             <input
                                                 type="checkbox"
                                                 checked={isServiceSelected(slot.time, slot.services[0])}
@@ -129,7 +129,7 @@ export default function ServiceSelectionTable({
                                                 }}
                                                 className="w-4 h-4 mt-0.5 flex-shrink-0"
                                             />
-                                            <span className="text-sm whitespace-nowrap group-hover:text-blue-600 transition-colors">
+                                            <span className="text-sm whitespace-nowrap text-nowrap group-hover:text-blue-600 transition-colors">
                                                 {slot.services[1].name}<br />
                                                 <span className="text-green-600 font-medium">${slot.services[1].price}</span>
                                             </span>

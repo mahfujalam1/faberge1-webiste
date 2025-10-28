@@ -135,14 +135,14 @@ export default function BookAppointmentPage({
 
     return (
         <div className="min-h-screen bg-gradient-to-tl from-[#fdeaea] via-[#fff1f3] to-[#ffdae1] p-4 py-20">
-            <div className="container mx-auto">
+            <div className="max-w-7xl mx-auto">
                 {/* Main Booking Interface */}
                 <div className="bg-white rounded-3xl shadow-2xl p-6 md:p-10 mb-6">
-                    <div className="grid md:grid-cols-[500px_1fr] gap-8">
+                    <div className="grid md:grid-cols-1 xl:grid-cols-[400px_1fr] gap-5">
                         {/* Team Member Card */}
-                        <div className="flex flex-col items-center justify-center md:mt-20 bg-gray-50/50 rounded-lg shadow-md h-[400px] mx-10">
+                        <div className="flex flex-col items-center justify-center bg-gray-50/50 rounded-lg shadow-md h-[400px] ms-5">
                             <div className="shadow-lg bg-white p-3 rounded-lg">
-                                <div className="md:w-40 w-40 md:h-40 h-52 rounded-lg overflow-hidden mb-4">
+                                <div className="md:w-40 w-40 md:h-40 h-32 rounded-lg overflow-hidden mb-4">
                                     <Image
                                         src={IMAGES.workerProfile.src}
                                         alt={member.name}
@@ -154,7 +154,7 @@ export default function BookAppointmentPage({
                                 <div>
                                     <h3 className="font-semibold text-lg">{member.name}</h3>
                                 </div>
-                                <div className="flex items-center justify-between">
+                                <div className="">
                                     <div className="flex items-center gap-1 text-xs text-gray-600 mb-1">
                                         <MapPin className="w-3 h-3" />
                                         <span>
@@ -171,7 +171,7 @@ export default function BookAppointmentPage({
                         </div>
 
                         {/* Scheduling Section */}
-                        <div>
+                        <div className="overflow-hidden">
                             <CalendarComponent
                                 selectedDate={selectedDate}
                                 onDateSelect={setSelectedDate}
@@ -182,7 +182,7 @@ export default function BookAppointmentPage({
                             />
 
                             {selectedDate && (
-                                <div className="mt-6 space-y-4">
+                                <div className="mt-6 space-y-4  md:-w-60 overflow-hidden">
                                     <ServiceSelectionTable
                                         slots={createServiceSlots()}
                                         selectedSlots={selectedSlots}

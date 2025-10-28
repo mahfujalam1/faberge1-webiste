@@ -17,9 +17,9 @@ function RootLayout() {
     return (
         <div>
             {/* <DynamicBanner title='Welcome Back, John Wick' /> */}
-            <div className="min-h-screen bg-gradient-to-tr from-[#fdeaea] via-[#fff1f3] to-[#ffdae1] p-4 md:py-20">
+            <div className="min-h-screen bg-gradient-to-tr from-[#fdeaea] via-[#fff1f3] to-[#ffdae1] p-4 md:py-10">
                 <div className="container mx-auto">
-                    <div className='w-full py-5'>
+                    <div className='w-full pb-5'>
                         <DashboardStats />
                     </div>
                     <div className="p-8 bg-white">

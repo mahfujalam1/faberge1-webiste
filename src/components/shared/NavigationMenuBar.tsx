@@ -26,7 +26,6 @@ const NavigationMenuBar = () => {
     { name: "Dashboard", href: "/dashboard" },
     { name: "Schedule", href: "/schedule" },
     { name: "Bookings", href: "/all-bookings" },
-    { name: "Contact Us", href: "/contact" },
   ];
 
   const handleSignOut = () => {
@@ -64,14 +63,14 @@ const NavigationMenuBar = () => {
             </div>
 
             {/* Right Menu */}
-            <div className="hidden md:flex space-x-8 text-gray-700 font-medium justify-end flex-1">
+            <div className="hidden xl:flex space-x-8 text-gray-700 font-medium justify-end flex-1">
               {navItems.map((item) => (
                 <Link
                   href={item.href}
                   key={item.href}
-                  className={`cursor-pointer transition-colors text-xl ${isActive(item.href)
-                      ? "text-primary border-b-2 border-primary pb-1"
-                      : "hover:text-pink-700"
+                  className={`cursor-pointer  transition-colors text-xl ${isActive(item.href)
+                    ? "text-primary border-b-2 border-primary pb-1"
+                    : "hover:text-pink-700"
                     }`}
                 >
                   {item.name}
@@ -97,7 +96,7 @@ const NavigationMenuBar = () => {
                     className="rounded-full"
                   />
                 </div>
-                <div>
+                <div className="hidden xl:block">
                   <p className="text-sm font-medium text-gray-900">
                     {"John Wick"}
                   </p>
@@ -113,6 +112,12 @@ const NavigationMenuBar = () => {
                     onClick={() => setIsDropdownOpen(false)}
                   />
                   <div className="absolute left-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-20">
+                    <div className="block xl:hidden ps-4">
+                      <p className="text-sm font-medium text-gray-900">
+                        {"John Wick"}
+                      </p>
+                      <p className="text-xs text-start text-gray-900">New York</p>
+                    </div>
                     {user?.role !== "worker" && (
                       <Link href={"/my-bookings"}>
                         <div className="px-4 py-2 border-b border-gray-100 hover:bg-gray-100 hover:text-primary">
@@ -132,14 +137,14 @@ const NavigationMenuBar = () => {
             </div>
 
             {/* Center Menu */}
-            <div className="hidden md:flex space-x-8 text-gray-700 font-medium">
+            <div className="hidden xl:flex space-x-8 text-gray-700 font-medium">
               {navItems.map((item) => (
                 <Link
                   href={item.href}
                   key={item.href}
                   className={`cursor-pointer transition-colors text-xl ${isActive(item.href)
-                      ? "text-primary border-b-2 border-primary pb-1"
-                      : "hover:text-pink-700"
+                    ? "text-primary border-b-2 border-primary pb-1"
+                    : "hover:text-pink-700"
                     }`}
                 >
                   {item.name}
@@ -148,7 +153,7 @@ const NavigationMenuBar = () => {
             </div>
 
             {/* Right Logo */}
-            <div className="flex-shrink-0 w-[180px] flex items-center justify-center md:justify-end">
+            <div className="flex-shrink-0 w-[180px] flex items-center justify-center xl:justify-end">
               <Image
                 src={IMAGES.logo.src}
                 alt="IHBS Logo"
@@ -162,7 +167,7 @@ const NavigationMenuBar = () => {
 
         {/* Mobile Menu Toggle */}
         <button
-          className="md:hidden text-gray-700"
+          className="xl:hidden text-gray-700"
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? <X size={28} /> : <Menu size={28} />}
@@ -196,8 +201,8 @@ const NavigationMenuBar = () => {
                 href={item.href}
                 onClick={() => setIsOpen(false)}
                 className={`block text-lg ${isActive(item.href)
-                    ? "text-primary font-semibold"
-                    : "hover:text-pink-700"
+                  ? "text-primary font-semibold"
+                  : "hover:text-pink-700"
                   }`}
               >
                 {item.name}
