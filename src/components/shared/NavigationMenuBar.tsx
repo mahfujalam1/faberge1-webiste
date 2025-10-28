@@ -63,7 +63,7 @@ const NavigationMenuBar = () => {
             </div>
 
             {/* Right Menu */}
-            <div className="hidden xl:flex space-x-8 text-gray-700 font-medium justify-end flex-1">
+            <div className=" space-x-8 text-gray-700 font-medium justify-end flex-1">
               {navItems.map((item) => (
                 <Link
                   href={item.href}
@@ -137,7 +137,7 @@ const NavigationMenuBar = () => {
             </div>
 
             {/* Center Menu */}
-            <div className="hidden xl:flex space-x-8 text-gray-700 font-medium">
+            <div className="hidden lg:flex space-x-8 text-gray-700 font-medium">
               {navItems.map((item) => (
                 <Link
                   href={item.href}
@@ -167,7 +167,7 @@ const NavigationMenuBar = () => {
 
         {/* Mobile Menu Toggle */}
         <button
-          className="xl:hidden text-gray-700"
+          className="lg:hidden text-gray-700"
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? <X size={28} /> : <Menu size={28} />}
