@@ -6,6 +6,7 @@ import { MapPin, Phone, Facebook, Instagram } from "lucide-react";
 import Link from "next/link";
 
 const Footer: React.FC = () => {
+  
   const role = ''
   return (
     <footer className="w-full bg-[#F48CB840] text-white">
