@@ -34,7 +34,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                     // Decode token to get email (in production, validate with backend)
                     const decoded = atob(token)
                     const email = decoded.split("-")[0]
-                    setUser({ email, role:'' })
+                    setUser({ email, role:'worker' })
                     setIsLoggedIn(true)
                     console.log("[v0] User authenticated from cookie:", { email })
                 } catch (error) {
