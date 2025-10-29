@@ -95,7 +95,6 @@ const Footer: React.FC = () => {
 
         </div>
       </div>
-
       {/* === Bottom Section === */}
       <div className="w-full bg-secondary py-3">
         <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center text-xs text-white/50 gap-2 text-center sm:text-left">
