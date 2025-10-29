@@ -40,7 +40,7 @@ const NavigationMenuBar = () => {
     return firstSegment === href;
   };
 
-  const role: string = '' // example
+  const role: string = 'worker' // example
   const navItems = role && user?.email ? navItemsWorker : navItemsCustomer;
 
   const isLoggedIn = Boolean(user?.email);
@@ -128,7 +128,7 @@ const NavigationMenuBar = () => {
                     )}
                     {
                       role && user?.email ? <div className="text-xs ms-4">
-                        <h1>Nail Tech</h1>
+                        <h1>Title: Nail Tech</h1>
                         <h1>Location: New York</h1>
                         <h1>ID: #9234982</h1>
                       </div> : <div></div>

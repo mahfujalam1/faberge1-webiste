@@ -31,9 +31,11 @@ export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                 {/* Content Section */}
                 <div className="flex-grow min-w-0">
                     {/* Header Row */}
-                    <div className="grid grid-cols-5 bg-[#FFC0CB] px-4 py-3 text-xs sm:text-sm font-bold text-gray-800">
+                    <div className="grid grid-cols-7 bg-[#FFC0CB] px-4 py-3 text-xs sm:text-sm font-bold text-gray-800">
                         <div>Date</div>
                         <div>Time</div>
+                        <div>Customer Name</div>
+                        <div>Address</div>
                         <div>Service</div>
                         <div>Add-Ons</div>
                         <div className="text-right">
@@ -49,9 +51,11 @@ export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                     </div>
 
                     {/* Content Row */}
-                    <div className="grid grid-cols-5 items-center px-4 py-4 text-xs sm:text-sm text-gray-800 border-b border-pink-100">
+                    <div className="grid grid-cols-7 items-center px-4 py-4 text-xs sm:text-sm text-gray-800 border-b border-pink-100">
                         <div>{booking.date}</div>
                         <div>{booking.time}</div>
+                        <div>John Wick</div>
+                        <div>New York</div>
                         <div>{booking.service}</div>
                         <div>{booking.addOns}</div>
                         <div className="text-right font-semibold">${booking.price}</div>
@@ -71,7 +75,7 @@ export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                                     priority
                                 />
                                 <span className="text-gray-600 font-semibold whitespace-nowrap">{booking.name}</span>
-                                <span className="text-gray-500 whitespace-nowrap"> (Nail Tech)</span>
+                                <span className="text-gray-500 whitespace-nowrap">(Nail Tech)</span>
                             </span>
                         </div>
                         {
