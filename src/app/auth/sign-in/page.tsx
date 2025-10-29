@@ -33,7 +33,7 @@ function LoginForm() {
     })
 
     login(email, password)
-      router.push("/dashboard")
+      router.push("/")
 
   }
 
