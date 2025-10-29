@@ -32,7 +32,7 @@ export default function BookingsPage() {
         <div className="w-full px-6 md:px-10 rounded-[2rem] md:rounded-[3rem]">
           <div className="container mx-auto">
             {/* Title */}
-            <h1 className="text-3xl md:text-2xl font-serif mb-12 text-balance">
+            <h1 className="text-3xl text-center md:text-2xl font-serif mb-12 text-balance">
               Select Your State
             </h1>
 

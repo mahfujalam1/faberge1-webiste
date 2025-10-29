@@ -15,9 +15,9 @@ export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
     const { user } = useAuth()
     return (
         <Card className="mb-6 rounded-lg shadow-md overflow-hidden overflow-x-auto bg-[#FFEBEF] mt-5 max-w-full">
-            <CardContent className="p-0 flex flex-col md:flex-row">
+            <CardContent className="p-0 flex  md:flex-row">
                 {/* Image Section */}
-                <div className="flex-shrink-0 px-6 md:pb-0 pb-3 flex justify-center md:justify-start">
+                <div className="flex-shrink-0 px-6 md:pb-0 pb-3 flex justify-start">
                     <Image
                         src={IMAGES.logo.src}
                         alt="team member"
@@ -29,16 +29,16 @@ export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                 </div>
 
                 {/* Content Section */}
-                <div className="flex-grow min-w-0">
+                <div className="flex-grow flex-nowrap min-w-[800px] ">
                     {/* Header Row */}
-                    <div className="grid grid-cols-7 bg-[#FFC0CB] px-4 py-3 text-xs sm:text-sm font-bold text-gray-800">
-                        <div>Date</div>
-                        <div>Time</div>
-                        <div>Customer Name</div>
-                        <div>Address</div>
-                        <div>Service</div>
-                        <div>Add-Ons</div>
-                        <div className="text-right">
+                    <div className="grid grid-cols-7  bg-[#FFC0CB] px-4 py-3 text-xs sm:text-sm font-bold text-gray-800">
+                        <div className="text-nowrap whitespace-nowrap flex-nowrap">Date</div>
+                        <div className="text-nowrap whitespace-nowrap flex-nowrap">Time</div>
+                        <div className="text-nowrap whitespace-nowrap flex-nowrap">Customer Name</div>
+                        <div className="text-nowrap whitespace-nowrap flex-nowrap">Address</div>
+                        <div className="text-nowrap whitespace-nowrap flex-nowrap">Service</div>
+                        <div className="text-nowrap whitespace-nowrap flex-nowrap">Add-Ons</div>
+                        <div className="text-right text-nowrap whitespace-nowrap flex-nowrap">
                             <Badge
                                 className={`${booking.status === "Completed"
                                     ? "bg-red-500 text-white"
@@ -52,13 +52,13 @@ export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
 
                     {/* Content Row */}
                     <div className="grid grid-cols-7 items-center px-4 py-4 text-xs sm:text-sm text-gray-800 border-b border-pink-100">
-                        <div>{booking.date}</div>
-                        <div>{booking.time}</div>
-                        <div>John Wick</div>
-                        <div>New York</div>
-                        <div>{booking.service}</div>
-                        <div>{booking.addOns}</div>
-                        <div className="text-right font-semibold">${booking.price}</div>
+                        <div className="text-nowrap whitespace-nowrap flex-nowrap">{booking.date}</div>
+                        <div className="text-nowrap whitespace-nowrap flex-nowrap">{booking.time}</div>
+                        <div className="text-nowrap whitespace-nowrap flex-nowrap">John Wick</div>
+                        <div className="text-nowrap whitespace-nowrap flex-nowrap">New York</div>
+                        <div className="text-nowrap whitespace-nowrap flex-nowrap">{booking.service}</div>
+                        <div className="text-nowrap whitespace-nowrap flex-nowrap">{booking.addOns}</div>
+                        <div className="text-right font-semibold text-nowrap whitespace-nowrap flex-nowrap">${booking.price}</div>
                     </div>
 
                     {/* Footer - Team Member Info */}
