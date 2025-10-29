@@ -29,21 +29,17 @@ export default function CalendarComponent({
 
     const years = Array.from({ length: 10 }, (_, i) => currentYear - 2 + i)
 
-    // Mock data for the statuses
+    // Arrays for available, unavailable, and booked dates
     const availableDates = [4, 5, 6, 12, 13, 14, 27, 28, 29]
     const unavailableDates = [7, 8, 15, 25, 26]
     const bookedDates = [1, 2, 3, 9, 10, 16, 17, 18, 19, 20, 21, 22, 23, 24, 30, 31]
 
+    // Function to determine the status based on the arrays (no Date function involved)
     const getDateStatus = (day: number): DateStatus => {
-        const today = new Date()
-        const dateToCheck = new Date(currentYear, currentMonth, day)
-
-        if (dateToCheck < today) return "Completed" // Past dates are "Completed"
         if (availableDates.includes(day)) return "available"
         if (unavailableDates.includes(day)) return "Unavailable"
         if (bookedDates.includes(day)) return "booked"
-
-        return "Completed" // Default for any other date
+        return "Completed" // For any date not listed in the arrays, mark it as completed
     }
 
     const getDaysInMonth = (month: number, year: number) =>
@@ -88,10 +84,22 @@ export default function CalendarComponent({
 
     return (
         <div className="px-5 overflow-x-auto flex-nowrap py-5 shadow-lg rounded-2xl w-full md:w-[600px] mx-auto mb-5">
-
-            <h2 className="text-xl font-medium mb-4">
-                Scheduling <span className="text-red-500">*</span>
-            </h2>
+            <div className="flex flex-wrap items-center justify-end mb-4 gap-2">
+                <div className="flex flex-wrap gap-3 text-xs sm:text-sm">
+                    <div className="flex items-center gap-1">
+                        <span className="w-3 h-3 bg-white border-2 rounded-full" /> Available
+                    </div>
+                    <div className="flex items-center gap-1">
+                        <span className="w-3 h-3 bg-green-500 rounded-full" /> Booked
+                    </div>
+                    <div className="flex items-center gap-1">
+                        <span className="w-3 h-3 bg-red-500 rounded-full" /> Unavailable
+                    </div>
+                    <div className="flex items-center gap-1">
+                        <span className="w-3 h-3 bg-gray-400  rounded-full" /> Completed
+                    </div>
+                </div>
+            </div>
 
             {/* Month and Year Select */}
             <div className="grid grid-cols-2 mb-6">
@@ -149,8 +157,6 @@ export default function CalendarComponent({
                     {Array.from({ length: daysInMonth }).map((_, i) => {
                         const day = i + 1
                         const status = getDateStatus(day)
-                        const isSelected = selectedDate === day
-                        const date = `${currentYear}-${String(currentMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`
 
                         return (
                             <button

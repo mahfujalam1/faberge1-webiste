@@ -51,10 +51,10 @@ const Banner = () => {
                 {/* Phone Contact */}
                 <div className="flex flex-col items-center justify-center space-y-2">
                     <div className="flex items-center gap-2">
-                        <PhoneCall size={40} className="text-white" />
-                        <span className="md:text-5xl text-2xl font-bold">1(855) 622-6264</span>
+                        <PhoneCall size={30} className="text-white" />
+                        <span className="md:text-4xl text-2xl font-bold">1(855) 622-6264</span>
                     </div>
-                    <span className="md:text-3xl text-lg text-gray-300">Call Or Book Online</span>
+                    <span className="md:text-2xl text-lg text-gray-300">Call Or Book Online</span>
                 </div>
             </div>
         </section>

@@ -135,6 +135,7 @@ export default function BookAppointmentPage({
 
     return (
         <div className="min-h-screen bg-gradient-to-tl from-[#fdeaea] via-[#fff1f3] to-[#ffdae1] p-4 py-20">
+                <h1 className="text-2xl font-semibold text-center pb-5 text-primary">SCHEDULE  BOOKINGS</h1>
             <div className="max-w-7xl mx-auto">
                 {/* Main Booking Interface */}
                 <div className="bg-white rounded-3xl shadow-2xl p-6 md:p-10 mb-6">
