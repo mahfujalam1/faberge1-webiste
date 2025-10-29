@@ -10,7 +10,7 @@ import Link from "next/link";
 const Banner = () => {
     const { user } = useAuth()
     return (
-        <section className="relative w-full h-[100vh] flex items-center justify-center overflow-hidden -mt-[80px]">
+        <section className="relative w-full min-h-screen py-28 flex items-center justify-center overflow-hidden -mt-[80px]">
             {/* ✅ Background Video from public folder */}
             <video
                 autoPlay

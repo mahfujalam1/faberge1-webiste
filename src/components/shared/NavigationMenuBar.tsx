@@ -46,7 +46,7 @@ const NavigationMenuBar = () => {
   const isLoggedIn = Boolean(user?.email);
 
   return (
-    <nav className={cn("sticky top-0 bg-pink-300 shadow-sm z-50")}>
+    <nav className={cn("sticky top-0 bg-white shadow-sm z-50")}>
       <div className="container mx-auto px-4 py-1 flex items-center justify-between">
         {/* 🔹 Layout changes based on login state */}
         {!isLoggedIn ? (
@@ -64,13 +64,13 @@ const NavigationMenuBar = () => {
             </div>
 
             {/* Right Menu */}
-            <div className="hidden lg:flex space-x-8 text-white font-medium justify-end flex-1">
+            <div className="hidden lg:flex space-x-8 text-black font-medium justify-end flex-1">
               {navItems.map((item) => (
                 <Link
                   href={item.href}
                   key={item.href}
-                  className={`cursor-pointer text-white text-xl ${isActive(item.href)
-                    ? "text-white border-b-2 border-primary pb-1"
+                  className={`cursor-pointer text-black text-xl ${isActive(item.href)
+                    ? "text-black border-b-2 border-primary pb-1"
                     : "hover:text-pink-700 duration-500 transition-all"
                     }`}
                 >
@@ -98,12 +98,12 @@ const NavigationMenuBar = () => {
                   />
                 </div>
                 <div className="hidden xl:block">
-                  <p className="text-sm font-medium text-white">
+                  <p className="text-sm font-medium text-black">
                     {"John Wick"}
                   </p>
-                  <p className="text-xs text-start text-white">{role ? "Nail Tech" : "New York"}</p>
+                  <p className="text-xs text-start text-black">{role ? "Nail Tech" : "New York"}</p>
                 </div>
-                <ChevronDown className="w-4 h-4 text-white" />
+                <ChevronDown className="w-4 h-4 text-black" />
               </button>
 
               {isDropdownOpen && (
@@ -114,10 +114,10 @@ const NavigationMenuBar = () => {
                   />
                   <div className="absolute left-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-20">
                     <div className="block lg:hidden ps-4">
-                      <p className="text-sm font-medium text-white">
+                      <p className="text-sm font-medium text-black">
                         {"John Wick"}
                       </p>
-                      <p className="text-xs text-start text-white">New York</p>
+                      <p className="text-xs text-start text-black">New York</p>
                     </div>
                     {role !== "worker" && (
                       <Link href={"/my-bookings"}>
@@ -150,7 +150,7 @@ const NavigationMenuBar = () => {
                 <Link
                   href={item.href}
                   key={item.href}
-                  className={`cursor-pointer text-white  text-xl ${isActive(item.href)
+                  className={`cursor-pointer text-black  text-xl ${isActive(item.href)
                     ? "text-primary border-b-2 border-primary pb-1"
                     : "hover:text-pink-700"
                     }`}
@@ -202,7 +202,7 @@ const NavigationMenuBar = () => {
           </button>
         </div>
 
-        <ul className="flex flex-col p-6 space-y-6 text-white font-medium">
+        <ul className="flex flex-col p-6 space-y-6 text-black font-medium">
           {navItems.map((item) => (
             <li key={item.name}>
               <Link
