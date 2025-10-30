@@ -39,7 +39,7 @@ export default function RegisterPage() {
 
     if (Completedata.profile?.email) {
       register(Completedata.profile.email)
-      router.push("/")
+      router.push("/dashboard")
     }
   }
 

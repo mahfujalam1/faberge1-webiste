@@ -22,7 +22,7 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, subText, }) => {
 export const DashboardStats: React.FC = () => {
     return (
         <section className="">
-            <div className="grid grid-cols-1  md:grid-cols-3 gap-10 ">
+            <div className="grid grid-cols-1  md:grid-cols-3 gap-5">
                 <StatCard
                     title="Bookings"
                     value="50"
