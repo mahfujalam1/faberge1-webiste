@@ -34,7 +34,7 @@ export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                     <div className="grid grid-cols-7  bg-[#FFC0CB] px-4 py-3 text-xs sm:text-sm font-bold text-gray-800">
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Date</div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Time</div>
-                        <div className="text-nowrap whitespace-nowrap flex-nowrap">Customer Name</div>
+                        <div className="text-nowrap whitespace-nowrap flex-nowrap">Customer</div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Address</div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Service</div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Add-Ons</div>

@@ -162,9 +162,10 @@ export default function BookAppointmentPage({
                                             {member.city}, {member.state}
                                         </span>
                                     </div>
+                                    <div className="text-xs text-gray-700">Nail Tech</div>
 
                                     <div className="flex items-end gap-1 text-xs text-gray-700">
-                                        <span>ID:</span>
+                                        <span>ID#:</span>
                                         <span>{member.workerId}</span>
                                     </div>
                                 </div>
