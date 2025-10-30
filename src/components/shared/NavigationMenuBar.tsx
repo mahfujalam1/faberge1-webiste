@@ -40,7 +40,7 @@ const NavigationMenuBar = () => {
     return firstSegment === href;
   };
 
-  const role: string = 'worker' // example
+  const role: string = '' // example
   const navItems = role && user?.email ? navItemsWorker : navItemsCustomer;
 
   const isLoggedIn = Boolean(user?.email);
@@ -192,7 +192,7 @@ const NavigationMenuBar = () => {
 
       {/* Mobile Drawer */}
       <div
-        className={`fixed top-0 left-0 h-full w-64 bg-pink-300 z-50 shadow-lg transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
+        className={`fixed top-0 left-0 h-full w-64 bg-white z-50 shadow-lg transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
           }`}
       >
         <div className="flex items-center justify-between p-4 border-b">
