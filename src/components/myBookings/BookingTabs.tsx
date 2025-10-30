@@ -37,7 +37,7 @@ export const BookingTabs = () => {
         </TabsTrigger>
       </TabsList>
 
-      <TabsContent value={tab} className="mt-4">
+      <TabsContent value={tab}>
         {filteredBookings.length > 0 ? (
           filteredBookings.map(b => <BookingCard key={b.id} booking={b} />)
         ) : (

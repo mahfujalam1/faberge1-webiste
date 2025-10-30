@@ -11,8 +11,8 @@ function Schedule() {
     return (
         <div>
             {/* <DynamicBanner title='Schedule' /> */}
-            <div className="min-h-screen bg-gradient-to-tr from-[#fdeaea] via-[#fff1f3] to-[#ffdae1] p-4 md:py-10">
-                <div className='container mx-auto bg-white py-10'>
+            <div className="min-h-screen bg-gradient-to-tr from-[#fdeaea] via-[#fff1f3] to-[#ffdae1] p-4 md:py-5">
+                <div className='container mx-auto bg-white py-5'>
                     <CalendarScheduler/>
                 </div>
             </div>

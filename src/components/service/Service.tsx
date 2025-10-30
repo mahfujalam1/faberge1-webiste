@@ -64,7 +64,6 @@ export default function ServicesSection() {
             {/* Content */}
             <div className="relative z-10 container mx-auto px-4 py-16">
                 <SectionHeader sectionName="Our Services" />
-
                 <div className="md:flex justify-around gap-8">
                     <ServiceCard {...manicureData} />
                     <ServiceCard {...pedicureData} />
