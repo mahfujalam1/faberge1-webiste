@@ -32,10 +32,10 @@ const Banner = () => {
                     <span className="block">Manicure $25 / Pedicure $35</span> for Seniors
                 </h1>
 
-                <p className="text-gray-200 text-sm md:text-base mb-8">
+                <p className="text-gray-200 text-md md:text-base mb-8">
                     No more waiting in line or struggling to get to the salon. Rest easy,
                     we’ll come to you! If you’re 55 or older, get your manicures and
-                    pedicures done in the comfort of your own home Or facility!
+                    pedicures done in the comfort of your own home or facility!
                 </p>
 
                 {/* Buttons */}

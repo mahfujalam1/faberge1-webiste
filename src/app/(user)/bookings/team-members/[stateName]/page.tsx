@@ -38,7 +38,7 @@ export default function TeamMembersPage({
                         </h2>
 
                         {/* Team Members Grid */}
-                        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-9 gap-4">
+                        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-9 gap-4 text-center">
                             {(filteredMembers.length > 0 ? filteredMembers : teammembersData.members).map(
                                 (member) => (
                                     <button
@@ -57,19 +57,21 @@ export default function TeamMembersPage({
                                         </div>
 
                                         {/* Member Info */}
-                                        <h3 className="font-semibold text-sm mb-1">
+                                        <h3 className="font-semibold text-sm mb-1 text-center">
                                             {member.firstName} {member.lastName}
                                         </h3>
 
-                                        <div className="">
-                                            <div className="flex items-center gap-1 text-xs text-gray-600 mb-1">
-                                                <MapPin className="w-3 h-3" />
+                                        <div className=" text-center">
+                                            <div className="flex items-center justify-center gap-1 text-xs text-gray-600 mb-1">
+                                                
                                                 <span>
                                                     {member.city}, {member.state}
                                                 </span>
                                             </div>
 
-                                            <div className="flex items-end gap-1 text-xs text-gray-700">
+                                            
+                                                <h1 className=" text-xs">Nail Tech</h1>
+                                            <div className="flex items-center justify-center gap-1 text-xs text-gray-700">
                                                 <span>ID#:</span>
                                                 <span>{member.workerId}</span>
                                             </div>
