@@ -32,7 +32,7 @@ export default function ForgotPasswordPage() {
             password,
         })
         // Redirect to home page
-        router.push("/")
+        router.push("/dashboard")
     }
 
     return (
