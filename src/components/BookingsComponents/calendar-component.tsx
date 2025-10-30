@@ -83,7 +83,7 @@ export default function CalendarComponent({
     }
 
     return (
-        <div className="px-5 overflow-x-auto flex-nowrap py-5 shadow-lg rounded-2xl w-full md:w-[600px] mx-auto mb-5">
+        <div className="px-5 overflow-x-auto flex-nowrap py-5 shadow-lg rounded-2xl w-full lg:w-[600px] mx-auto mb-5">
             <div className="flex flex-wrap items-center justify-end mb-4 gap-2">
                 <div className="flex flex-wrap gap-3 text-xs sm:text-sm">
                     <div className="flex items-center gap-1">
@@ -107,7 +107,7 @@ export default function CalendarComponent({
                     value={String(currentMonth)}
                     onValueChange={(value) => onMonthChange(Number(value))}
                 >
-                    <SelectTrigger className="xl:w-68 sm:w-52 w-fit">
+                    <SelectTrigger className="xl:w-68 md:w-32 sm:w-52 w-fit">
                         <SelectValue placeholder="Select month" />
                     </SelectTrigger>
                     <SelectContent>
@@ -123,7 +123,7 @@ export default function CalendarComponent({
                     value={String(currentYear)}
                     onValueChange={(value) => onYearChange(Number(value))}
                 >
-                    <SelectTrigger className="xl:w-68 sm:w-52 w-fit">
+                    <SelectTrigger className="xl:w-68 md:w-32 sm:w-52 w-fit">
                         <SelectValue placeholder="Select year" />
                     </SelectTrigger>
                     <SelectContent>
@@ -163,7 +163,7 @@ export default function CalendarComponent({
                                 key={day}
                                 onClick={() => handleDateClick(day, status)}
                                 className={`
-                                    md:w-14 w-8 md:h-14 h-8 rounded-lg text-sm font-medium transition-colors mx-auto my-2 shadow-lg
+                                    lg:w-14 w-8 lg:h-14 h-8 rounded-lg text-sm font-medium transition-colors mx-auto my-2 shadow-lg
                                     ${getStatusColor(status)} // Applying the correct color based on the status
                                 `}
                             >

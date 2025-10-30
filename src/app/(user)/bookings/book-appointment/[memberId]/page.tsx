@@ -139,11 +139,11 @@ export default function BookAppointmentPage({
             <div className="max-w-7xl mx-auto">
                 {/* Main Booking Interface */}
                 <div className="bg-white rounded-3xl shadow-2xl p-6 md:p-5 mb-6">
-                    <div className="grid md:grid-cols-1 xl:grid-cols-[400px_1fr] gap-5">
+                    <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-5">
                         {/* Team Member Card */}
-                        <div className="flex flex-col items-center justify-center bg-gray-50/50 rounded-lg shadow-md h-[400px] ms-5">
+                        <div className={`flex flex-col items-center justify-center p-2 bg-gray-50/50 rounded-lg shadow-md md:h-[300px] ms-5`}>
                             <div className="shadow-lg bg-white p-3 rounded-lg">
-                                <div className="md:w-40 w-40 md:h-40 h-32 rounded-lg overflow-hidden mb-4">
+                                <div className="lg:w-40 w-24 h-20 md:w-32 lg:h-40 md:h-32 rounded-lg overflow-hidden mb-4">
                                     <Image
                                         src={IMAGES.workerProfile.src}
                                         alt={member.name}
@@ -153,7 +153,7 @@ export default function BookAppointmentPage({
                                     />
                                 </div>
                                 <div>
-                                    <h3 className="font-semibold text-lg">{member.name}</h3>
+                                    <h3 className="font-semibold text-sm md:text-lg">{member.name}</h3>
                                 </div>
                                 <div className="">
                                     <div className="flex items-center gap-1 text-xs text-gray-600 mb-1">
