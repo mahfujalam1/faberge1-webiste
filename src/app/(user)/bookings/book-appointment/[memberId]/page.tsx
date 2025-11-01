@@ -15,7 +15,6 @@ import BookingCart from "@/components/BookingsComponents/booking-cart";
 import CalendarComponent from "@/components/BookingsComponents/calendar-component";
 import ServiceSelectionTable from "@/components/BookingsComponents/service-selection";
 import { IMAGES } from "@/constants/image.index";
-import { MapPin } from "lucide-react";
 
 export default function BookAppointmentPage({
     params,
@@ -153,18 +152,17 @@ export default function BookAppointmentPage({
                                     />
                                 </div>
                                 <div>
-                                    <h3 className="font-semibold text-sm md:text-lg">{member.name}</h3>
+                                    <h3 className="font-semibold text-center text-sm md:text-lg">{member.name}</h3>
                                 </div>
-                                <div className="">
-                                    <div className="flex items-center gap-1 text-xs text-gray-600 mb-1">
-                                        <MapPin className="w-3 h-3" />
+                                <div className="text-center">
+                                    <div className="flex items-center justify-center gap-1 text-xs text-gray-600 mb-1">
                                         <span>
                                             {member.city}, {member.state}
                                         </span>
                                     </div>
                                     <div className="text-xs text-gray-700">Nail Tech</div>
 
-                                    <div className="flex items-end gap-1 text-xs text-gray-700">
+                                    <div className="flex items-end justify-center gap-1 text-xs text-gray-700">
                                         <span>ID#:</span>
                                         <span>{member.workerId}</span>
                                     </div>
