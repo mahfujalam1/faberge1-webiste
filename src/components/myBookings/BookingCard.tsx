@@ -76,6 +76,7 @@ export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                                 />
                                 <span className="text-gray-600 font-semibold whitespace-nowrap">{booking.name}</span>
                                 <span className="text-gray-500 whitespace-nowrap">(Nail Tech)</span>
+                                <span className="text-gray-500 whitespace-nowrap ps-5">State ID#: NY</span>
                             </span>
                         </div>
                         {
