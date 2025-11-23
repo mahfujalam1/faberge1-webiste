@@ -4,11 +4,11 @@ import React from "react";
 import { PhoneCall } from "lucide-react";
 import { PrimaryButton } from "../ui/PrimaryButton";
 import { OutlineButton } from "../ui/OutlineButton";
-import { useAuth } from "@/contexts/auth-context";
+
 import Link from "next/link";
 
 const Banner = () => {
-    const { user } = useAuth()
+    const user = { email: true }
     return (
         <section className="relative w-full min-h-screen py-28 flex items-center justify-center overflow-hidden -mt-[80px]">
             {/* ✅ Background Video from public folder */}

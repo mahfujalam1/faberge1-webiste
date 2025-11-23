@@ -1,6 +1,31 @@
 import Image from "next/image";
 import { IMAGES } from "@/constants/image.index";
 
+
+const appointmentData = [
+    {
+        image: IMAGES.mobileIcon.src,
+        alt: "mobile-icon",
+        title: "Contact",
+        sublineOne: "T : 1 (855) 622-6264",
+        sublineTwo: "staff@inhomebeautyservices.com",
+    },
+    {
+        image: IMAGES.houricon.src,
+        alt: "hero-icon",
+        title: "Hours",
+        sublineOne: "Mon–Sun 9am–7pm",
+        sublineTwo: "",
+    },
+    {
+        image: IMAGES.locationIcon.src,
+        alt: "location-icon",
+        title: "Locaiton",
+        sublineOne: "31 W. 34th St. Suite 7162",
+        sublineTwo: "New York, NY 10001",
+    },
+]
+
 export default function AppointmentSection() {
     return (
         <div className="w-full container !mx-auto flex flex-col items-center justify-center px-4 py-10">
@@ -18,56 +43,34 @@ export default function AppointmentSection() {
                     </div>
 
                     {/* Contact Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mx-auto text-center items-center justify-center md:text-left">
-                        {/* Contact */}
-                        <div className="flex flex-col items-center md:items-start justify-center">
-                            <Image
-                                src={IMAGES.mobileIcon.src}
-                                alt="Contact"
-                                width={100}
-                                height={100}
-                                className="object-contain mb-5"
-                            />
-                            <div>
-                                <h2 className="text-xl font-bold">Contact</h2>
-                                <p>T : 1 (855) 622-6264</p>
-                                <p>staff@inhomebeautyservices.com</p>
-                            </div>
-                        </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mx-auto text-center md:text-left">
+                        {
+                            appointmentData.length > 0 &&
+                            appointmentData?.map((data, index) => (  // ✅ parentheses দিয়ে
+                                <div key={index} className="flex flex-col items-center md:items-start justify-center">
+                                    <Image
+                                        src={data?.image}
+                                        alt={data?.alt}
+                                        width={100}
+                                        height={100}
+                                        className="object-contain"
+                                    />
 
-                        {/* Hours */}
-                        <div className="flex flex-col items-center md:items-start justify-center mb-9">
-                            <Image
-                                src={IMAGES.houricon.src}
-                                alt="Hours"
-                                width={100}
-                                height={100}
-                                className="object-contain mb-7"
-                            />
-                            <div className="ms-4">
-                                <h2 className="text-xl font-bold">Hours</h2>
-                                <p>Mon–Sun 9am–7pm</p>
-                            </div>
-                        </div>
+                                </div>
+                            ))
 
-                        {/* Location */}
-                        <div className="flex flex-col items-center md:items-start justify-center mt-4">
-                            <Image
-                                src={IMAGES.locationIcon.src}
-                                alt="Location"
-                                width={100}
-                                height={100}
-                                className="object-contain mb-5"
-                            />
-                            <div>
-                                <h2 className="text-xl font-bold">Location</h2>
-                                <p>
-                                    Main Office:
-                                    <br /> 31 W. 34th St. Suite 7162
-                                    <br /> New York, NY 10001
-                                </p>
-                            </div>
-                        </div>
+                        }
+                        {
+                            appointmentData.length > 0 &&
+                            appointmentData?.map((data, index) => (
+                                <div key={index} className="mt-4">
+                                    <h2 className="text-xl font-bold">{data?.title}</h2>
+                                    <p>{data?.sublineOne}</p>
+                                    {data?.sublineTwo && <p>{data?.sublineTwo}</p>}
+                                </div>
+                            ))
+                        }
+
                     </div>
                 </div>
 
