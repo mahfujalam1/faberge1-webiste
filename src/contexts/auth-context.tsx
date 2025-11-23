@@ -48,6 +48,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const login = (email: string, password: string) => {
         console.log("[v0] Login attempt:", { email, password })
+        console.log(email, password)
         const token = generateToken(email)
         setAuthToken(token)
 

@@ -1,8 +1,8 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
+import Cookies from 'js-cookie';
 import { Eye, EyeOff } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -11,30 +11,65 @@ import Link from "next/link"
 import Image from "next/image"
 import { IMAGES } from "@/constants/image.index"
 import { useRouter } from "next/navigation"
-import { useAuth } from "@/contexts/auth-context"
-
+import { useLoginUserMutation } from "@/redux/api/authApi"
+import { useLazyGetMeQuery } from "@/redux/api/baseApi"
+import { useDispatch } from "react-redux"
+import { setUser } from "@/redux/features/user/userSlice"
+import { toast } from "sonner"
 
 function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [rememberMe, setRememberMe] = useState(false)
-  const router = useRouter()
-  const { login } = useAuth()
 
-  const role = 'worker'
+  const [login, { isLoading }] = useLoginUserMutation()
+  const [getMe] = useLazyGetMeQuery()
+  const dispatch = useDispatch()
+  const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("[v0] Form submitted with data:", {
-      email,
-      password,
-      rememberMe,
-    })
 
-    login(email, password)
-    router.push("/dashboard")
+    try {
+      const res = await login({ email, password }).unwrap()
 
+      if (res?.token) {
+        // Set token in cookie
+        Cookies.set('auth-token', res.token, {
+          expires: rememberMe ? 30 : 7,
+          sameSite: 'lax',
+          secure: process.env.NODE_ENV === 'production',
+          path: '/'
+        });
+
+        // Fetch user profile
+        const userData = await getMe().unwrap()
+
+        // Store user data in cookie
+        Cookies.set('user', JSON.stringify(userData.data), {
+          expires: rememberMe ? 30 : 7,
+          sameSite: 'lax',
+          secure: process.env.NODE_ENV === 'production',
+          path: '/'
+        });
+
+        // Also store in Redux for immediate access
+        dispatch(setUser(userData.data))
+
+        toast.success("Login successful!")
+
+        // Role based redirect
+        if (userData.data.role === 'worker') {
+          router.push('/dashboard')
+        } else {
+          router.push('/')
+        }
+      }
+    } catch (error: any) {
+      console.error('Login failed:', error)
+      toast.error(error?.data?.message || "Login failed. Please try again.")
+    }
   }
 
   return (
@@ -75,6 +110,8 @@ function LoginForm() {
                 className="h-12 rounded-lg border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-400"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                required
+                disabled={isLoading}
               />
             </div>
 
@@ -91,11 +128,14 @@ function LoginForm() {
                   className="h-12 rounded-lg border-gray-200 bg-gray-50 pr-12 text-gray-900 placeholder:text-gray-400"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  required
+                  disabled={isLoading}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                  disabled={isLoading}
                 >
                   {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                 </button>
@@ -109,6 +149,7 @@ function LoginForm() {
                   id="remember"
                   checked={rememberMe}
                   onCheckedChange={(checked) => setRememberMe(checked as boolean)}
+                  disabled={isLoading}
                 />
                 <label htmlFor="remember" className="text-sm font-medium text-gray-900 cursor-pointer">
                   Remember Me
@@ -122,9 +163,10 @@ function LoginForm() {
             {/* Sign In Button */}
             <Button
               type="submit"
-              className="h-12 w-full rounded-lg bg-black text-base font-medium text-white hover:bg-gray-800"
+              disabled={isLoading}
+              className="h-12 w-full rounded-lg bg-black text-base font-medium text-white hover:bg-gray-800 disabled:opacity-50"
             >
-              Sign In
+              {isLoading ? "Signing In..." : "Sign In"}
             </Button>
           </form>
 
@@ -140,6 +182,5 @@ function LoginForm() {
     </div>
   )
 }
-
 
 export default LoginForm
