@@ -6,9 +6,11 @@ import { PrimaryButton } from "../ui/PrimaryButton";
 import { OutlineButton } from "../ui/OutlineButton";
 
 import Link from "next/link";
+import { useGetMeQuery } from "@/redux/api/baseApi";
+import { getUserInfo } from "@/services/authServices";
 
 const Banner = () => {
-    const user = { email: true }
+   const user = getUserInfo()
     return (
         <section className="relative w-full min-h-screen py-28 flex items-center justify-center overflow-hidden -mt-[80px]">
             {/* ✅ Background Video from public folder */}

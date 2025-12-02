@@ -1,53 +1,28 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { Menu, X, ChevronDown } from "lucide-react";
 import Link from "next/link";
-import Cookies from 'js-cookie';
-import { useDispatch } from "react-redux";
-import { setUser, clearUser } from "@/redux/features/user/userSlice";
-
 import { IMAGES } from "@/constants/image.index";
 import { cn } from "@/lib/utils";
-
-interface User {
-  _id: string;
-  email: string;
-  role: 'customer' | 'worker';
-  name?: string;
-  avatar?: string;
-}
+import { logoutUser } from "@/services/actions/logoutUser";
+import { getUserInfo } from "@/services/authServices";
 
 const NavigationMenuBar = () => {
+  const [user, setUser] = useState<any>(null); // Initially null
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [user, setUserState] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-
+  const [loading, setLoading] = useState(true); // Loading state to prevent UI issues
   const pathname = usePathname();
   const router = useRouter();
-  const dispatch = useDispatch();
 
-  // Load user from cookie on mount
+  // Set the user data on the client side after the component mounts
   useEffect(() => {
-    const token = Cookies.get('auth-token');
-    const userCookie = Cookies.get('user');
-
-    if (token && userCookie) {
-      try {
-        const userData = JSON.parse(userCookie);
-        setUserState(userData);
-        dispatch(setUser(userData));
-      } catch (error) {
-        console.error('Error parsing user cookie:', error);
-        Cookies.remove('auth-token');
-        Cookies.remove('user');
-      }
-    }
-    setLoading(false);
-  }, [dispatch]);
+    const userInfo = getUserInfo(); // Fetch user info client-side
+    setUser(userInfo);
+    setLoading(false); // Once user data is fetched, set loading to false
+  }, []);
 
   const navItemsCustomer = [
     { name: "Home", href: "/" },
@@ -64,12 +39,8 @@ const NavigationMenuBar = () => {
   ];
 
   const handleSignOut = () => {
-    Cookies.remove('auth-token');
-    Cookies.remove('user');
-    dispatch(clearUser());
-    setUserState(null);
-    setIsDropdownOpen(false);
-    router.push('/auth/sign-in');
+    logoutUser(router);
+    router.push("/auth/sign-in");
   };
 
   const isActive = (href: string) => {
@@ -78,35 +49,30 @@ const NavigationMenuBar = () => {
     return firstSegment === href;
   };
 
-  const navItems = user?.role === 'worker' ? navItemsWorker : navItemsCustomer;
+  const navItems = user?.role === "worker" ? navItemsWorker : navItemsCustomer;
   const isLoggedIn = Boolean(user?.email);
 
-  // Role-based route protection
   useEffect(() => {
-    if (loading) return;
+    const workerRoutes = ["/dashboard", "/schedule", "/all-bookings"];
+    const customerRoutes = ["/bookings", "/my-bookings"];
 
-    const workerRoutes = ['/dashboard', '/schedule', '/all-bookings'];
-    const customerRoutes = ['/bookings', '/my-bookings'];
+    const isWorkerRoute = workerRoutes.some((route) => pathname.startsWith(route));
+    const isCustomerRoute = customerRoutes.some((route) => pathname.startsWith(route));
 
-    const isWorkerRoute = workerRoutes.some(route => pathname.startsWith(route));
-    const isCustomerRoute = customerRoutes.some(route => pathname.startsWith(route));
-
-    // If worker trying to access customer routes
-    if (user?.role === 'worker' && isCustomerRoute) {
-      router.push('/dashboard');
+    if (user?.role === "worker" && isCustomerRoute) {
+      router.push("/dashboard");
     }
 
-    // If customer trying to access worker routes
-    if (user?.role === 'customer' && isWorkerRoute) {
-      router.push('/');
+    if (user?.role === "customer" && isWorkerRoute) {
+      router.push("/");
     }
-  }, [user, pathname, loading, router]);
+  }, [user, pathname, router]);
 
   if (loading) {
     return (
       <nav className="sticky top-0 bg-white shadow-sm z-50">
-        <div className="container mx-auto px-4 py-1 h-20 flex items-center justify-between">
-          <div className="flex-shrink-0">
+        <div className="container mx-auto px-4 py-1 flex items-center justify-between">
+          <div className="flex-shrink-0 flex items-center justify-start w-[180px]">
             <Image
               src={IMAGES.logo.src}
               alt="IHBS Logo"
@@ -115,6 +81,8 @@ const NavigationMenuBar = () => {
               className="object-contain"
             />
           </div>
+          {/* You can add a loading spinner here */}
+          <div>Loading...</div>
         </div>
       </nav>
     );
@@ -125,7 +93,6 @@ const NavigationMenuBar = () => {
       <div className="container mx-auto px-4 py-1 flex items-center justify-between">
         {!isLoggedIn ? (
           <>
-            {/* Left Logo */}
             <div className="flex-shrink-0 flex items-center justify-start w-[180px]">
               <Image
                 src={IMAGES.logo.src}
@@ -135,16 +102,14 @@ const NavigationMenuBar = () => {
                 className="object-contain"
               />
             </div>
-
-            {/* Right Menu */}
             <div className="hidden lg:flex space-x-8 text-black font-medium justify-end flex-1">
-              {navItems.map((item) => (
+              {navItems?.map((item) => (
                 <Link
                   href={item.href}
                   key={item.href}
                   className={`cursor-pointer text-black text-xl ${isActive(item.href)
-                      ? "text-black border-b-2 border-primary pb-1"
-                      : "hover:text-pink-700 duration-500 transition-all"
+                    ? "text-black border-b-2 border-primary pb-1"
+                    : "hover:text-pink-700 duration-500 transition-all"
                     }`}
                 >
                   {item.name}
@@ -154,7 +119,6 @@ const NavigationMenuBar = () => {
           </>
         ) : (
           <>
-            {/* Left User Section */}
             <div className="relative h-10">
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -162,7 +126,7 @@ const NavigationMenuBar = () => {
               >
                 <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
                   <Image
-                    src={user?.avatar || IMAGES.profile.src}
+                    src={user?.uploadPhoto || IMAGES.profile.src}
                     alt="Profile"
                     width={40}
                     height={40}
@@ -171,10 +135,10 @@ const NavigationMenuBar = () => {
                 </div>
                 <div className="hidden xl:block">
                   <p className="text-sm font-medium text-black">
-                    {user?.name || "User"}
+                    {user?.firstName + " " + user?.lastName || "User"}
                   </p>
                   <p className="text-xs text-start text-black">
-                    {user?.role === 'worker' ? "Nail Tech" : "Customer"}
+                    {user?.role === "worker" ? "Nail Tech" : "Customer"}
                   </p>
                 </div>
                 <ChevronDown className="w-4 h-4 text-black" />
@@ -189,20 +153,20 @@ const NavigationMenuBar = () => {
                   <div className="absolute left-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-20">
                     <div className="block lg:hidden ps-4 pb-2 border-b">
                       <p className="text-sm font-medium text-black">
-                        {user?.name || "User"}
+                        {user?.firstName + " " + user?.lastName || "User"}
                       </p>
                       <p className="text-xs text-start text-black">
-                        {user?.role === 'worker' ? "Nail Tech" : "Customer"}
+                        {user?.role === "worker" ? "Nail Tech" : "Customer"}
                       </p>
                     </div>
-                    {user?.role === 'customer' && (
+                    {user?.role === "customer" && (
                       <Link href="/my-bookings" onClick={() => setIsDropdownOpen(false)}>
                         <div className="px-4 py-2 border-b border-gray-100 hover:bg-gray-100 hover:text-primary">
                           <p>My Bookings</p>
                         </div>
                       </Link>
                     )}
-                    {user?.role === 'worker' && (
+                    {user?.role === "worker" && (
                       <div className="text-xs ms-4 py-2 border-b">
                         <h1>Nail Tech</h1>
                         <h1>New York, NY</h1>
@@ -211,7 +175,7 @@ const NavigationMenuBar = () => {
                     )}
                     <button
                       onClick={handleSignOut}
-                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                      className="w-full text-left px-4 py-2 text-sm cursor-pointer text-gray-700 hover:bg-gray-100 transition-colors"
                     >
                       Sign Out
                     </button>
@@ -220,15 +184,14 @@ const NavigationMenuBar = () => {
               )}
             </div>
 
-            {/* Center Menu */}
             <div className="hidden lg:flex space-x-8 font-medium">
               {navItems.map((item) => (
                 <Link
                   href={item.href}
                   key={item.href}
                   className={`cursor-pointer text-black text-xl ${isActive(item.href)
-                      ? "text-primary border-b-2 border-primary pb-1"
-                      : "hover:text-pink-700"
+                    ? "text-primary border-b-2 border-primary pb-1"
+                    : "hover:text-pink-700"
                     }`}
                 >
                   {item.name}
@@ -236,7 +199,6 @@ const NavigationMenuBar = () => {
               ))}
             </div>
 
-            {/* Right Logo */}
             <div className="flex-shrink-0 w-[180px] flex items-center justify-center xl:justify-end">
               <Image
                 src={IMAGES.logo.src}
@@ -249,7 +211,6 @@ const NavigationMenuBar = () => {
           </>
         )}
 
-        {/* Mobile Menu Toggle */}
         <button
           className="lg:hidden text-gray-700"
           onClick={() => setIsOpen(!isOpen)}
@@ -258,7 +219,6 @@ const NavigationMenuBar = () => {
         </button>
       </div>
 
-      {/* Mobile Overlay */}
       {isOpen && (
         <div
           className="fixed inset-0 bg-white/10 opacity-70 z-40"
@@ -266,7 +226,6 @@ const NavigationMenuBar = () => {
         ></div>
       )}
 
-      {/* Mobile Drawer */}
       <div
         className={`fixed top-0 left-0 h-full w-64 bg-white z-50 shadow-lg transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
           }`}
@@ -285,8 +244,8 @@ const NavigationMenuBar = () => {
                 href={item.href}
                 onClick={() => setIsOpen(false)}
                 className={`block text-lg ${isActive(item.href)
-                    ? "text-primary font-semibold"
-                    : "hover:text-pink-700"
+                  ? "text-primary font-semibold"
+                  : "hover:text-pink-700"
                   }`}
               >
                 {item.name}

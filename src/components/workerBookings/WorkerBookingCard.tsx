@@ -11,7 +11,7 @@ interface BookingCardProps {
     booking: any;
 }
 
-export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
+export const WorkerBookingCard: React.FC<BookingCardProps> = ({ booking }) => {
     const [user, setUser] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 
@@ -70,12 +70,12 @@ export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Customer</div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Phone</div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Email</div>
-                        <div className="text-nowrap whitespace-nowrap flex-nowrapn text-center">Payment</div>
+                        <div className="text-nowrap whitespace-nowrap flex-nowrap text-center">Payment</div>
                         <div className="text-right text-nowrap whitespace-nowrap flex-nowrap">
                             <Badge
                                 className={`${getStatusColor(booking.status)} text-xs px-2 rounded-sm`}
                             >
-                                {booking.status.toUpperCase()}
+                                {booking.status === 'booked' ? 'Upcoming' : booking.status === 'completed' ? 'Completed' : booking.status}
                             </Badge>
                         </div>
                     </div>

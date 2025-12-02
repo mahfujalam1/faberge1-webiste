@@ -132,6 +132,8 @@ export default function BookAppointmentPage({
         );
     }
 
+    if (typeof window !== 'undefined')
+
     return (
         <div className="min-h-screen bg-gradient-to-tl from-[#fdeaea] via-[#fff1f3] to-[#ffdae1] p-4 ">
                 <h1 className="text-2xl font-semibold text-center pb-5 text-primary">SCHEDULE  BOOKINGS</h1>

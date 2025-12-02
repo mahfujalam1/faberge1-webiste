@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { tagTypeList } from "../tagTypes";
+import { tagTypes, tagTypesList } from "../tagTypes";
 import Cookies from 'js-cookie'
+import { authKey } from "@/constants/auth";
 
 interface User {
   _id: string;
@@ -15,17 +16,18 @@ export const baseApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: `http://10.10.20.16:5137`,
     prepareHeaders: (headers) => {
-      const token = Cookies.get('auth-token');
+      const token = Cookies.get(authKey);
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
       }
       return headers;
     },
   }),
-  tagTypes: tagTypeList,
+  tagTypes: tagTypesList,
   endpoints: (builder) => ({
     getMe: builder.query<{ data: User }, void>({
       query: () => '/customer-or-worker/me',
+      providesTags:[tagTypes.users]
     }),
   }),
 });

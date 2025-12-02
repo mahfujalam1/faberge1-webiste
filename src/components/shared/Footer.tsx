@@ -82,15 +82,15 @@ const Footer: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-4 justify-center md:justify-end">
-            <a href="https://www.facebook.com/ihbsworldwide" className="hover:text-white transition" target="_blank" rel="noopener noreferrer">
+            <Link href="https://www.facebook.com/ihbsworldwide" className="hover:text-white transition" target="_blank" rel="noopener noreferrer">
               <Facebook size={20} />
-            </a>
-            <a href="https://www.instagram.com/inhomebeautyservices" className="hover:text-white transition" target="_blank" rel="noopener noreferrer">
+            </Link>
+            <Link href="https://www.instagram.com/inhomebeautyservices" className="hover:text-white transition" target="_blank" rel="noopener noreferrer">
               <Instagram size={20} />
-            </a>
-            <a href="https://www.tiktok.com/@inhomebeautyservices" className="hover:text-white transition" target="_blank" rel="noopener noreferrer">
+            </Link>
+            <Link href="https://www.tiktok.com/@inhomebeautyservices" className="hover:text-white transition" target="_blank" rel="noopener noreferrer">
               <PiTiktokLogoBold size={20} />
-            </a>
+            </Link>
           </div>
 
         </div>

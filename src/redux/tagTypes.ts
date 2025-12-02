@@ -1,12 +1,39 @@
+
 export enum tagTypes {
   users = "users",
-  auth = 'auth',
-  posts = "posts",
-  comments = "comments",
+  services = "services",
+  dashboard = "dashboard",
+  analytics = "analytics",
+  notifications = "notifications",
+  bookings = "bookings",
+  transactions = "transactions",
+  managers = "managers",
+  workers = "workers",
+  states = "states",
   profile = "profile",
-  likes = "likes",
-  dislikes = "dislikes",
-  payments = 'payments'
-}
+  privacy = "privacy",
+  termsCondition = "termsCondition",
+  helpSupport = "helpSupport",
+  siteContent = "siteContent",
+};
 
-export const tagTypeList = [tagTypes.users, tagTypes.auth, tagTypes.payments, tagTypes.likes, tagTypes.dislikes, tagTypes.comments, tagTypes.posts, tagTypes.profile];
+export const tagTypesList = [
+  tagTypes.analytics,
+  tagTypes.bookings,
+  tagTypes.dashboard,
+  tagTypes.helpSupport,
+  tagTypes.notifications,
+  tagTypes.transactions,
+  tagTypes.managers,
+  tagTypes.workers,
+  tagTypes.services,
+  tagTypes.states,
+  tagTypes.privacy,
+  tagTypes.profile,
+  tagTypes.termsCondition,
+  tagTypes.users,
+  tagTypes.siteContent,
+];
+
+
+
