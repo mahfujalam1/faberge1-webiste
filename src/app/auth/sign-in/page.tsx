@@ -16,6 +16,9 @@ import { useLazyGetMeQuery } from "@/redux/api/baseApi"
 import { useDispatch } from "react-redux"
 import { setUser } from "@/redux/features/user/userSlice"
 import { toast } from "sonner"
+import { loginUser } from "@/services/actions/loginUser";
+import { storeUserInfo } from "@/services/authServices";
+import setAccessTokenToCookies from "@/services/actions/setAccessTokenToCookie";
 
 function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
@@ -32,42 +35,19 @@ function LoginForm() {
     e.preventDefault()
 
     try {
-      const res = await login({ email, password }).unwrap()
+      const data = { email, password }
+      const res = await loginUser(data)
 
       if (res?.token) {
-        // Set token in cookie
-        Cookies.set('auth-token', res.token, {
-          expires: rememberMe ? 30 : 7,
-          sameSite: 'lax',
-          secure: process.env.NODE_ENV === 'production',
-          path: '/'
+        storeUserInfo(res?.token);
+        setAccessTokenToCookies(res?.token, {
+          redirect: "/",
         });
-
-        // Fetch user profile
-        const userData = await getMe().unwrap()
-
-        // Store user data in cookie
-        Cookies.set('user', JSON.stringify(userData.data), {
-          expires: rememberMe ? 30 : 7,
-          sameSite: 'lax',
-          secure: process.env.NODE_ENV === 'production',
-          path: '/'
-        });
-
-        // Also store in Redux for immediate access
-        dispatch(setUser(userData.data))
-
-        toast.success("Login successful!")
-
-        // Role based redirect
-        if (userData.data.role === 'worker') {
-          router.push('/dashboard')
-        } else {
-          router.push('/')
-        }
+        router.push('/')
+        toast.success("User login successfully");
       }
     } catch (error: any) {
-      console.error('Login failed:', error)
+      console.log('Login failed:', error)
       toast.error(error?.data?.message || "Login failed. Please try again.")
     }
   }

@@ -2,7 +2,6 @@
 
 import { BookingTabs } from "@/components/myBookings/BookingTabs";
 import { Pagination } from "@/components/myBookings/Pagination";
-// import { DynamicBanner } from "@/components/shared/DynamicBanner";
 import { bookings } from "@/constants/booking";
 import Link from "next/link";
 import { useState } from "react";
@@ -10,8 +9,6 @@ import { useState } from "react";
 export default function BookingsPage() {
     const [, setCurrentPage] = useState(1);
     const pageSize = 2;
-
-    const role = 'worker'
 
     return (
         <div>
@@ -26,7 +23,7 @@ export default function BookingsPage() {
                             onPageChange={setCurrentPage}
                         />
                         {
-                            !role && <Link href={'/bookings'} className="flex justify-center lg:justify-end mt-5">
+                            <Link href={'/bookings'} className="flex justify-center lg:justify-end mt-5">
                                 <button
                                     type="submit"
                                     className="w-full sm:w-auto px-12 py-3 cursor-pointer bg-primary hover:bg-pink-700 text-white font-semibold rounded-md transition-colors duration-200 shadow-md hover:shadow-lg"
