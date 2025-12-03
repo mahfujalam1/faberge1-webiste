@@ -1,35 +1,25 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import { toast } from "sonner"  
+import { toast } from "sonner"
 
-interface CalendarGridProps {
-    totalDays: number
-    firstDay: number
-    getDayStatus: (day: number) => "available" | "booked" | "unavailable" | "Completed"
-    handleDayClick: (date: string, status: string) => void
-    selectedYear: string
-    monthIndex: number
-}
 
-export default function CalendarGrid({
-    totalDays,
-    firstDay,
-    getDayStatus,
-    handleDayClick,
-    selectedYear,
-    monthIndex,
-}: CalendarGridProps) {
+
+export default function CalendarGrid({ calenderData }: { calenderData: any[] }) {
+    console.log(calenderData)
     const getStatusColor = (status: string) => {
+        console.log(status)
         switch (status) {
-            case "available":
+            case "bg-white":
                 return "bg-white shadow-lg  cursor-pointer text-black"
-            case "booked":
+            case "bg-green-500":
                 return "bg-green-500 shadow-lg text-white cursor-pointer"
-            case "unavailable":
+            case "bg-red-500":
                 return "bg-red-500 shadow-lg text-white cursor-pointer"
-            case "Completed":
+            case "bg-gray-400":
                 return "bg-gray-400 shadow-lg text-black cursor-pointer"
+            case "bg-gray-200":
+                return "bg-gray-200 shadow-lg cursor-not-allowed text-gray-800"
             default:
                 return "bg-gray-200 shadow-lg cursor-not-allowed text-gray-800"
         }
@@ -37,13 +27,21 @@ export default function CalendarGrid({
 
     // 🔹 handle click logic
     const handleClick = (date: string, status: string) => {
-        if (status === "unavailable") {
-            toast.warning("This a weekend date.")
-            return
+        if (status === "bg-red-500") {
+            toast.warning(`This a weekend date: ${date} is unavailable.`)
         }
 
-        handleDayClick(date, status)
+        // handleDayClick(date, status)
     }
+    const date = "" // placeholder for date and status
+    const status = "" // placeholder for date and status
+
+    // Get the first day of the month (0 = Sunday, 1 = Monday, etc.)
+    const firstDay = calenderData.length > 0 ? new Date(calenderData[0].date).getDay() : 0
+    // Adjust for Monday-based week (0 = Monday, 6 = Sunday)
+    const adjustedFirstDay = firstDay === 0 ? 6 : firstDay - 1
+
+    const totalDays = calenderData
 
     return (
         <div className="grid grid-cols-7 gap-3 sm:gap-4 text-center text-xs sm:text-sm">
@@ -53,28 +51,24 @@ export default function CalendarGrid({
                 </div>
             ))}
 
-            {Array.from({ length: firstDay }).map((_, i) => (
+            {Array.from({ length: adjustedFirstDay }).map((_, i) => (
                 <div key={`empty-${i}`} />
             ))}
 
-            {Array.from({ length: totalDays }).map((_, i) => {
+            {Array.from(totalDays)?.map((data, i) => {
                 const day = i + 1
-                const status = getDayStatus(day)
-                const date = `${selectedYear}-${String(monthIndex + 1).padStart(
-                    2,
-                    "0"
-                )}-${String(day).padStart(2, "0")}`
+                console.log(data)
 
                 return (
                     <button
                         key={day}
-                        onClick={() => handleClick(date, status)}
+                        onClick={() => handleClick(data?.date, data?.color)}
                         className={cn(
                             "rounded-lg py-3 sm:py-4 text-xs sm:text-sm font-medium transition w-full",
-                            getStatusColor(status)
+                            getStatusColor(data?.color)
                         )}
                     >
-                        {day}
+                        {data?.day}
                     </button>
                 )
             })}

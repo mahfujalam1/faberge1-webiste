@@ -11,7 +11,7 @@ export const authApi = baseApi.injectEndpoints({
                     body: data,
                 };
             },
-            invalidatesTags: [tagTypes.users, tagTypes.auth,],
+            invalidatesTags: [tagTypes.users],
         }),
         forgotPassowrd: build.mutation({
             query: (data) => {
@@ -21,7 +21,7 @@ export const authApi = baseApi.injectEndpoints({
                     body: data,
                 };
             },
-            invalidatesTags: [tagTypes.users, tagTypes.auth],
+            invalidatesTags: [tagTypes.users],
         }),
         getProfile: build.query({
             query: () => {
@@ -31,7 +31,7 @@ export const authApi = baseApi.injectEndpoints({
                 };
             },
             providesTags: [
-                tagTypes.users, tagTypes.auth,
+                tagTypes.users,
             ],
         }),
 
@@ -43,7 +43,7 @@ export const authApi = baseApi.injectEndpoints({
                     body: data,
                 };
             },
-            invalidatesTags: [tagTypes.users, tagTypes.auth],
+            invalidatesTags: [tagTypes.users],
         }),
 
         updateUserRole: build.mutation({
@@ -55,7 +55,7 @@ export const authApi = baseApi.injectEndpoints({
                     body: { role },
                 };
             },
-            invalidatesTags: [tagTypes.users, tagTypes.auth],
+            invalidatesTags: [tagTypes.users],
         }),
     }),
 });

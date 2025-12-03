@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import {
     Dialog,
     DialogContent,
@@ -17,11 +17,10 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { CalendarIcon } from "lucide-react"
 import { format } from "date-fns"
 import { cn } from "@/lib/utils"
+import { useAssignOfDayMutation, useGetAvailableSlotQuery, useUpdateAvailabilityMutation } from "@/redux/api/calenderApi"
+import { useGetMeQuery } from "@/redux/api/baseApi"
+import { toast } from "sonner"
 
-const TIME_SLOTS = [
-    "09:30 AM", "10:30 AM", "11:30 AM", "12:30 PM", "01:30 PM",
-    "02:30 PM", "03:30 PM", "04:30 PM", "05:30 PM", "06:30 PM", "07:30 PM",
-]
 
 interface CalendarModalProps {
     open: boolean
@@ -29,29 +28,55 @@ interface CalendarModalProps {
 }
 
 export default function CalendarModal({ open, onOpenChange }: CalendarModalProps) {
+    const worker = useGetMeQuery()
+    console.log(worker, "worker")
     const [selectedDate, setSelectedDate] = useState<Date | undefined>()
     const [selectedTimes, setSelectedTimes] = useState<string[]>([])
     const [isTimeDropdownOpen, setIsTimeDropdownOpen] = useState(false)
+    const [isOffDay, setIsOffDay] = useState(false)
+    const [isTimeSlotDisabled, setIsTimeSlotDisabled] = useState(false)
+    const workerId = worker?.data?.data?._id;
+    const dateFormat = selectedDate ? format(selectedDate, "yyyy-MM-dd") : "";
+    console.log(workerId)
+
+    const [updateAvailability, { isLoading }] = useUpdateAvailabilityMutation()
+    const [assignOffDay, { isLoading: isAssigningOffDay }] = useAssignOfDayMutation()
+    const { data } = useGetAvailableSlotQuery({ workerId, date: dateFormat })
+    console.log(data?.data?.slots, "time slot...")
+    const TIME_SLOTS = data?.data?.slots || [];
+
+    // Filter only available time slots (isAvailable === true)
+    const availableTimeSlots = TIME_SLOTS.filter((slot: any) => slot?.isAvailable === true)
 
     const handleTimeToggle = (time: string) => {
+        if (isTimeSlotDisabled) return
         setSelectedTimes((prev) =>
             prev.includes(time) ? prev.filter((t) => t !== time) : [...prev, time]
         )
     }
 
-    const handleSave = () => {
-        if (!selectedDate || selectedTimes.length === 0) return
+    const handleSave = async () => {
+        if (!selectedDate || (selectedTimes.length === 0 && !isOffDay)) return
 
-        console.log({
-            date: format(selectedDate, "PPP"),
-            times: selectedTimes,
-        })
+        try {
+            // Call updateAvailability API with date and unavailableSlots
+            await updateAvailability({
+                date: dateFormat,
+                unavailableSlots: selectedTimes
+            }).unwrap()
 
-        // Reset after save
-        setSelectedDate(undefined)
-        setSelectedTimes([])
-        setIsTimeDropdownOpen(false)
-        onOpenChange(false)
+            toast.success("Availability updated successfully")
+
+            // Reset after save
+            setSelectedDate(undefined)
+            setSelectedTimes([])
+            setIsTimeDropdownOpen(false)
+            setIsOffDay(false)
+            setIsTimeSlotDisabled(false)
+            onOpenChange(false)
+        } catch (error) {
+            toast.error("Failed to update availability")
+        }
     }
 
     const handleOpenChange = (newOpen: boolean) => {
@@ -59,8 +84,25 @@ export default function CalendarModal({ open, onOpenChange }: CalendarModalProps
             setSelectedDate(undefined)
             setSelectedTimes([])
             setIsTimeDropdownOpen(false)
+            setIsOffDay(false)
+            setIsTimeSlotDisabled(false)
         }
         onOpenChange(newOpen)
+    }
+
+    const handleAssignOffDay = async (checked: boolean) => {
+        if (dateFormat) {
+            try {
+                // API hit to assign off day
+               const res=  await assignOffDay({ date: dateFormat }).unwrap()
+               console.log(res)
+                toast.success("Off day assigned successfully")
+            } catch (error) {
+                toast.error("Failed to assign off day")
+            }
+        } else {
+            toast.error("Date dose't providing") // Re-enable time slots
+        }
     }
 
     const shouldShowTimeSelection = !!selectedDate
@@ -108,30 +150,52 @@ export default function CalendarModal({ open, onOpenChange }: CalendarModalProps
                         </Popover>
                     </div>
 
-                    {/* Time Selection */}
+                    {/* Off Day Checkbox */}
                     {shouldShowTimeSelection && (
+                        <div className="flex items-center space-x-2">
+                            <Checkbox
+                                id="offDay"
+                                checked={isOffDay}
+                                onCheckedChange={handleAssignOffDay}
+                            />
+                            <Label
+                                htmlFor="offDay"
+                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                            >
+                                This date are off day
+                            </Label>
+                        </div>
+                    )}
+
+                    {/* Time Selection */}
+                    {shouldShowTimeSelection && availableTimeSlots.length > 0 && (
                         <div className="space-y-2 animate-in fade-in-50 duration-200 w-full">
                             <Label>Select Time</Label>
                             <div className="relative w-full">
-                                <div className="relative w-full mt-1 bg-white border border-gray-300 rounded-md shadow-sm">
+                                <div className={cn(
+                                    "relative w-full mt-1 bg-white border border-gray-300 rounded-md shadow-sm",
+                                    isTimeSlotDisabled && "opacity-50 pointer-events-none"
+                                )}>
                                     <div className="max-h-56 overflow-y-auto divide-y">
-                                        {TIME_SLOTS.map((time) => {
-                                            const isSelected = selectedTimes.includes(time)
+                                        {availableTimeSlots?.map((time: any) => {
+                                            const isSelected = selectedTimes.includes(time?.startTime)
                                             return (
                                                 <div
-                                                    key={time}
+                                                    key={time?.startTime}
                                                     className={cn(
                                                         "flex items-center space-x-2 px-3 py-2 cursor-pointer hover:bg-gray-100",
-                                                        isSelected && "bg-pink-50"
+                                                        isSelected && "bg-pink-50",
+                                                        isTimeSlotDisabled && "cursor-not-allowed"
                                                     )}
-                                                    onClick={() => handleTimeToggle(time)}
+                                                    onClick={() => handleTimeToggle(time?.startTime)}
                                                 >
                                                     <Checkbox
                                                         checked={isSelected}
-                                                        onCheckedChange={() => handleTimeToggle(time)}
+                                                        disabled={isTimeSlotDisabled}
+                                                        onCheckedChange={() => handleTimeToggle(time?.startTime)}
                                                         className="pointer-events-none"
                                                     />
-                                                    <span className="text-sm">{time}</span>
+                                                    <span className="text-sm">{time?.startTime}</span>
                                                 </div>
                                             )
                                         })}
@@ -148,10 +212,10 @@ export default function CalendarModal({ open, onOpenChange }: CalendarModalProps
                     </Button>
                     <Button
                         onClick={handleSave}
-                        disabled={!selectedDate || selectedTimes.length === 0}
+                        disabled={!selectedDate || (selectedTimes.length === 0 && !isOffDay) || isLoading}
                         className="bg-pink-600 hover:bg-pink-700"
                     >
-                        Save
+                        {isLoading ? "Saving..." : "Save"}
                     </Button>
                 </DialogFooter>
 
