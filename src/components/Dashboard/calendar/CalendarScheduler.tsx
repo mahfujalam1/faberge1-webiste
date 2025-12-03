@@ -6,6 +6,7 @@ import CalendarGrid from "./CalendarGrid"
 import CalendarModal from "./CalendarModal"
 import { Button } from "@/components/ui/button"
 import UpdateScheduleModal from "./UpdateScheduleModal"
+import { useGetCalenderScheduleQuery } from "@/redux/api/calenderApi"
 
 interface DayStatus {
     date: string
@@ -27,60 +28,61 @@ const mockAvailability: (Omit<DayStatus, "status"> & { status: "available" | "bo
 const daysInMonth = (month: number, year: number) => new Date(year, month, 0).getDate()
 
 export default function CalendarScheduler() {
-    const [selectedMonth, setSelectedMonth] = useState("October")
-    const [selectedYear, setSelectedYear] = useState("2025")
+    const [selectedMonth, setSelectedMonth] = useState<number>(new Date().getMonth() + 1)
+    const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear())
     const [selectedDate, setSelectedDate] = useState<string | null>(null)
     const [open, setOpen] = useState(false)
     const [updateModalOpen, setUpdateModalOpen] = useState(false)
 
-    const monthIndex = new Date(`${selectedMonth} 1, ${selectedYear}`).getMonth()
-    const totalDays = daysInMonth(monthIndex + 1, parseInt(selectedYear))
-    const firstDay = new Date(parseInt(selectedYear), monthIndex, 1).getDay()
-    const today = new Date()
+    const { data } = useGetCalenderScheduleQuery({ year: selectedYear, month: selectedMonth });
+    console.log(data?.data, "===calender data===");
+    const calenderData = data?.data || [];
+
+
 
     // ✅ Build merged calendar with availability + Completed days
-    const fullMonthData: DayStatus[] = useMemo(() => {
-        const allDates: DayStatus[] = Array.from({ length: totalDays }, (_, i) => {
-            const day = i + 1
-            const dateStr = `${selectedYear}-${String(monthIndex + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`
-            const dateObj = new Date(dateStr)
-            const isCompleted = dateObj < new Date(today.getFullYear(), today.getMonth(), today.getDate())
+    // const fullMonthData: DayStatus[] = useMemo(() => {
+    //     const allDates: DayStatus[] = Array.from({ length: totalDays }, (_, i) => {
+    //         const day = i + 1
+    //         const dateStr = `${selectedYear}-${String(monthIndex + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`
+    //         const dateObj = new Date(dateStr)
+    //         const isCompleted = dateObj < new Date(today.getFullYear(), today.getMonth(), today.getDate())
 
-            const found = mockAvailability.find((d) => d.date === dateStr)
+    //         const found = mockAvailability.find((d) => d.date === dateStr)
 
-            // Found in mock data
-            if (found) {
-                if (found.status === "unavailable") {
-                    return { date: dateStr, status: "unavailable" }
-                }
-                if (isCompleted) {
-                    return { date: dateStr, status: "Completed" }
-                }
-                return found
-            }
+    //         // Found in mock data
+    //         if (found) {
+    //             if (found.status === "unavailable") {
+    //                 return { date: dateStr, status: "unavailable" }
+    //             }
+    //             if (isCompleted) {
+    //                 return { date: dateStr, status: "Completed" }
+    //             }
+    //             return found
+    //         }
 
-            // Not found
-            if (isCompleted) return { date: dateStr, status: "Completed" }
+    //         // Not found
+    //         if (isCompleted) return { date: dateStr, status: "Completed" }
 
-            return { date: dateStr, status: "unavailable" }
-        })
-        return allDates
-    }, [selectedMonth, selectedYear, monthIndex, today, totalDays])
+    //         return { date: dateStr, status: "unavailable" }
+    //     })
+    //     return allDates
+    // }, [selectedMonth, selectedYear, monthIndex, today, totalDays])
 
     // ✅ Handle clicking on a day
-    const handleDayClick = (date: string, status: string) => {
-        if (status === "available" || status === "booked" || status === "Completed") {
-            setSelectedDate(date)
-            setOpen(true)
-        }
-    }
+    // const handleDayClick = (date: string, status: string) => {
+    //     if (status === "available" || status === "booked" || status === "Completed") {
+    //         setSelectedDate(date)
+    //         setOpen(true)
+    //     }
+    // }
 
     // ✅ Get the status for each day
-    const getDayStatus = (day: number): DayStatus["status"] => {
-        const date = `${selectedYear}-${String(monthIndex + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`
-        const found = fullMonthData.find((d) => d.date === date)
-        return found ? found.status : "unavailable"
-    }
+    // const getDayStatus = (day: number): DayStatus["status"] => {
+    //     const date = `${selectedYear}-${String(monthIndex + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`
+    //     const found = fullMonthData.find((d) => d.date === date)
+    //     return found ? found.status : "unavailable"
+    // }
 
     return (
         <div className="max-w-xl w-full mx-auto p-6 sm:p-8 bg-white rounded-xl shadow-sm">
@@ -111,14 +113,7 @@ export default function CalendarScheduler() {
             />
 
             {/* 🔹 Calendar Grid */}
-            <CalendarGrid
-                totalDays={totalDays}
-                firstDay={firstDay}
-                getDayStatus={getDayStatus}
-                handleDayClick={handleDayClick}
-                selectedYear={selectedYear}
-                monthIndex={monthIndex}
-            />
+            <CalendarGrid calenderData={calenderData} />
 
             {/* 🔹 Update Schedule Button */}
             <div className="flex justify-center mt-6">
@@ -131,7 +126,7 @@ export default function CalendarScheduler() {
             </div>
 
             {/* 🔹 Modals */}
-            <CalendarModal
+            {/* <CalendarModal
                 open={open}
                 onOpenChange={setOpen}
                 selectedDate={selectedDate}
@@ -140,7 +135,7 @@ export default function CalendarScheduler() {
                         ? fullMonthData.find((d) => d.date === selectedDate)?.status || null
                         : null
                 }
-            />
+            /> */}
 
             <UpdateScheduleModal open={updateModalOpen} onOpenChange={setUpdateModalOpen} />
         </div>

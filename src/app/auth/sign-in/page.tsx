@@ -2,7 +2,6 @@
 
 import type React from "react"
 import { useState } from "react"
-import Cookies from 'js-cookie';
 import { Eye, EyeOff } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -12,11 +11,7 @@ import Image from "next/image"
 import { IMAGES } from "@/constants/image.index"
 import { useRouter } from "next/navigation"
 import { useLoginUserMutation } from "@/redux/api/authApi"
-import { useLazyGetMeQuery } from "@/redux/api/baseApi"
-import { useDispatch } from "react-redux"
-import { setUser } from "@/redux/features/user/userSlice"
 import { toast } from "sonner"
-import { loginUser } from "@/services/actions/loginUser";
 import { storeUserInfo } from "@/services/authServices";
 import setAccessTokenToCookies from "@/services/actions/setAccessTokenToCookie";
 
@@ -27,8 +22,6 @@ function LoginForm() {
   const [rememberMe, setRememberMe] = useState(false)
 
   const [login, { isLoading }] = useLoginUserMutation()
-  const [getMe] = useLazyGetMeQuery()
-  const dispatch = useDispatch()
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -36,15 +29,19 @@ function LoginForm() {
 
     try {
       const data = { email, password }
-      const res = await loginUser(data)
+      const res = await login(data)
+      console.log(res)
 
-      if (res?.token) {
-        storeUserInfo(res?.token);
-        setAccessTokenToCookies(res?.token, {
+      if (res?.data?.token) {
+        storeUserInfo(res?.data?.token);
+        setAccessTokenToCookies(res?.data?.token, {
           redirect: "/",
         });
         router.push('/')
         toast.success("User login successfully");
+      } else {
+        const errorMessage = (res?.error as any)?.data?.message || "Login failed. Please try again.";
+        errorMessage && toast.error(errorMessage);
       }
     } catch (error: any) {
       console.log('Login failed:', error)

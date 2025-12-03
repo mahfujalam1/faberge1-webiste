@@ -3,10 +3,10 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 interface CalendarHeaderProps {
-    selectedMonth: string
-    selectedYear: string
-    onMonthChange: (value: string) => void
-    onYearChange: (value: string) => void
+    selectedMonth: number
+    selectedYear: number
+    onMonthChange: (value: number) => void
+    onYearChange: (value: number) => void
 }
 
 export default function CalendarHeader({
@@ -20,28 +20,31 @@ export default function CalendarHeader({
         "July", "August", "September", "October", "November", "December"
     ]
 
-    const years = ["2025", "2026", "2027", "2028", "2029", "2030", "2031", "2032"]
+    const currentYear = new Date().getFullYear()
+    const startYear = 2025
+    const yearCount = currentYear - startYear + 1
+    const years = Array.from({ length: yearCount }, (_, i) => startYear + i)
 
     return (
         <div className="flex justify-between gap-10 mb-4">
-            <Select value={selectedMonth} onValueChange={onMonthChange}>
+            <Select value={selectedMonth.toString()} onValueChange={(value) => onMonthChange(Number(value))}>
                 <SelectTrigger className="w-[140px] md:w-[300px]">
                     <SelectValue placeholder="Month" />
                 </SelectTrigger>
                 <SelectContent>
-                    {months.map((m) => (
-                        <SelectItem key={m} value={m}>{m}</SelectItem>
+                    {months.map((m, index) => (
+                        <SelectItem key={m} value={(index + 1).toString()}>{m}</SelectItem>
                     ))}
                 </SelectContent>
             </Select>
 
-            <Select value={selectedYear} onValueChange={onYearChange}>
+            <Select value={selectedYear.toString()} onValueChange={(value) => onYearChange(Number(value))}>
                 <SelectTrigger className="w-[140px] md:w-[300px]">
                     <SelectValue placeholder="Year" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="max-h-[200px] overflow-y-auto">
                     {years.map((y) => (
-                        <SelectItem key={y} value={y}>{y}</SelectItem>
+                        <SelectItem key={y} value={y.toString()}>{y}</SelectItem>
                     ))}
                 </SelectContent>
             </Select>
