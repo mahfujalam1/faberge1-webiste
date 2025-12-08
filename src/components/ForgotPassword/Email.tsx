@@ -1,11 +1,10 @@
 "use client"
-
 import type React from "react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import Image from "next/image"
-import { IMAGES } from "@/constants/image.index"
+import { useForgotPassowrdMutation } from "@/redux/api/authApi"
+import { toast } from "sonner"
 
 interface StepOneEmailProps {
     onContinue: (email: string) => void
@@ -13,12 +12,18 @@ interface StepOneEmailProps {
 
 export function StepOneEmail({ onContinue }: StepOneEmailProps) {
     const [email, setEmail] = useState("")
+    const [forgotPassword, { isLoading }] = useForgotPassowrdMutation()
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         if (email && email.includes("@")) {
-            console.log("[v0] Email submitted:", email)
-            onContinue(email)
+            const res = await forgotPassword({ email })
+            if (res?.data) {
+                toast.success("Code sent to email.")
+                onContinue(email) // Proceed to next step with the email
+            } else if (res?.error) {
+                toast.error((res?.error as any)?.data?.message)
+            }
         }
     }
 
@@ -26,33 +31,10 @@ export function StepOneEmail({ onContinue }: StepOneEmailProps) {
 
     return (
         <div className="w-full max-w-xl mx-auto pb-16">
-            {/* Logo */}
-            <div className="mb-8 flex justify-center">
-                <div className="text-center">
-                    <div className="mb-2 flex items-center justify-center">
-                        <div className="relative ">
-                            <Image
-                                src={IMAGES.logo.src}
-                                alt="IHBS Logo"
-                                width={200}
-                                height={200}
-                                className="object-cover"
-                            />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* Title */}
             <h1 className="mb-8 text-center font-serif text-4xl font-normal text-gray-900">Forgot Password</h1>
-
-            {/* Form */}
             <form className="space-y-6" onSubmit={handleSubmit}>
-                {/* Email Field */}
                 <div>
-                    <label htmlFor="email" className="mb-2 block text-sm font-medium text-gray-900">
-                        Email
-                    </label>
+                    <label htmlFor="email" className="mb-2 block text-sm font-medium text-gray-900">Email</label>
                     <Input
                         id="email"
                         type="email"
@@ -62,14 +44,12 @@ export function StepOneEmail({ onContinue }: StepOneEmailProps) {
                         onChange={(e) => setEmail(e.target.value)}
                     />
                 </div>
-
-                {/* Send Code Button */}
                 <Button
                     type="submit"
-                    disabled={!isValid}
+                    disabled={!isValid || isLoading}
                     className="h-12 w-full rounded-lg bg-black text-base font-medium text-white hover:bg-gray-800 disabled:opacity-50"
                 >
-                    Send Code
+                    {isLoading ? "Sending..." : "Send Code"}
                 </Button>
             </form>
         </div>

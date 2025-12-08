@@ -3,8 +3,6 @@
 import { BookingCard } from "@/components/myBookings/BookingCard";
 import { BookingTabs } from "@/components/myBookings/BookingTabs";
 import { Button } from "@/components/ui/button";
-import { WorkerBookingCard } from "@/components/workerBookings/WorkerBookingCard";
-import { WorkerBookingTab } from "@/components/workerBookings/WorkerBookingTab";
 import { useGetAllBookingsForCustomerQuery } from "@/redux/api/bookingApi";
 import { useState } from "react";
 
@@ -23,23 +21,18 @@ export default function AllBookings() {
         status: tab === "" ? undefined : tab,
         filterType: filterType === "" ? undefined : filterType,
     });
-    console.log(data)
 
     // Flatten the bookings from the grouped date structure
     const bookings = data?.data
         ? Object.values(data.data).flat()
         : [];
 
-    console.log(bookings)
 
     const pagination = data?.pagination;
 
     const filteredBookings = bookings.filter((b: any) =>
         tab === "" ? true : b.status === tab
     );
-
-    console.log('Upcoming Bookings:', bookings);
-    console.log('Pagination:', pagination);
 
     // Pagination handlers
     const handlePageChange = (page: number) => {

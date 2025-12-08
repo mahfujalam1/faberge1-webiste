@@ -3,14 +3,10 @@
 import StepTwoPassword, { PasswordData } from "@/components/Register/Password"
 import StepThreePhoto, { PhotoData } from "@/components/Register/Photo"
 import StepOneProfile, { ProfileData } from "@/components/Register/Profile"
-import { useAuth } from "@/contexts/auth-context"
-import { useRouter } from "next/navigation"
 import { useState } from "react"
 
 export default function RegisterPage() {
   const [currentStep, setCurrentStep] = useState(1)
-  const { register } = useAuth()
-  const router = useRouter()
   const [registrationData, setRegistrationData] = useState<{
     profile?: ProfileData
     password?: PasswordData
@@ -33,13 +29,9 @@ export default function RegisterPage() {
       ...registrationData,
       photo: data,
     }
-    console.log("[v0] Registration Complete! All data:", Completedata)
-
-    const role = 'worker'
 
     if (Completedata.profile?.email) {
-      register(Completedata.profile.email)
-      router.push("/dashboard")
+      // router.push("/dashboard")
     }
   }
 
@@ -102,7 +94,7 @@ export default function RegisterPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-tr from-[#fdeaea] via-[#fff1f3] to-[#ffdae1] p-4">
-      <div className="bg-white rounded-xl shadow-md w-full max-w-2xl p-10">{renderStep()}</div>
+      <div className="bg-white rounded-xl shadow-md w-full max-w-6xl p-10">{renderStep()}</div>
     </div>
   )
 }

@@ -11,7 +11,6 @@ const Banner = () => {
     const user = getUserInfo();
     const { data } = useGetAllDynamicBannerQuery(undefined);
     const bannerVideo = data?.data.find((banner: any) => banner.title === 'home');
-    console.log(bannerVideo?.video);
 
     // State to track if component has mounted on the client side
     const [isClient, setIsClient] = useState(false);

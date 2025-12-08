@@ -60,14 +60,12 @@ export default function StepOneProfile({ onContinue, onPrev, currentStep, initia
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         if (isValid) {
-            console.log("[v0] Step 1 - Profile Data:", formData)
             onContinue(formData)
         }
     }
 
     const handleNextClick = () => {
         if (isValid) {
-            console.log("[v0] Step 1 - Profile Data (via Next):", formData)
             onContinue(formData)
         }
     }

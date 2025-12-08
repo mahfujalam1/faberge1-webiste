@@ -1,12 +1,22 @@
 "use client";
 
+import { BookingItem } from "@/types/booking/appointment";
 import { X } from "lucide-react";
-import { BookingCartProps } from "@/types/booking/appointment";
+
+// Define the types for the BookingItem, AddOn, and Props
+
+
+interface BookingCartProps {
+    bookings: BookingItem[];
+    memberName: string;
+    workerId: string;
+    onCheckout: () => void;
+    isLoading: boolean;
+}
 
 interface Props extends BookingCartProps {
     onRemove?: (index: number) => void;
     onClear?: () => void;
-    isLoading: boolean
 }
 
 export default function BookingCart({
@@ -18,7 +28,7 @@ export default function BookingCart({
     onRemove,
     onClear,
 }: Props) {
-    console.log(bookings)
+    // If there are no bookings
     if (!bookings || bookings.length === 0)
         return (
             <div className="bg-white rounded-3xl shadow-2xl p-10 text-center text-gray-600 font-medium">
@@ -26,12 +36,12 @@ export default function BookingCart({
             </div>
         );
 
-    // 🔹 Total calculation
+    // Total calculation
     const calculateTotal = () => {
-        return bookings.reduce((total, booking: any) => {
+        return bookings.reduce((total, booking) => {
             const servicePrice = booking.service?.service.price;
             const addOnsPrice = booking.addOns.reduce(
-                (sum: number, addon: any) => sum + addon.subcategoryPrice,
+                (sum: number, addon) => sum + addon.subcategoryPrice,
                 0
             );
             return total + servicePrice + addOnsPrice;
@@ -54,10 +64,13 @@ export default function BookingCart({
                         </tr>
                     </thead>
                     <tbody>
-                        {bookings.map((booking: any, index) => {
+                        {bookings.map((booking, index) => {
                             const itemTotal =
                                 booking.service?.service.price +
-                                booking.addOns.reduce((sum: number, addon: any) => sum + addon.subcategoryPrice, 0);
+                                booking.addOns.reduce(
+                                    (sum: number, addon) => sum + addon.subcategoryPrice,
+                                    0
+                                );
 
                             return (
                                 <tr
@@ -71,7 +84,7 @@ export default function BookingCart({
                                         {booking.service?.service?.serviceName} ${booking.service?.service?.price}
                                     </td>
                                     <td className="py-3 px-2">
-                                        {booking.addOns?.map((addon: any) => `${addon.subcategoryName} $${addon.subcategoryPrice}`).join(", ") ||
+                                        {booking.addOns?.map((addon) => `${addon.subcategoryName} $${addon.subcategoryPrice}`).join(", ") ||
                                             "-"}
                                     </td>
                                     <td className="py-3 px-2 font-medium">${itemTotal}</td>

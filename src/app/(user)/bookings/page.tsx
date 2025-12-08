@@ -10,7 +10,6 @@ export default function BookingsPage() {
   const [selectedState, setSelectedState] = useState<string | null>(null)
   const { data } = useGetAllStateQuery(undefined)
   const statesData = data?.data || []
-  console.log(statesData)
 
   // ✅ Sort states alphabetically (A → Z)
   const sortedStates = useMemo(() => {

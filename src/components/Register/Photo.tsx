@@ -35,7 +35,6 @@ export default function StepThreePhoto({ onContinue, onPrev, initialData }: Step
                 setPhotoPreview(reader.result as string)
             }
             reader.readAsDataURL(file)
-            console.log("[v0] Photo selected:", file.name)
         }
     }
 
@@ -44,7 +43,6 @@ export default function StepThreePhoto({ onContinue, onPrev, initialData }: Step
     }
 
     const handleContinue = () => {
-        console.log("[v0] Step 3 - Photo Data:", { photoFile: photoFile?.name, hasPreview: !!photoPreview })
         onContinue({ photoUrl: photoPreview, photoFile })
     }
 

@@ -65,15 +65,11 @@ export default function CalendarModal({
 
     // Get status color based on slot conditions
     const getSlotStatusColor = (slot: any) => {
-        console.log(slot)
         if (!slot.isAvailable && slot.isBooked && !slot.isBlocked) {
-            console.log('booked status')
             return "bg-green-500" // Booked
         } else if (slot.isAvailable && !slot.isBooked && !slot.isBlocked) {
-            console.log('Available status')
             return "bg-white border-2" // Available
         } else if (!slot.isAvailable && !slot.isBooked && !slot.isBlocked) {
-            console.log('Unavailable status')
             return "bg-red-500" // Unavailable
         }
         return "bg-gray-500" // Default/Completed

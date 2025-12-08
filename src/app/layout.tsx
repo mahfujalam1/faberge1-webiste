@@ -1,7 +1,6 @@
 'use client'
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import { Metadata } from "next";
 import { Toaster } from "sonner";
 import { Provider } from "react-redux";
 import { store } from "@/redux/store";

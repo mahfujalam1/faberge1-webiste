@@ -30,7 +30,6 @@ function LoginForm() {
     try {
       const data = { email, password }
       const res = await login(data)
-      console.log(res)
 
       if (res?.data?.token) {
         storeUserInfo(res?.data?.token);
@@ -44,7 +43,6 @@ function LoginForm() {
         errorMessage && toast.error(errorMessage);
       }
     } catch (error: any) {
-      console.log('Login failed:', error)
       toast.error(error?.data?.message || "Login failed. Please try again.")
     }
   }
