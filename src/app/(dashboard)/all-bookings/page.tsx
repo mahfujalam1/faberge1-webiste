@@ -1,21 +1,17 @@
-"use client";
-
-import { BookingTabs } from "@/components/myBookings/BookingTabs";
-import { Pagination } from "@/components/myBookings/Pagination";
+'use client'
 import { Button } from "@/components/ui/button";
 import { WorkerBookingCard } from "@/components/workerBookings/WorkerBookingCard";
 import { WorkerBookingTab } from "@/components/workerBookings/WorkerBookingTab";
 import { useGetAllBookingsForWorkerQuery } from "@/redux/api/bookingApi";
-import Link from "next/link";
+import { Booking, Pagination } from "@/types/booking/bookings";
 import { useState } from "react";
+
+
 
 export default function AllBookings() {
     const [tab, setTab] = useState<"" | "booked" | "completed">("");
     const [filterType, setFilterType] = useState<"" | "upcoming" | "completed">("");
-
-
-
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState<number>(1);
     const limit = 4;
 
     const { data, isLoading, error } = useGetAllBookingsForWorkerQuery({
@@ -24,25 +20,14 @@ export default function AllBookings() {
         status: tab === "" ? undefined : tab,
         filterType: filterType === "" ? undefined : filterType,
     });
-    console.log(data)
 
-    // Flatten the bookings from the grouped date structure
-    const bookings = data?.data
-        ? Object.values(data.data).flat()
-        : [];
+    const bookings: Booking[] = data?.data ? (Object.values(data.data).flat() as Booking[]) : [];
+    const pagination: Pagination | undefined = data?.pagination;
 
-    console.log(bookings)
-
-    const pagination = data?.pagination;
-
-    const filteredBookings = bookings.filter((b: any) =>
+    const filteredBookings = bookings.filter((b: Booking) =>
         tab === "" ? true : b.status === tab
     );
 
-    console.log('Upcoming Bookings:', bookings);
-    console.log('Pagination:', pagination);
-
-    // Pagination handlers
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
     };
@@ -78,10 +63,8 @@ export default function AllBookings() {
         return buttons;
     };
 
-
     return (
         <div>
-            {/* <DynamicBanner title="My Bookings" /> */}
             <div className="min-h-screen bg-gradient-to-tr from-[#fdeaea] via-[#fff1f3] to-[#ffdae1] p-4 md:py-5">
                 <div className="container mx-auto">
                     <div className="p-8 bg-white">
@@ -96,11 +79,9 @@ export default function AllBookings() {
                             </div>
                         ) : filteredBookings.length > 0 ? (
                             <>
-                                {filteredBookings?.map((booking: any) => (
-                                    <WorkerBookingCard  key={booking._id} booking={booking} />
+                                {filteredBookings?.map((booking: Booking) => (
+                                    <WorkerBookingCard key={booking._id} booking={booking} />
                                 ))}
-
-                                {/* Pagination */}
                                 <div className="flex justify-center items-center space-x-4 py-4">
                                     <Button
                                         onClick={handlePreviousPage}
@@ -109,10 +90,7 @@ export default function AllBookings() {
                                     >
                                         Previous
                                     </Button>
-
-                                    {/* Dynamic page number buttons */}
                                     <div className="flex space-x-2">{renderPageButtons()}</div>
-
                                     <Button
                                         onClick={handleNextPage}
                                         disabled={currentPage === pagination?.totalPages}

@@ -38,7 +38,7 @@ export default function CalendarModal({ open, onOpenChange }: CalendarModalProps
     const dateFormat = selectedDate ? format(selectedDate, "yyyy-MM-dd") : "";
 
     const [updateAvailability, { isLoading }] = useUpdateAvailabilityMutation()
-    const [assignOffDay, { isLoading: isAssigningOffDay }] = useAssignOfDayMutation()
+    const [assignOffDay] = useAssignOfDayMutation()
     const { data } = useGetAvailableSlotQuery({ workerId, date: dateFormat })
     const availableTimeSlots = data?.data?.slots || [];
 
@@ -73,9 +73,7 @@ export default function CalendarModal({ open, onOpenChange }: CalendarModalProps
                 date: dateFormat,
                 unavailableSlots: selectedTimes
             }
-            console.log(data)
             const res = await updateAvailability(data)
-            console.log(res)
 
             if (res?.error) {
                 toast.error((res.error as any).data?.message)
@@ -90,7 +88,7 @@ export default function CalendarModal({ open, onOpenChange }: CalendarModalProps
             setIsOffDay(false)
             setIsTimeSlotDisabled(false)
             onOpenChange(false)
-        } catch (error) {
+        } catch (error:any) {
             toast.error("Failed to update availability")
         }
     }
@@ -113,7 +111,6 @@ export default function CalendarModal({ open, onOpenChange }: CalendarModalProps
         if (dateFormat) {
             try {
                 const res = await assignOffDay({ date: dateFormat })
-                console.log(res)
                 if (res?.error) {
                     toast.error((res.error as any)?.data.message || "Failed to assign off day")
                 } else {

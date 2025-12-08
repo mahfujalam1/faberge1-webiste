@@ -21,8 +21,6 @@ function RootLayout() {
 
     const pagination = data?.pagination;
 
-    console.log('Upcoming Bookings:', bookings);
-    console.log('Pagination:', pagination);
 
     // Pagination handlers
     const handlePageChange = (page: number) => {

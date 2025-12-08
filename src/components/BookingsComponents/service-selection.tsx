@@ -12,7 +12,6 @@ export default function ServiceSelectionTable({
 }: any) {
     const { data } = useGetSingleworkerQuery(workerId)
     const workerServices = data?.data?.services || [];
-    console.log(workerServices)
     const isServiceSelected = (time: string, service: any) => {
         return selectedSlots?.some((slot: any) => slot.time === time && slot.service._id === service._id)
     }

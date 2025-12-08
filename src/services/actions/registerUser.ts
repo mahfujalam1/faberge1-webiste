@@ -2,7 +2,6 @@
 type FieldValues = Record<string, any>;
 
 export const registerUser = async (values: FieldValues) => {
-  // console.log('hooks clg=>',values);
   const res = await fetch(
     `https://gardening-tips-platform-server.vercel.app/api/v1/user/create-user`,
     {

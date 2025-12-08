@@ -12,7 +12,7 @@ interface BookingCardProps {
 }
 
 export const WorkerBookingCard: React.FC<BookingCardProps> = ({ booking }) => {
-    const [user, setUser] = useState<any>(null);
+    const [, setUser] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {

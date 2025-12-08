@@ -23,7 +23,6 @@ const calendarApi = baseApi.injectEndpoints({
 
         updateAvailability: build.mutation({
             query: (data ) => {
-                console.log(data)
                 return {
                     url: `/time-slot/update-availability`,
                     method: "PATCH",

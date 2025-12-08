@@ -23,7 +23,7 @@ export default function CalendarComponent({
     setSelectedDate,
     availableSlots = null
 }: CalendarProps) {
-    const [mounted, setMounted] = useState(false)
+    const [, setMounted] = useState(false)
 
     useEffect(() => {
         setMounted(true)
@@ -44,24 +44,7 @@ export default function CalendarComponent({
         return date < today
     }
 
-    // Check if date should show error
-    const shouldShowError = (date: string) => {
-        if (!availableSlots) return false
 
-        // Check if date is in the past
-        if (isPastDate(date)) return true
-
-        // Check if it's an off day
-        if (availableSlots.offDay === false) return true
-
-        // Check if all slots are unavailable
-        if (availableSlots.slots && Array.isArray(availableSlots.slots)) {
-            const allUnavailable = availableSlots.slots.every((slot: any) => slot.isAvailable === false)
-            if (allUnavailable) return true
-        }
-
-        return false
-    }
 
     // Check if all slots are booked for display purposes
     const areAllSlotsBooked = (date: string) => {

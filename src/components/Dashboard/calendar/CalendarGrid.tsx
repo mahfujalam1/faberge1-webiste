@@ -6,7 +6,6 @@ import { toast } from "sonner"
 
 
 export default function CalendarGrid({ calenderData, setSelectedDate, setOpen }: { calenderData: any[], setSelectedDate: (date: string) => void, setOpen: (open: boolean) => void }) {
-    // console.log(calenderData)
     const getStatusColor = (status: string) => {
         switch (status) {
             case "bg-white":

@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useState } from "react"
 import CalendarHeader from "./CalendarHeader"
 import CalendarGrid from "./CalendarGrid"
 import CalendarModal from "./CalendarModal"
@@ -19,7 +19,6 @@ export default function CalendarScheduler() {
     const workerId = useGetMeQuery(undefined)?.data?.data?._id;
     const { data } = useGetCalenderScheduleQuery({ workerId, year: selectedYear, month: selectedMonth });
     const calenderData = data?.data || [];
-    console.log(calenderData)
 
 
     return (

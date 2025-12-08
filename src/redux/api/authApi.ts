@@ -16,13 +16,37 @@ export const authApi = baseApi.injectEndpoints({
         forgotPassowrd: build.mutation({
             query: (data) => {
                 return {
-                    url: `/auth/forgot-password`,
+                    url: `/customer-or-worker/forgot-password`,
                     method: "POST",
                     body: data,
                 };
             },
             invalidatesTags: [tagTypes.users],
         }),
+
+        verifyOtp: build.mutation({
+            query: (data) => {
+                return {
+                    url: `/customer-or-worker/verify-otp`,
+                    method: "POST",
+                    body: data,
+                };
+            },
+            invalidatesTags: [tagTypes.users],
+        }),
+
+
+        setNewPassword: build.mutation({
+            query: (data) => {
+                return {
+                    url: `/customer-or-worker/set-new-password`,
+                    method: "POST",
+                    body: data,
+                };
+            },
+            invalidatesTags: [tagTypes.users],
+        }),
+
         getProfile: build.query({
             query: () => {
                 return {
@@ -48,7 +72,6 @@ export const authApi = baseApi.injectEndpoints({
 
         updateUserRole: build.mutation({
             query: ({ id, role }) => {
-                console.log(id, role);
                 return {
                     url: `/user/update-role/${id}`,
                     method: "PATCH",
@@ -66,4 +89,6 @@ export const {
     useGetProfileQuery,
     useUpdateProfileMutation,
     useUpdateUserRoleMutation,
+    useSetNewPasswordMutation,
+    useVerifyOtpMutation
 } = authApi;

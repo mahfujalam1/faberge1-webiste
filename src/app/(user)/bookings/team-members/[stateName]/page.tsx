@@ -3,8 +3,6 @@
 import React from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
-import { MapPin } from "lucide-react"
-import teammembersData from "@/constants/team-members.json"
 import { IMAGES } from "@/constants/image.index"
 import { useGetAllWorkersQuery } from "@/redux/api/workerApi"
 // import { DynamicBanner } from "@/components/shared/DynamicBanner"
@@ -14,7 +12,6 @@ export default function TeamMembersPage() {
 
     const { data } = useGetAllWorkersQuery(undefined)
     const teamMembers = data?.data || []
-    console.log(teamMembers)
     const router = useRouter()
 
     const handleMemberClick = (workerId: string) => {

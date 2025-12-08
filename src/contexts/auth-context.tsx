@@ -36,7 +36,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                     const email = decoded.split("-")[0]
                     setUser({ email, role:'worker' })
                     setIsLoggedIn(true)
-                    console.log("[v0] User authenticated from cookie:", { email })
                 } catch (error) {
                     console.error("[v0] Invalid token:", error)
                     removeAuthToken()
@@ -46,31 +45,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
     }, [])
 
-    const login = (email: string, password: string) => {
-        console.log("[v0] Login attempt:", { email, password })
-        console.log(email, password)
+    const login = (email: string,) => {
         const token = generateToken(email)
         setAuthToken(token)
 
         const userData = { email }
         setUser(userData)
         setIsLoggedIn(true)
-        console.log("[v0] User logged in with token:", { email, token })
     }
 
     const register = (email: string) => {
-        console.log("[v0] Registration complete for:", email)
         const token = generateToken(email)
         setAuthToken(token)
 
         const userData = { email }
         setUser(userData)
         setIsLoggedIn(true)
-        console.log("[v0] User registered with token:", { email, token })
     }
 
     const logout = () => {
-        console.log("[v0] User logged out")
         removeAuthToken()
         setUser(null)
         router.push("/auth/sign-in")

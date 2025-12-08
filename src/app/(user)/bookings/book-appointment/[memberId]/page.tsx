@@ -1,14 +1,7 @@
-"use client";
-
+'use client'
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { redirect, useRouter } from "next/navigation";
 import { GridLoader } from "react-spinners";
-import {
-    BookingItem,
-    SelectedSlot,
-    Service,
-} from "@/types/booking/appointment";
 import BookingCart from "@/components/BookingsComponents/booking-cart";
 import CalendarComponent from "@/components/BookingsComponents/calendar-component";
 import ServiceSelectionTable from "@/components/BookingsComponents/service-selection";
@@ -17,15 +10,19 @@ import { useGetSingleworkerQuery } from "@/redux/api/workerApi";
 import { useGetAvailableSlotQuery, useGetCalenderScheduleQuery } from "@/redux/api/calenderApi";
 import { toast } from "sonner";
 import { useBookSlotMutation, usePaymentForSlotMutation } from "@/redux/api/bookingApi";
+import { AddOn, BookingItem, CalendarData, Member, SelectedSlot, Service } from "@/types/booking/appointment";
 
-export default function BookAppointmentPage({
-    params,
-}: {
+
+
+// Component Props Types
+type BookAppointmentPageProps = {
     params: Promise<{ memberId: string }>;
-}) {
+};
+
+export default function BookAppointmentPage({ params }: BookAppointmentPageProps) {
     const { memberId } = React.use(params);
-    const [bookSlot] = useBookSlotMutation()
-    const [isLoading, setIsLoading] = useState(false)
+    const [bookSlot] = useBookSlotMutation();
+    const [isLoading, setIsLoading] = useState(false);
     const [mounted, setMounted] = useState(false);
     const [selectedMonth, setSelectedMonth] = useState<number>(0);
     const [selectedYear, setSelectedYear] = useState<number>(2024);
@@ -33,24 +30,24 @@ export default function BookAppointmentPage({
     const [selectedSlots, setSelectedSlots] = useState<SelectedSlot[]>([]);
     const [bookings, setBookings] = useState<BookingItem[]>([]);
 
-    const [slotPayment] = usePaymentForSlotMutation()
+    const [slotPayment] = usePaymentForSlotMutation();
     const { data } = useGetSingleworkerQuery(memberId);
-    const member = data?.data;
+    const member = data?.data as Member;
 
     const { data: slots } = useGetAvailableSlotQuery({
         workerId: memberId,
-        date: selectedDate || ""
+        date: selectedDate || "",
     });
     const availableSlots = slots?.data || null;
 
     const { data: calender } = useGetCalenderScheduleQuery({
         workerId: memberId,
         year: selectedYear,
-        month: selectedMonth + 1
+        month: selectedMonth + 1,
     });
-    const calenderData = calender?.data || [];
+    const calenderData: CalendarData[] = calender?.data || [];
 
-    // ✅ Set current date after mount
+    // Set current date after mount
     useEffect(() => {
         const now = new Date();
         setSelectedMonth(now.getMonth());
@@ -61,14 +58,14 @@ export default function BookAppointmentPage({
     const handleSlotChange = (
         slot: SelectedSlot | null,
         time: string,
-        service: any
+        service: Service
     ) => {
         if (slot) {
             setSelectedSlots([...selectedSlots, slot]);
         } else {
             setSelectedSlots(
                 selectedSlots.filter(
-                    (s) => !(s.time === time && s.service?._id === service?.service?._id)
+                    (s) => !(s.time === time && s.service._id === service._id)
                 )
             );
         }
@@ -76,18 +73,17 @@ export default function BookAppointmentPage({
 
     const handleAddOnToggle = (
         time: string,
-        service: any,
-        addOn: any
+        service: Service,
+        addOn: AddOn
     ) => {
         setSelectedSlots(
-            selectedSlots.map((slot: any) => {
-                // Match both time AND the specific service's _id
-                if (slot.time === time && slot.service?.service?._id === service?.service?._id) {
-                    const hasAddOn = slot.addOns.some((a: any) => a._id === addOn._id);
+            selectedSlots.map((slot: SelectedSlot) => {
+                if (slot.time === time && slot.service._id === service._id) {
+                    const hasAddOn = slot.addOns.some((a) => a._id === addOn._id);
                     return {
                         ...slot,
                         addOns: hasAddOn
-                            ? slot.addOns.filter((a: any) => a._id !== addOn._id)
+                            ? slot.addOns.filter((a) => a._id !== addOn._id)
                             : [...slot.addOns, addOn],
                     };
                 }
@@ -105,7 +101,7 @@ export default function BookAppointmentPage({
         const newBookings: BookingItem[] = selectedSlots.map((slot) => ({
             date: selectedDate,
             time: slot.time,
-            service: slot.service,
+            service: { service: slot.service },
             addOns: slot.addOns,
         }));
 
@@ -128,7 +124,6 @@ export default function BookAppointmentPage({
             return;
         }
 
-        // Group bookings by date and time
         const groupedBookings = bookings.reduce((acc: any, booking: any) => {
             const key = `${booking.date}-${booking.time}`;
 
@@ -140,58 +135,50 @@ export default function BookAppointmentPage({
                 };
             }
 
-            // Add service with its subcategories (addOns)
             acc[key].services.push({
-                serviceId: booking.service?.service?._id, // ✅ Fixed
-                serviceCategories: booking.addOns.map((addon: any) => addon._id)
+                serviceId: booking.service._id,
+                serviceCategories: booking.addOns.map((addon: any) => addon._id),
             });
 
             return acc;
         }, {});
 
-        // Convert grouped bookings to array
         const bookingRequests = Object.values(groupedBookings).map((group: any) => ({
             workerId: memberId,
             services: group.services,
             date: group.date,
-            startTime: group.startTime
+            startTime: group.startTime,
         }));
 
         try {
             for (const bookingData of bookingRequests) {
-                setIsLoading(true)
+                setIsLoading(true);
                 const res = await bookSlot(bookingData);
                 if (res?.error) {
                     toast.error((res?.error as any)?.data?.message);
-                    setIsLoading(false)
+                    setIsLoading(false);
                 } else if (res?.data) {
-                    const paymentRes = await slotPayment({ bookingId: res?.data?.data?._id })
-                    console.log(paymentRes)
+                    const paymentRes = await slotPayment({ bookingId: res?.data?.data?._id });
                     if (paymentRes?.data) {
                         const paymentUrl = paymentRes?.data?.url;
-                        console.log(paymentUrl)
                         if (paymentUrl) {
                             window.location.href = paymentUrl;
                         }
-                        setIsLoading(false)
+                        setIsLoading(false);
                     } else if (paymentRes?.error) {
                         toast.error((paymentRes?.error as any)?.data?.message);
-                        setIsLoading(false)
+                        setIsLoading(false);
                     }
                 }
-
-                console.log(res)
             }
 
             setBookings([]);
-            // router.push(`/bookings/success`);
         } catch (error) {
             console.error("Booking error:", error);
             toast.error("Failed to book appointments. Please try again.");
         }
     };
 
-    // ✅ Show loader until mounted
     if (!member || !mounted) {
         return (
             <div className="min-h-screen flex items-center justify-center">
@@ -212,11 +199,7 @@ export default function BookAppointmentPage({
                             <div className="shadow-lg bg-white p-3 rounded-lg">
                                 <div className="lg:w-40 w-24 h-20 md:w-32 lg:h-40 md:h-32 rounded-lg overflow-hidden mb-4">
                                     <Image
-                                        src={
-                                            member?.uploadPhoto === "http://10.10.20.16:5137undefined"
-                                                ? IMAGES?.workerProfile.src
-                                                : member?.uploadPhoto
-                                        }
+                                        src={member?.uploadPhoto || IMAGES?.workerProfile.src}
                                         alt={member.firstName}
                                         width={200}
                                         height={200}
@@ -230,9 +213,7 @@ export default function BookAppointmentPage({
                                 </div>
                                 <div className="text-center">
                                     <div className="flex items-center justify-center gap-1 text-xs text-gray-600 mb-1">
-                                        <span>
-                                            {member?.city}, {member?.state}
-                                        </span>
+                                        <span>{member?.city}, {member?.state}</span>
                                     </div>
                                     <div className="text-xs text-gray-700">{member?.title}</div>
                                     <div className="flex items-end justify-center gap-1 text-xs text-gray-700">
@@ -294,7 +275,7 @@ export default function BookAppointmentPage({
                 <BookingCart
                     isLoading={isLoading}
                     bookings={bookings}
-                    memberName={member.name}
+                    memberName={member.firstName}
                     workerId={member.workerId}
                     onCheckout={handleCheckout}
                     onRemove={handleRemoveBooking}

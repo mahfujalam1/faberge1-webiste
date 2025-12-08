@@ -12,7 +12,6 @@ const bookingApi = baseApi.injectEndpoints({
         }),
         getAllBookingsForWorker: build.query({
             query: ({ page, limit, status, filterType }) => {
-                console.log({ page, limit, status, filterType })
                 return {
                     url: `/booking/worker-book-slot?filterType=${filterType}&status=${status || ''}&page=${page}&limit=${limit}`,
                     method: "GET",
@@ -23,7 +22,6 @@ const bookingApi = baseApi.injectEndpoints({
 
         getAllBookingsForCustomer: build.query({
             query: ({ page, limit, status, filterType }) => {
-                console.log({ page, limit, status, filterType })
                 return {
                     url: `/booking/customer-book-slot?filterType=${filterType}&status=${status || ''}&page=${page}&limit=${limit}`,
                     method: "GET",
@@ -34,7 +32,6 @@ const bookingApi = baseApi.injectEndpoints({
 
         getAllBookSlotsOneDay: build.query({
             query: (date) => {
-                console.log(date, "api date")
                 return {
                     url: `/booking/worker-book-slot?date=${date}`,
                     method: "GET",
@@ -61,7 +58,6 @@ const bookingApi = baseApi.injectEndpoints({
         }),
         paymentForSlot: build.mutation({
             query: (data) => {
-                console.log(data, 'console from apis')
                 return {
                     url: "/booking/initialize-payment",
                     method: "POST",

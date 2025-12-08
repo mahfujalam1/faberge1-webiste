@@ -42,14 +42,12 @@ export default function StepTwoPassword({
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         if (isValid) {
-            console.log("[v0] Step 2 - Password created (length):", password.length)
             onContinue({ password, confirmPassword })
         }
     }
 
     const handleNextClick = () => {
         if (isValid) {
-            console.log("[v0] Step 2 - Password created (via Next):", password.length)
             onContinue({ password, confirmPassword })
         }
     }
