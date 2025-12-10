@@ -3,12 +3,19 @@ import { tagTypes, tagTypesList } from "../tagTypes";
 import Cookies from 'js-cookie'
 import { authKey } from "@/constants/auth";
 
-interface User {
-  _id: string;
-  email: string;
-  role: 'customer' | 'worker';
-  name?: string;
-  avatar?: string;
+export interface User {
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  role?: "worker" | "customer";
+  uploadPhoto?: string;
+  _id?: string;
+}
+
+// API response interface
+export interface GetMeResponse {
+  data: User;
+  isLoading: boolean
 }
 
 export const baseApi = createApi({
@@ -25,9 +32,9 @@ export const baseApi = createApi({
   }),
   tagTypes: tagTypesList,
   endpoints: (builder) => ({
-    getMe: builder.query<{ data: User }, void>({
+    getMe: builder.query<GetMeResponse, void>({
       query: () => '/customer-or-worker/me',
-      providesTags:[tagTypes.users]
+      providesTags: [tagTypes.users]
     }),
   }),
 });

@@ -3,6 +3,7 @@ import { DashboardStats } from '@/components/Dashboard/DashboardStats';
 import { BookingCard } from '@/components/myBookings/BookingCard';
 import { Button } from '@/components/ui/button';
 import { useGetAllUpcomingBookingForWorkerQuery } from '@/redux/api/bookingApi';
+import { Booking } from '@/types/booking/bookings';
 import { useState } from 'react'
 
 function RootLayout() {
@@ -15,8 +16,8 @@ function RootLayout() {
     });
 
     // Flatten the bookings from the grouped date structure
-    const bookings = data?.data
-        ? Object.values(data.data).flat()
+    const bookings: Booking[] = data?.data
+        ? (Object.values(data.data).flat() as Booking[])
         : [];
 
     const pagination = data?.pagination;
@@ -40,7 +41,7 @@ function RootLayout() {
     };
 
     const renderPageButtons = () => {
-        let buttons = [];
+        const buttons = [];
         for (let i = 1; i <= (pagination?.totalPages || 1); i++) {
             buttons.push(
                 <Button
@@ -78,7 +79,7 @@ function RootLayout() {
                             </div>
                         ) : bookings.length > 0 ? (
                             <>
-                                {bookings?.map((booking: any) => (
+                                {bookings?.map((booking: Booking) => (
                                     <BookingCard key={booking._id} booking={booking} />
                                 ))}
 

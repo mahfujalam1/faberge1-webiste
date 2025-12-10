@@ -7,8 +7,9 @@ import CalendarModal from "./CalendarModal"
 import { Button } from "@/components/ui/button"
 import UpdateScheduleModal from "./UpdateScheduleModal"
 import { useGetCalenderScheduleQuery } from "@/redux/api/calenderApi"
-import { useGetMeQuery } from "@/redux/api/baseApi"
-
+import { GetMeResponse, useGetMeQuery } from "@/redux/api/baseApi"
+import { GridLoader } from "react-spinners"
+import { CalendarData } from "@/types/booking/appointment"
 
 export default function CalendarScheduler() {
     const [selectedMonth, setSelectedMonth] = useState<number>(new Date().getMonth() + 1)
@@ -16,8 +17,14 @@ export default function CalendarScheduler() {
     const [selectedDate, setSelectedDate] = useState<string | null>(null)
     const [open, setOpen] = useState(false)
     const [updateModalOpen, setUpdateModalOpen] = useState(false)
-    const workerId = useGetMeQuery(undefined)?.data?.data?._id;
-    const { data } = useGetCalenderScheduleQuery({ workerId, year: selectedYear, month: selectedMonth });
+
+    const { data: workerData } = useGetMeQuery<GetMeResponse>();
+    const workerId = workerData?._id;
+
+    const { data, isLoading } = useGetCalenderScheduleQuery(
+        { workerId: workerId || "", year: selectedYear, month: selectedMonth },
+        { skip: !workerId }
+    );
     const calenderData = data?.data || [];
 
 
@@ -50,7 +57,7 @@ export default function CalendarScheduler() {
             />
 
             {/* 🔹 Calendar Grid */}
-            <CalendarGrid calenderData={calenderData} setSelectedDate={setSelectedDate} setOpen={setOpen} />
+            {isLoading ? <div className="flex items-center justify-center"><GridLoader color="#ff007a" /></div> : <CalendarGrid calenderData={calenderData} setSelectedDate={setSelectedDate} setOpen={setOpen} />}
 
             {/* 🔹 Update Schedule Button */}
             <div className="flex justify-center mt-6">
@@ -69,7 +76,7 @@ export default function CalendarScheduler() {
                 selectedDate={selectedDate}
                 status={
                     selectedDate
-                        ? calenderData.find((d:any) => d.date === selectedDate)?.color || null
+                        ? calenderData.find((d: CalendarData) => d.date === selectedDate)?.color || null
                         : null
                 }
             />

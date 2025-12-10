@@ -6,8 +6,8 @@ import Cookies from "js-cookie";
 
 export const logoutUser = (router: AppRouterInstance) => {
   if (typeof window !== undefined) {
-  Cookies.remove(authKey);
-  deleteCookies([authKey]);
-  router.refresh();
+    Cookies.remove(authKey);
+    deleteCookies([authKey]);
+    router.refresh();
   }
 };

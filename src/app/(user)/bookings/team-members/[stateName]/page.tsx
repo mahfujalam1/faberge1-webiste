@@ -7,6 +7,17 @@ import { IMAGES } from "@/constants/image.index"
 import { useGetAllWorkersQuery } from "@/redux/api/workerApi"
 // import { DynamicBanner } from "@/components/shared/DynamicBanner"
 
+type Member = {
+    _id: string,
+    firstName: string,
+    lastName: string,
+    workerId: string,
+    uploadPhoto: string,
+    title: string,
+    city: string,
+    state: string
+}
+
 export default function TeamMembersPage() {
     // ✅ unwrap params Promise the new Next.js v15 way
 
@@ -33,7 +44,7 @@ export default function TeamMembersPage() {
                         {/* Team Members Grid */}
                         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-9 gap-4 text-center">
                             {teamMembers.length > 0 && teamMembers?.map(
-                                (member: any) => (
+                                (member: Member) => (
                                     <button
                                         key={member._id}
                                         onClick={() => handleMemberClick(member._id)}
@@ -63,7 +74,7 @@ export default function TeamMembersPage() {
                                             </div>
 
 
-                                            <h1 className=" text-xs">Nail Tech</h1>
+                                            <h1 className=" text-xs">{member?.title}</h1>
                                             <div className="flex items-center justify-center gap-1 text-xs text-gray-700">
                                                 <span>ID#:</span>
                                                 <span>{member.workerId}</span>

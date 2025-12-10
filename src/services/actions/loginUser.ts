@@ -1,6 +1,6 @@
 "use server";
 // local fallback for FieldValues to avoid requiring react-hook-form types
-type FieldValues = Record<string, any>;
+type FieldValues = Record<string, unknown>;
 
 export const loginUser = async (values: FieldValues) => {
   const res = await fetch(

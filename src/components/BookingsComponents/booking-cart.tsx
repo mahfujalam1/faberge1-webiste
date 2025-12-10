@@ -36,12 +36,14 @@ export default function BookingCart({
             </div>
         );
 
+    console.log('row bookings=>', bookings)
+
     // Total calculation
     const calculateTotal = () => {
         return bookings.reduce((total, booking) => {
-            const servicePrice = booking.service?.service.price;
+            const servicePrice = booking.service?.price || 0;
             const addOnsPrice = booking.addOns.reduce(
-                (sum: number, addon) => sum + addon.subcategoryPrice,
+                (sum: number, addon) => sum + (addon.subcategoryPrice || 0),
                 0
             );
             return total + servicePrice + addOnsPrice;
@@ -64,11 +66,11 @@ export default function BookingCart({
                         </tr>
                     </thead>
                     <tbody>
-                        {bookings.map((booking, index) => {
+                        {bookings?.map((booking, index) => {
                             const itemTotal =
-                                booking.service?.service.price +
+                                (booking.service?.price || 0) +
                                 booking.addOns.reduce(
-                                    (sum: number, addon) => sum + addon.subcategoryPrice,
+                                    (sum: number, addon) => sum + (addon.subcategoryPrice || 0),
                                     0
                                 );
 
@@ -77,15 +79,16 @@ export default function BookingCart({
                                     key={index}
                                     className="border-b hover:bg-gray-50 transition text-gray-800"
                                 >
-                                    <td className="py-3 px-2">{booking.time}</td>
+                                    <td className="py-3 px-2">{memberName}</td>
                                     <td className="py-3 px-2">{booking.date}</td>
                                     <td className="py-3 px-2">{booking.time}</td>
                                     <td className="py-3 px-2">
-                                        {booking.service?.service?.serviceName} ${booking.service?.service?.price}
+                                        {booking.service?.serviceName} ${booking.service?.price}
                                     </td>
                                     <td className="py-3 px-2">
-                                        {booking.addOns?.map((addon) => `${addon.subcategoryName} $${addon.subcategoryPrice}`).join(", ") ||
-                                            "-"}
+                                        {booking.addOns?.length > 0
+                                            ? booking.addOns.map((addon) => `${addon.subcategoryName} $${addon.subcategoryPrice}`).join(", ")
+                                            : "-"}
                                     </td>
                                     <td className="py-3 px-2 font-medium">${itemTotal}</td>
                                     <td className="py-3 px-2 text-center">

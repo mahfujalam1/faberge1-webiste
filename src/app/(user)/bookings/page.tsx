@@ -5,6 +5,12 @@ import { useRouter } from "next/navigation"
 import { useGetAllStateQuery } from "@/redux/api/bookingApi"
 // import { DynamicBanner } from "@/components/shared/DynamicBanner"
 
+type States = {
+  _id: string,
+  name: string,
+  active: boolean
+}
+
 export default function BookingsPage() {
   const router = useRouter()
   const [selectedState, setSelectedState] = useState<string | null>(null)
@@ -21,7 +27,7 @@ export default function BookingsPage() {
 
   const handleContinue = () => {
     if (selectedState) {
-      const state = statesData.find((s: any) => s._id === selectedState)
+      const state = statesData.find((s: States) => s._id === selectedState)
       if (state) {
         router.push(`/bookings/team-members/${state._id}`)
       }

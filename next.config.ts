@@ -12,7 +12,6 @@ const nextConfig: NextConfig = {
     '@next/next/no-page-custom-font': 'off',
     "@typescript-eslint/no-explicit-any": "off"
   },
-
 };
 
 export default nextConfig;

@@ -1,11 +1,14 @@
 "use client"
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { useGetMeQuery } from "@/redux/api/baseApi"
+import { GetMeResponse, useGetMeQuery } from "@/redux/api/baseApi"
 import { useGetAllBookSlotsOneDayQuery } from "@/redux/api/bookingApi"
 import { useGetAvailableSlotQuery } from "@/redux/api/calenderApi"
+import { Service, AddOn } from "@/types/booking/appointment"
+import { Slot } from "@/types/booking/bookings"
 import { CalendarDays } from "lucide-react"
 
+// Define the types for the props
 interface CalendarModalProps {
     open: boolean
     onOpenChange: (v: boolean) => void
@@ -13,17 +16,30 @@ interface CalendarModalProps {
     status: "bg-white" | "bg-green-500" | "bg-red-500" | "bg-gray-500" | null
 }
 
+interface BookedSlot {
+    _id: string
+    startTime: string
+    endTime: string
+    customer?: {
+        firstName: string
+        lastName: string
+    }
+    status: "pending" | "confirmed" | "completed" | "cancelled"
+    services?: Service[]
+}
+
+
 export default function CalendarModal({
     open,
     onOpenChange,
     selectedDate,
     status,
 }: CalendarModalProps) {
-    const worker = useGetMeQuery()
+    const worker = useGetMeQuery<GetMeResponse>()
 
-    const workerId = worker?.data?.data?._id;
-    const { data: availabeSlots } = useGetAvailableSlotQuery({ workerId: workerId || "", date: selectedDate || "" })
-    const todayAvailabeSlots = availabeSlots?.data?.slots || [];
+    const workerId = worker?.data?._id || ""
+    const { data: availabeSlots } = useGetAvailableSlotQuery({ workerId, date: selectedDate || "" })
+    const todayAvailabeSlots = availabeSlots?.data?.slots || []
 
     const { data } = useGetAllBookSlotsOneDayQuery(selectedDate || "")
 
@@ -37,17 +53,17 @@ export default function CalendarModal({
     const getServicesFromBookings = () => {
         const servicesMap = new Map<string, Set<string>>()
 
-        bookedSlots.forEach((booking: any) => {
-            booking.services?.forEach((serviceItem: any) => {
-                const serviceName = serviceItem.service?.serviceName
+        bookedSlots.forEach((booking: BookedSlot) => {
+            booking.services?.forEach((service: Service) => {
+                const serviceName = service.serviceName
                 if (serviceName) {
                     if (!servicesMap.has(serviceName)) {
                         servicesMap.set(serviceName, new Set<string>())
                     }
 
                     // Add subcategory names for this service
-                    serviceItem.service?.subcategory?.forEach((sub: any) => {
-                        if (serviceItem.subcategories?.includes(sub._id) && sub.subcategoryName) {
+                    service.subcategory?.forEach((sub: AddOn) => {
+                        if (sub._id && sub.subcategoryName) {
                             servicesMap.get(serviceName)?.add(sub.subcategoryName)
                         }
                     })
@@ -64,7 +80,7 @@ export default function CalendarModal({
     const servicesData = getServicesFromBookings()
 
     // Get status color based on slot conditions
-    const getSlotStatusColor = (slot: any) => {
+    const getSlotStatusColor = (slot: Slot) => {
         if (!slot.isAvailable && slot.isBooked && !slot.isBlocked) {
             return "bg-green-500" // Booked
         } else if (slot.isAvailable && !slot.isBooked && !slot.isBlocked) {
@@ -106,7 +122,7 @@ export default function CalendarModal({
 
                         {/* Time Slots */}
                         <div className="border rounded-md h-72 overflow-y-auto">
-                            {bookedSlots?.map((booking: any, idx: number) => (
+                            {bookedSlots?.map((booking: BookedSlot, idx: number) => (
                                 <div key={idx} className="flex justify-between items-center px-4 py-2 border-b last:border-none text-sm">
                                     <span>{booking.startTime} - {booking.endTime}</span>
                                     <span className="font-medium">
@@ -121,7 +137,7 @@ export default function CalendarModal({
                                     </span>
                                 </div>
                             ))}
-                            {todayAvailabeSlots?.map((slot: any, idx: number) => (
+                            {todayAvailabeSlots?.map((slot: Slot, idx: number) => (
                                 <div key={idx} className="flex justify-between items-center px-4 py-2 border-b last:border-none">
                                     <span className="text-sm">{slot.startTime} - {slot.endTime}</span>
                                     <span className={`w-3 h-3 rounded-full ${getSlotStatusColor(slot)}`} />

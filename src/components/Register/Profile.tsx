@@ -14,7 +14,8 @@ interface StepOneProfileProps {
     onNext: () => void
     onPrev: () => void
     currentStep: number
-    initialData?: ProfileData
+    initialData?: ProfileData,
+    isLoading?:boolean
 }
 
 export interface ProfileData {
@@ -28,7 +29,7 @@ export interface ProfileData {
     email: string
 }
 
-export default function StepOneProfile({ onContinue, onPrev, currentStep, initialData }: StepOneProfileProps) {
+export default function StepOneProfile({ onContinue, onPrev, currentStep, initialData, isLoading }: StepOneProfileProps) {
     const [formData, setFormData] = useState<ProfileData>(
         initialData || {
             firstName: "",
@@ -220,7 +221,7 @@ export default function StepOneProfile({ onContinue, onPrev, currentStep, initia
                     disabled={!isValid}
                     className="h-12 w-full rounded-lg cursor-pointer bg-black text-base font-medium text-white hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                    Continue
+                    {isLoading ? "Proccesing.." : "Continue"}
                 </Button>
 
                 <div className="flex items-center justify-between pt-4">

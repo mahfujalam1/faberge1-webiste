@@ -1,5 +1,5 @@
 "use server";
-type FieldValues = Record<string, any>;
+type FieldValues = Record<string, string>;
 
 export const registerUser = async (values: FieldValues) => {
   const res = await fetch(

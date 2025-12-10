@@ -3,6 +3,39 @@ import { baseApi } from "./baseApi";
 
 export const authApi = baseApi.injectEndpoints({
     endpoints: (build) => ({
+        register: build.mutation({
+            query: (data) => {
+                return {
+                    url: `/customer/register`,
+                    method: "POST",
+                    body: data,
+                };
+            },
+            invalidatesTags: [tagTypes.users],
+        }),
+
+        setPassword: build.mutation({
+            query: (data) => {
+                return {
+                    url: `/customer/set-password`,
+                    method: "PATCH",
+                    body: data,
+                };
+            },
+            invalidatesTags: [tagTypes.users],
+        }),
+
+        uploadPhoto: build.mutation({
+            query: (data) => {
+                return {
+                    url: `/customer/upload-picture`,
+                    method: "PATCH",
+                    body: data,
+                };
+            },
+            invalidatesTags: [tagTypes.users],
+        }),
+
         loginUser: build.mutation({
             query: (data) => {
                 return {
@@ -90,5 +123,8 @@ export const {
     useUpdateProfileMutation,
     useUpdateUserRoleMutation,
     useSetNewPasswordMutation,
-    useVerifyOtpMutation
+    useVerifyOtpMutation,
+    useRegisterMutation,
+    useSetPasswordMutation,
+    useUploadPhotoMutation
 } = authApi;

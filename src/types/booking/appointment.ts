@@ -6,17 +6,18 @@ export type AddOn = {
 };
 
 export type Service = {
+    service: Service;
     _id: string;
     serviceName: string;
     price: number;
+    serviceCategories:[],
+    subcategory?: AddOn[]
 };
 
 export type BookingItem = {
     date: string;
     time: string;
-    service: {
-        service: Service;
-    };
+    service: Service;
     addOns: AddOn[];
 };
 
@@ -41,4 +42,21 @@ export type SelectedSlot = {
 export type CalendarData = {
     day: number;
     isAvailable: boolean;
+    date:string,
+    color:string
 };
+
+export interface Subcategory {
+    _id: string;
+    subcategoryName: string;
+    subcategoryPrice: string
+}
+
+
+export interface ServiceItem {
+    service?: {
+        serviceName: string;
+        subcategory?: Subcategory[]; // Subcategory array
+    };
+    subcategories?: string[]; // Array of subcategory IDs (this might be different based on your data)
+}
