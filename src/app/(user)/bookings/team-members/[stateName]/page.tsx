@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { IMAGES } from "@/constants/image.index"
 import { useGetAllWorkersQuery } from "@/redux/api/workerApi"
+import { GridLoader } from "react-spinners"
 // import { DynamicBanner } from "@/components/shared/DynamicBanner"
 
 type Member = {
@@ -21,7 +22,7 @@ type Member = {
 export default function TeamMembersPage() {
     // ✅ unwrap params Promise the new Next.js v15 way
 
-    const { data } = useGetAllWorkersQuery(undefined)
+    const { data, isLoading } = useGetAllWorkersQuery(undefined)
     const teamMembers = data?.data || []
     const router = useRouter()
 
@@ -83,6 +84,11 @@ export default function TeamMembersPage() {
                                     </button>
                                 )
                             )}
+                        </div>
+                        <div className="py-10">
+                            {
+                                isLoading && <div className="flex items-center justify-center text-center"><GridLoader color="#ff007a" /></div>
+                            }
                         </div>
 
                         {/* No Members Found */}

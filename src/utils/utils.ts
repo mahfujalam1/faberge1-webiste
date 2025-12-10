@@ -29,7 +29,7 @@ export const getStatusColor = (status: string) => {
         case 'completed':
             return 'bg-green-500 text-white';
         case 'booked':
-            return 'bg-orange-100 text-yellow-600';
+            return 'bg-orange-200 text-yellow-700';
         case 'cancelled':
             return 'bg-red-500 text-white';
         default:

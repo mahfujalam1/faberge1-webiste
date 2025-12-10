@@ -5,7 +5,6 @@ import { GridLoader } from "react-spinners";
 import BookingCart from "@/components/BookingsComponents/booking-cart";
 import CalendarComponent from "@/components/BookingsComponents/calendar-component";
 import ServiceSelectionTable from "@/components/BookingsComponents/service-selection";
-import { IMAGES } from "@/constants/image.index";
 import { useGetSingleworkerQuery } from "@/redux/api/workerApi";
 import { useGetAvailableSlotQuery, useGetCalenderScheduleQuery } from "@/redux/api/calenderApi";
 import { toast } from "sonner";
@@ -188,7 +187,7 @@ export default function BookAppointmentPage({ params }: BookAppointmentPageProps
     if (!member || !mounted) {
         return (
             <div className="min-h-screen flex items-center justify-center">
-                <GridLoader color="#ff69b4" size={15} />
+                <GridLoader color="#ff007a" size={15} />
             </div>
         );
     }

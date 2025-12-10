@@ -64,8 +64,17 @@ const bookingApi = baseApi.injectEndpoints({
                     body: data
                 }
             }
+        }),
+        completeBooking: build.mutation({
+            query: (bookingId) => {
+                return {
+                    url: `/booking/update-booking-status/${bookingId}`,
+                    method: "PATCH",
+                }
+            },
+            invalidatesTags: [tagTypes.bookings],
         })
     }),
 });
 
-export const { useGetAllUpcomingBookingForWorkerQuery, useGetAllBookingsForCustomerQuery ,usePaymentForSlotMutation ,useGetAllBookingsForWorkerQuery, useBookSlotMutation, useGetAllBookSlotsOneDayQuery, useGetAllStateQuery } = bookingApi;
+export const { useGetAllUpcomingBookingForWorkerQuery, useCompleteBookingMutation, useGetAllBookingsForCustomerQuery, usePaymentForSlotMutation, useGetAllBookingsForWorkerQuery, useBookSlotMutation, useGetAllBookSlotsOneDayQuery, useGetAllStateQuery } = bookingApi;

@@ -35,12 +35,6 @@ export const DashboardStats: React.FC = () => {
                     subText="Month/Year"
                     bgColor="bg-purple-100"
                 />
-                <StatCard
-                    title="Earnings"
-                    value="$25/$5655"
-                    subText="Month/Year"
-                    bgColor="bg-yellow-100"
-                />
             </div>
         </section>
     );

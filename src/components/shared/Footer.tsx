@@ -5,10 +5,11 @@ import React from "react";
 import { MapPin, Phone, Facebook, Instagram } from "lucide-react";
 import { PiTiktokLogoBold } from "react-icons/pi";
 import Link from "next/link";
+import { GetMeResponse, useGetMeQuery } from "@/redux/api/baseApi";
 
 const Footer: React.FC = () => {
+  const { data } = useGetMeQuery<GetMeResponse>()
 
-  const role = 'worker'
   return (
     <footer className="w-full bg-[#F48CB840] text-white">
       {/* === Top Section === */}
@@ -16,7 +17,7 @@ const Footer: React.FC = () => {
         {/* Left Section: Links */}
         <div className="flex-1">
           {
-            !role && <>
+            data?.role === 'customer' && <>
               <h3 className="text-lg font-bold mb-4 text-primary">
                 How Can We Help?
               </h3>
@@ -95,7 +96,7 @@ const Footer: React.FC = () => {
 
         </div>
       </div>
-      
+
       {/* === Bottom Section === */}
       <div className="w-full bg-secondary py-3">
         <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center text-xs text-white/50 gap-2 text-center sm:text-left">

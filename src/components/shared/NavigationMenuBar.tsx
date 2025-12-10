@@ -111,7 +111,7 @@ const NavigationMenuBar = () => {
               >
                 <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
                   <Image
-                    src={data?.uploadPhoto && data?.uploadPhoto === "http://10.10.20.16:5137undefined" && IMAGES.profile.src || IMAGES.profile.src}
+                    src={data?.uploadPhoto  || IMAGES.profile.src}
                     alt="Profile"
                     width={40}
                     height={40}
@@ -123,7 +123,7 @@ const NavigationMenuBar = () => {
                     {data?.firstName + " " + data?.lastName || "User"}
                   </p>
                   <p className="text-xs text-start text-black">
-                    {data?.role === "worker" ? "Nail Tech" : "Customer"}
+                    {data?.role === "worker" ? data?.title : "Customer"}
                   </p>
                 </div>
                 <ChevronDown className="w-4 h-4 text-black" />
@@ -141,7 +141,7 @@ const NavigationMenuBar = () => {
                         {data?.firstName + " " + data?.lastName || "User"}
                       </p>
                       <p className="text-xs text-start text-black">
-                        {data?.role === "worker" ? "Nail Tech" : "Customer"}
+                        {data?.role === "worker" ? data?.title : "Customer"}
                       </p>
                     </div>
                     {data?.role === "customer" && (
@@ -153,9 +153,9 @@ const NavigationMenuBar = () => {
                     )}
                     {data?.role === "worker" && (
                       <div className="text-xs ms-4 py-2 border-b">
-                        <h1>Nail Tech</h1>
-                        <h1>New York, NY</h1>
-                        <h1>ID#: {data?._id?.slice(-7)}</h1>
+                        <h1>{data?.title}</h1>
+                        <h1>{data?.address}</h1>
+                        <h1>ID#: {data?.workerId}</h1>
                       </div>
                     )}
                     <button
