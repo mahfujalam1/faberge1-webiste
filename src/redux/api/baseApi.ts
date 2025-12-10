@@ -5,6 +5,9 @@ import { authKey } from "@/constants/auth";
 
 export interface User {
   email?: string;
+  title?:string;
+  address?:string;
+  workerId?:string;
   firstName?: string;
   lastName?: string;
   role?: "worker" | "customer";
@@ -21,7 +24,7 @@ export interface GetMeResponse {
 export const baseApi = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: `http://10.10.20.16:5137`,
+    baseUrl: `https://x91h36px-5137.inc1.devtunnels.ms`,
     prepareHeaders: (headers) => {
       const token = Cookies.get(authKey);
       if (token) {

@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react"
 import { useRouter } from "next/navigation"
 import { useGetAllStateQuery } from "@/redux/api/bookingApi"
+import { GridLoader } from "react-spinners"
 // import { DynamicBanner } from "@/components/shared/DynamicBanner"
 
 type States = {
@@ -14,7 +15,7 @@ type States = {
 export default function BookingsPage() {
   const router = useRouter()
   const [selectedState, setSelectedState] = useState<string | null>(null)
-  const { data } = useGetAllStateQuery(undefined)
+  const { data, isLoading } = useGetAllStateQuery(undefined)
   const statesData = data?.data || []
 
   // ✅ Sort states alphabetically (A → Z)
@@ -47,24 +48,33 @@ export default function BookingsPage() {
 
             {/* States Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 mb-3">
-              {sortedStates.map((state) => (
-                <button
-                  key={state._id}
-                  onClick={() => state?.active && setSelectedState(state?._id)}
-                  disabled={!state?.active}
-                  className={`
+              {
+                sortedStates?.length > 0 &&
+                sortedStates?.map((state) => (
+                  <button
+                    key={state._id}
+                    onClick={() => state?.active && setSelectedState(state?._id)}
+                    disabled={!state?.active}
+                    className={`
                     px-4 py-3 rounded-lg text-sm font-medium transition-all 
                     ${state.active
-                      ? selectedState === state?._id
-                        ? "bg-emerald-500 text-white shadow-md"
-                        : "bg-emerald-50 text-emerald-700 hover:bg-emerald-100 cursor-pointer"
-                      : "bg-[#FDE4DB] text-gray-700 cursor-not-allowed shadow-md"
-                    }
+                        ? selectedState === state?._id
+                          ? "bg-emerald-500 text-white shadow-md"
+                          : "bg-emerald-50 text-emerald-700 hover:bg-emerald-100 cursor-pointer"
+                        : "bg-[#FDE4DB] text-gray-700 cursor-not-allowed shadow-md"
+                      }
                   `}
-                >
-                  {state?.name}
-                </button>
-              ))}
+                  >
+                    {state?.name}
+                  </button>
+                ))
+
+              }
+            </div>
+            <div className="py-10">
+              {
+                isLoading && <div className="flex items-center justify-center text-center"><GridLoader color="#ff007a" /></div>
+              }
             </div>
 
             {/* Continue Button */}

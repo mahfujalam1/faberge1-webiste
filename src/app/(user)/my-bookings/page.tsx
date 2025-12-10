@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useGetAllBookingsForCustomerQuery } from "@/redux/api/bookingApi";
 import { Booking } from "@/types/booking/bookings";
 import { useState } from "react";
+import { ScaleLoader } from "react-spinners";
 
 export default function AllBookings() {
     const [tab, setTab] = useState<"" | "booked" | "completed">("");
@@ -81,7 +82,7 @@ export default function AllBookings() {
                         <BookingTabs setTab={setTab} tab={tab} setFilterType={setFilterType} />
                         {isLoading ? (
                             <div className="text-center py-8">
-                                <p className="text-gray-500">Loading bookings...</p>
+                                <p className="text-gray-500"><ScaleLoader color="#ff0db4" /></p>
                             </div>
                         ) : error ? (
                             <div className="text-center py-8">

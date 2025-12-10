@@ -5,6 +5,7 @@ import { WorkerBookingTab } from "@/components/workerBookings/WorkerBookingTab";
 import { useGetAllBookingsForWorkerQuery } from "@/redux/api/bookingApi";
 import { Booking, Pagination } from "@/types/booking/bookings";
 import { useState } from "react";
+import { ScaleLoader } from "react-spinners";
 
 
 
@@ -71,7 +72,7 @@ export default function AllBookings() {
                         <WorkerBookingTab setTab={setTab} tab={tab} setFilterType={setFilterType} />
                         {isLoading ? (
                             <div className="text-center py-8">
-                                <p className="text-gray-500">Loading bookings...</p>
+                                <p className="text-gray-500"><ScaleLoader color="#ff0db4" /></p>
                             </div>
                         ) : error ? (
                             <div className="text-center py-8">

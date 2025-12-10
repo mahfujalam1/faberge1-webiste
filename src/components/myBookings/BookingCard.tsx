@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { getUserInfo } from "@/services/authServices";
 import { formatDate, getStatusColor } from "@/utils/utils";
 import { Booking, ServiceItem } from "@/types/booking/bookings";
+import { ScaleLoader } from "react-spinners";
 
 interface BookingCardProps {
     booking: Booking;
@@ -38,7 +39,7 @@ export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                     </div>
                     <div className="flex-grow flex-nowrap min-w-[800px]">
                         <div className="grid grid-cols-7 bg-[#FFC0CB] px-4 py-3 text-xs sm:text-sm font-bold text-gray-800">
-                            <div className="text-nowrap whitespace-nowrap flex-nowrap">Loading...</div>
+                            <div className="text-nowrap whitespace-nowrap flex-nowrap"><ScaleLoader color="#ff0db4" /></div>
                         </div>
                     </div>
                 </CardContent>
@@ -65,24 +66,19 @@ export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                 {/* Content Section */}
                 <div className="flex-grow flex-nowrap min-w-[800px]">
                     {/* Header Row */}
-                    <div className="grid grid-cols-7 bg-[#FFC0CB] px-4 py-3 text-xs sm:text-sm font-bold text-gray-800">
+                    <div className="grid grid-cols-8 bg-[#FFC0CB] px-4 py-3 text-xs sm:text-sm font-bold text-gray-800">
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Date</div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Time</div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Customer</div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Phone</div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Email</div>
-                        <div className="text-nowrap whitespace-nowrap flex-nowrapn text-center">Payment</div>
-                        <div className="text-right text-nowrap whitespace-nowrap flex-nowrap">
-                            <Badge
-                                className={`${getStatusColor(booking.status)} text-xs px-2 rounded-sm`}
-                            >
-                                {booking.status.toUpperCase()}
-                            </Badge>
-                        </div>
+                        <div className="text-nowrap whitespace-nowrap flex-nowrap text-center">Payment Status</div>
+                        <div className="text-nowrap whitespace-nowrap flex-nowrap text-center">Amount</div>
+                        <div className="text-nowrap whitespace-nowrap flex-nowrap text-center">Status</div>
                     </div>
 
                     {/* Content Row */}
-                    <div className="grid grid-cols-7 items-center px-4 py-4 text-xs sm:text-sm text-gray-800 border-b border-pink-100">
+                    <div className="grid grid-cols-8 items-center px-4 py-4 text-xs sm:text-sm text-gray-800 border-b border-pink-100">
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">
                             {formatDate(booking.date)}
                         </div>
@@ -100,11 +96,18 @@ export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                         </div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap text-center">
                             <span className="bg-green-500 px-2 rounded-full text-white">
-                                {booking.isPayment ? 'Paid' : 'Pending'}
+                                {booking?.isPayment ? 'Paid' : 'Pending'}
                             </span>
                         </div>
-                        <div className="text-right font-semibold text-nowrap whitespace-nowrap flex-nowrap">
-                            ${booking.paymentAmount || 0}
+                        <div className="text-center font-semibold text-nowrap whitespace-nowrap flex-nowrap">
+                            ${booking?.paymentAmount || 0}
+                        </div>
+                        <div className="text-center text-nowrap whitespace-nowrap flex-nowrap">
+                            <Badge
+                                className={`${getStatusColor(booking?.status)} text-xs px-2 rounded-sm`}
+                            >
+                                {booking?.status === 'booked' ? 'Upcoming' : booking?.status === 'completed' ? 'Completed' : booking?.status}
+                            </Badge>
                         </div>
                     </div>
 

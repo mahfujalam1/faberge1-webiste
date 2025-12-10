@@ -14,7 +14,7 @@ import { toast } from "sonner"
 export default function RegisterPage() {
   const [currentStep, setCurrentStep] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
-  const [email, setEamil] = useState<string | null>('')
+  const [email, setEmail] = useState<string | null>('')
   const [registrationData, setRegistrationData] = useState<{
     profile?: ProfileData
     password?: PasswordData
@@ -28,7 +28,7 @@ export default function RegisterPage() {
     setIsLoading(true)
     const res = await signUp(data)
     if (res?.data) {
-      setEamil(res?.data?.data?.email)
+      setEmail(res?.data?.data?.email)
       toast.success("First Step Successfully Complete!")
       setCurrentStep(2)
       setIsLoading(false)
