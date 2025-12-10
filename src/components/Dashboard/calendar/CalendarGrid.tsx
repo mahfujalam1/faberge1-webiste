@@ -1,11 +1,12 @@
 "use client"
 
 import { cn } from "@/lib/utils"
+import { CalendarData } from "@/types/booking/appointment"
 import { toast } from "sonner"
 
 
 
-export default function CalendarGrid({ calenderData, setSelectedDate, setOpen }: { calenderData: any[], setSelectedDate: (date: string) => void, setOpen: (open: boolean) => void }) {
+export default function CalendarGrid({ calenderData, setSelectedDate, setOpen }: { calenderData: CalendarData[], setSelectedDate: (date: string) => void, setOpen: (open: boolean) => void }) {
     const getStatusColor = (status: string) => {
         switch (status) {
             case "bg-white":

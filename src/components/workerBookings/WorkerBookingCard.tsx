@@ -6,13 +6,14 @@ import { IMAGES } from "@/constants/image.index";
 import { useEffect, useState } from "react";
 import { getUserInfo } from "@/services/authServices";
 import { formatDate, getStatusColor } from "@/utils/utils";
+import { Booking, ServiceItem } from "@/types/booking/bookings";
 
 interface BookingCardProps {
-    booking: any;
+    booking: Booking;
 }
 
 export const WorkerBookingCard: React.FC<BookingCardProps> = ({ booking }) => {
-    const [, setUser] = useState<any>(null);
+    const [, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -112,7 +113,7 @@ export const WorkerBookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                         <div className="text-sm flex flex-col sm:flex-row sm:items-center gap-2 font-medium text-gray-600">
                             <span className="font-semibold text-gray-700">Services:</span>
                             <span className="text-gray-600">
-                                {booking.services?.length || 0} service({booking?.services?.map((service: any) => <span key={service?.service?._id}>{service?.service?.serviceName} </span>)}) booked
+                                {booking.services?.length || 0} service({booking?.services?.map((service: ServiceItem) => <span key={service?.service?._id}>{service?.service?.serviceName} </span>)}) booked
                             </span>
                             {booking.transactionId && (
                                 <span className="text-gray-500 text-xs">

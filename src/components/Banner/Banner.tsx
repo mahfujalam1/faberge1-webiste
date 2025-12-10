@@ -6,11 +6,12 @@ import { OutlineButton } from "../ui/OutlineButton";
 import Link from "next/link";
 import { getUserInfo } from "@/services/authServices";
 import { useGetAllDynamicBannerQuery } from "@/redux/api/publicApi";
+import { BannerData } from "@/types/global.types";
 
 const Banner = () => {
     const user = getUserInfo();
     const { data } = useGetAllDynamicBannerQuery(undefined);
-    const bannerVideo = data?.data.find((banner: any) => banner.title === 'home');
+    const bannerVideo = data?.data.find((banner: BannerData) => banner.title === 'home');
 
     // State to track if component has mounted on the client side
     const [isClient, setIsClient] = useState(false);

@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 import {
     Dialog,
     DialogContent,
@@ -8,46 +8,49 @@ import {
     DialogHeader,
     DialogTitle,
     DialogFooter,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Calendar } from "@/components/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { CalendarIcon } from "lucide-react"
-import { format } from "date-fns"
-import { cn } from "@/lib/utils"
-import { useAssignOfDayMutation, useGetAvailableSlotQuery, useUpdateAvailabilityMutation } from "@/redux/api/calenderApi"
-import { useGetMeQuery } from "@/redux/api/baseApi"
-import { toast } from "sonner"
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
+import { useAssignOfDayMutation, useGetAvailableSlotQuery, useUpdateAvailabilityMutation } from "@/redux/api/calenderApi";
+import { GetMeResponse, useGetMeQuery } from "@/redux/api/baseApi";
+import { toast } from "sonner";
+import { Slot } from "@/types/booking/bookings";
+import { ApiError } from "@/types/global.types";
 
 
+// Define props for the CalendarModal component
 interface CalendarModalProps {
-    open: boolean
-    onOpenChange: (open: boolean) => void
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
 }
 
 export default function CalendarModal({ open, onOpenChange }: CalendarModalProps) {
-    const worker = useGetMeQuery()
-    const [selectedDate, setSelectedDate] = useState<Date | undefined>()
-    const [selectedTimes, setSelectedTimes] = useState<string[]>([])
-    const [isTimeDropdownOpen, setIsTimeDropdownOpen] = useState(false)
-    const [isOffDay, setIsOffDay] = useState(false)
-    const [isTimeSlotDisabled, setIsTimeSlotDisabled] = useState(false)
-    const workerId = worker?.data?.data?._id;
+    const worker = useGetMeQuery<GetMeResponse>();
+    const [selectedDate, setSelectedDate] = useState<Date | undefined>();
+    const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
+    const [isTimeDropdownOpen, setIsTimeDropdownOpen] = useState(false);
+    const [isOffDay, setIsOffDay] = useState(false);
+    const [isTimeSlotDisabled, setIsTimeSlotDisabled] = useState(false);
+    const workerId = worker?.data?._id;
     const dateFormat = selectedDate ? format(selectedDate, "yyyy-MM-dd") : "";
 
-    const [updateAvailability, { isLoading }] = useUpdateAvailabilityMutation()
-    const [assignOffDay] = useAssignOfDayMutation()
-    const { data } = useGetAvailableSlotQuery({ workerId, date: dateFormat })
+    const [updateAvailability, { isLoading }] = useUpdateAvailabilityMutation();
+    const [assignOffDay] = useAssignOfDayMutation();
+    const { data } = useGetAvailableSlotQuery({ workerId, date: dateFormat });
     const availableTimeSlots = data?.data?.slots || [];
 
     // Set default unavailable slots and off day status when data loads
     useEffect(() => {
         if (availableTimeSlots.length > 0) {
             const unavailableSlots = availableTimeSlots
-                .filter((slot: any) => !slot.isAvailable)
-                .map((slot: any) => slot.startTime);
+                .filter((slot: Slot) => !slot.isAvailable)
+                .map((slot: Slot) => slot.startTime);
             setSelectedTimes(unavailableSlots);
         }
 
@@ -58,73 +61,77 @@ export default function CalendarModal({ open, onOpenChange }: CalendarModalProps
     }, [availableTimeSlots, data?.data?.isOffDay]);
 
     const handleTimeToggle = (time: string) => {
-        if (isTimeSlotDisabled) return
+        if (isTimeSlotDisabled) return;
         setSelectedTimes((prev) =>
             prev.includes(time) ? prev.filter((t) => t !== time) : [...prev, time]
-        )
-    }
+        );
+    };
 
     const handleSave = async () => {
-        if (!selectedDate) return
+        if (!selectedDate) return;
 
         try {
             // Call updateAvailability API with date and unavailableSlots (even if empty)
             const data = {
                 date: dateFormat,
-                unavailableSlots: selectedTimes
-            }
-            const res = await updateAvailability(data)
+                unavailableSlots: selectedTimes,
+            };
+            const res = await updateAvailability(data);
 
             if (res?.error) {
-                toast.error((res.error as any).data?.message)
+                const apiError = res?.error as ApiError
+                const errorMessage = apiError?.data?.message || "Login failed. Please try again."
+                toast.error(errorMessage)
             } else {
-                toast.success(res?.data?.message)
+                toast.success(res?.data?.message);
             }
 
             // Reset after save
-            setSelectedDate(undefined)
-            setSelectedTimes([])
-            setIsTimeDropdownOpen(false)
-            setIsOffDay(false)
-            setIsTimeSlotDisabled(false)
-            onOpenChange(false)
-        } catch (error:any) {
-            toast.error("Failed to update availability")
+            setSelectedDate(undefined);
+            setSelectedTimes([]);
+            setIsTimeDropdownOpen(false);
+            setIsOffDay(false);
+            setIsTimeSlotDisabled(false);
+            onOpenChange(false);
+        } catch (error) {
+            toast.error("Failed to update availability");
         }
-    }
+    };
 
     const handleOpenChange = (newOpen: boolean) => {
         if (!newOpen) {
-            setSelectedDate(undefined)
-            setSelectedTimes([])
-            setIsTimeDropdownOpen(false)
-            setIsOffDay(false)
-            setIsTimeSlotDisabled(false)
+            setSelectedDate(undefined);
+            setSelectedTimes([]);
+            setIsTimeDropdownOpen(false);
+            setIsOffDay(false);
+            setIsTimeSlotDisabled(false);
         }
-        onOpenChange(newOpen)
-    }
+        onOpenChange(newOpen);
+    };
 
     const handleAssignOffDay = async (checked: boolean | string) => {
-        const isChecked = typeof checked === 'boolean' ? checked : checked === 'on';
+        const isChecked = typeof checked === "boolean" ? checked : checked === "on";
         setIsOffDay(isChecked);
 
         if (dateFormat) {
             try {
-                const res = await assignOffDay({ date: dateFormat })
+                const res = await assignOffDay({ date: dateFormat });
                 if (res?.error) {
-                    toast.error((res.error as any)?.data.message || "Failed to assign off day")
+                    const apiError = res?.error as ApiError
+                    const errorMessage = apiError?.data?.message || "Login failed. Please try again."
+                    toast.error(errorMessage)
                 } else {
-                    toast.success(res?.data?.message)
+                    toast.success(res?.data?.message);
                 }
             } catch (error) {
-                toast.error("Failed to assign off day")
+                toast.error("Failed to assign off day");
             }
         } else {
-            toast.error("Date doesn't providing")
+            toast.error("Date doesn't providing");
         }
-    }
+    };
 
-    const shouldShowTimeSelection = !!selectedDate && selectedDate >= new Date(new Date().setHours(0, 0, 0, 0))
+    const shouldShowTimeSelection = !!selectedDate && selectedDate >= new Date(new Date().setHours(0, 0, 0, 0));
 
     return (
         <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -160,8 +167,8 @@ export default function CalendarModal({ open, onOpenChange }: CalendarModalProps
                                     mode="single"
                                     selected={selectedDate}
                                     onSelect={(date) => {
-                                        setSelectedDate(date)
-                                        setIsTimeDropdownOpen(false)
+                                        setSelectedDate(date);
+                                        setIsTimeDropdownOpen(false);
                                     }}
                                     initialFocus
                                 />
@@ -191,13 +198,15 @@ export default function CalendarModal({ open, onOpenChange }: CalendarModalProps
                         <div className="space-y-2 animate-in fade-in-50 duration-200 w-full">
                             <Label>Select Time for unavailability</Label>
                             <div className="relative w-full">
-                                <div className={cn(
-                                    "relative w-full mt-1 bg-white border border-gray-300 rounded-md shadow-sm",
-                                    isTimeSlotDisabled && "opacity-50 pointer-events-none"
-                                )}>
+                                <div
+                                    className={cn(
+                                        "relative w-full mt-1 bg-white border border-gray-300 rounded-md shadow-sm",
+                                        isTimeSlotDisabled && "opacity-50 pointer-events-none"
+                                    )}
+                                >
                                     <div className="max-h-56 overflow-y-auto divide-y">
-                                        {availableTimeSlots?.map((time: any) => {
-                                            const isSelected = selectedTimes.includes(time?.startTime)
+                                        {availableTimeSlots?.map((time: Slot) => {
+                                            const isSelected = selectedTimes.includes(time?.startTime);
                                             return (
                                                 <div
                                                     key={time?.startTime}
@@ -216,7 +225,7 @@ export default function CalendarModal({ open, onOpenChange }: CalendarModalProps
                                                     />
                                                     <span className="text-sm">{time?.startTime}</span>
                                                 </div>
-                                            )
+                                            );
                                         })}
                                     </div>
                                 </div>
@@ -246,5 +255,5 @@ export default function CalendarModal({ open, onOpenChange }: CalendarModalProps
                 </div>
             </DialogContent>
         </Dialog>
-    )
+    );
 }

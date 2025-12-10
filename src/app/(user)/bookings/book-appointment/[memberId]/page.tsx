@@ -11,23 +11,24 @@ import { useGetAvailableSlotQuery, useGetCalenderScheduleQuery } from "@/redux/a
 import { toast } from "sonner";
 import { useBookSlotMutation, usePaymentForSlotMutation } from "@/redux/api/bookingApi";
 import { AddOn, BookingItem, CalendarData, Member, SelectedSlot, Service } from "@/types/booking/appointment";
-
-
+import { BookingRequest, BookSlotResponse, GroupedBooking, PaymentResponse } from "@/types/booking/bookings";
 
 // Component Props Types
-type BookAppointmentPageProps = {
+interface BookAppointmentPageProps {
     params: Promise<{ memberId: string }>;
-};
+}
+
 
 export default function BookAppointmentPage({ params }: BookAppointmentPageProps) {
     const { memberId } = React.use(params);
     const [bookSlot] = useBookSlotMutation();
-    const [isLoading, setIsLoading] = useState(false);
-    const [mounted, setMounted] = useState(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [mounted, setMounted] = useState<boolean>(false);
     const [selectedMonth, setSelectedMonth] = useState<number>(0);
     const [selectedYear, setSelectedYear] = useState<number>(2024);
     const [selectedDate, setSelectedDate] = useState<string | null>(null);
     const [selectedSlots, setSelectedSlots] = useState<SelectedSlot[]>([]);
+    console.log(selectedSlots)
     const [bookings, setBookings] = useState<BookingItem[]>([]);
 
     const [slotPayment] = usePaymentForSlotMutation();
@@ -59,7 +60,7 @@ export default function BookAppointmentPage({ params }: BookAppointmentPageProps
         slot: SelectedSlot | null,
         time: string,
         service: Service
-    ) => {
+    ): void => {
         if (slot) {
             setSelectedSlots([...selectedSlots, slot]);
         } else {
@@ -75,10 +76,11 @@ export default function BookAppointmentPage({ params }: BookAppointmentPageProps
         time: string,
         service: Service,
         addOn: AddOn
-    ) => {
+    ): void => {
         setSelectedSlots(
             selectedSlots.map((slot: SelectedSlot) => {
-                if (slot.time === time && slot.service._id === service._id) {
+                console.log(slot)
+                if (slot.time === time && slot.service?._id === service._id) {
                     const hasAddOn = slot.addOns.some((a) => a._id === addOn._id);
                     return {
                         ...slot,
@@ -92,7 +94,7 @@ export default function BookAppointmentPage({ params }: BookAppointmentPageProps
         );
     };
 
-    const handleAddBookings = () => {
+    const handleAddBookings = (): void => {
         if (!selectedDate || selectedSlots.length === 0) {
             alert("Please select a date and at least one service");
             return;
@@ -101,8 +103,12 @@ export default function BookAppointmentPage({ params }: BookAppointmentPageProps
         const newBookings: BookingItem[] = selectedSlots.map((slot) => ({
             date: selectedDate,
             time: slot.time,
-            service: { service: slot.service },
-            addOns: slot.addOns,
+            service: slot.service.service,
+            addOns: slot.addOns.map((addon) => ({
+                _id: addon._id,
+                subcategoryName: addon.subcategoryName,
+                subcategoryPrice: addon.subcategoryPrice,
+            })),
         }));
 
         setBookings((prev) => [...prev, ...newBookings]);
@@ -110,21 +116,21 @@ export default function BookAppointmentPage({ params }: BookAppointmentPageProps
         setSelectedDate(null);
     };
 
-    const handleRemoveBooking = (index: number) => {
+    const handleRemoveBooking = (index: number): void => {
         setBookings((prev) => prev.filter((_, i) => i !== index));
     };
 
-    const handleClearBookings = () => {
+    const handleClearBookings = (): void => {
         setBookings([]);
     };
 
-    const handleCheckout = async () => {
+    const handleCheckout = async (): Promise<void> => {
         if (bookings.length === 0) {
             toast.error("No bookings to checkout");
             return;
         }
 
-        const groupedBookings = bookings.reduce((acc: any, booking: any) => {
+        const groupedBookings = bookings.reduce((acc: Record<string, GroupedBooking>, booking: BookingItem) => {
             const key = `${booking.date}-${booking.time}`;
 
             if (!acc[key]) {
@@ -137,13 +143,13 @@ export default function BookAppointmentPage({ params }: BookAppointmentPageProps
 
             acc[key].services.push({
                 serviceId: booking.service._id,
-                serviceCategories: booking.addOns.map((addon: any) => addon._id),
+                serviceCategories: booking.addOns.map((addon: AddOn) => addon._id),
             });
 
             return acc;
         }, {});
 
-        const bookingRequests = Object.values(groupedBookings).map((group: any) => ({
+        const bookingRequests: BookingRequest[] = Object.values(groupedBookings).map((group: GroupedBooking) => ({
             workerId: memberId,
             services: group.services,
             date: group.date,
@@ -153,20 +159,20 @@ export default function BookAppointmentPage({ params }: BookAppointmentPageProps
         try {
             for (const bookingData of bookingRequests) {
                 setIsLoading(true);
-                const res = await bookSlot(bookingData);
+                const res = await bookSlot(bookingData) as BookSlotResponse;
                 if (res?.error) {
-                    toast.error((res?.error as any)?.data?.message);
+                    toast.error(res.error.data.message);
                     setIsLoading(false);
                 } else if (res?.data) {
-                    const paymentRes = await slotPayment({ bookingId: res?.data?.data?._id });
+                    const paymentRes = await slotPayment({ bookingId: res.data.data?._id }) as PaymentResponse;
                     if (paymentRes?.data) {
-                        const paymentUrl = paymentRes?.data?.url;
+                        const paymentUrl = paymentRes.data.url;
                         if (paymentUrl) {
                             window.location.href = paymentUrl;
                         }
                         setIsLoading(false);
                     } else if (paymentRes?.error) {
-                        toast.error((paymentRes?.error as any)?.data?.message);
+                        toast.error(paymentRes.error.data.message);
                         setIsLoading(false);
                     }
                 }
@@ -199,7 +205,7 @@ export default function BookAppointmentPage({ params }: BookAppointmentPageProps
                             <div className="shadow-lg bg-white p-3 rounded-lg">
                                 <div className="lg:w-40 w-24 h-20 md:w-32 lg:h-40 md:h-32 rounded-lg overflow-hidden mb-4">
                                     <Image
-                                        src={member?.uploadPhoto || IMAGES?.workerProfile.src}
+                                        src={member?.uploadPhoto }
                                         alt={member.firstName}
                                         width={200}
                                         height={200}
@@ -242,7 +248,6 @@ export default function BookAppointmentPage({ params }: BookAppointmentPageProps
                                             workerId={memberId}
                                             slots={availableSlots.slots || []}
                                             services={member.services || []}
-                                            extraServices={member.subservices || []}
                                             selectedSlots={selectedSlots}
                                             onSlotChange={handleSlotChange}
                                             onAddOnToggle={handleAddOnToggle}

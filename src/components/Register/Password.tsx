@@ -14,7 +14,8 @@ interface StepTwoPasswordProps {
     onNext: () => void
     onPrev: () => void
     currentStep: number
-    initialData?: PasswordData
+    initialData?: PasswordData,
+    isLoading?: boolean
 }
 
 export interface PasswordData {
@@ -26,6 +27,7 @@ export default function StepTwoPassword({
     onContinue,
     onPrev,
     initialData,
+    isLoading
 }: StepTwoPasswordProps) {
     const [password, setPassword] = useState(initialData?.password || "")
     const [confirmPassword, setConfirmPassword] = useState(initialData?.confirmPassword || "")
@@ -34,7 +36,7 @@ export default function StepTwoPassword({
     const [isValid, setIsValid] = useState(false)
 
     useEffect(() => {
-        const passwordValid = password.length >= 8
+        const passwordValid = password.length >= 6
         const passwordsMatch = password === confirmPassword && confirmPassword !== ""
         setIsValid(passwordValid && passwordsMatch)
     }, [password, confirmPassword])
@@ -125,7 +127,7 @@ export default function StepTwoPassword({
                 </div>
 
                 {/* Validation Messages */}
-                {password && password.length < 8 && (
+                {password && password.length < 6 && (
                     <p className="text-sm text-red-600">Password must be at least 8 characters</p>
                 )}
                 {confirmPassword && password !== confirmPassword && (
@@ -138,7 +140,7 @@ export default function StepTwoPassword({
                     disabled={!isValid}
                     className="h-12 w-full rounded-lg bg-black text-base font-medium text-white hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                    Continue
+                    {isLoading ? "Proccesing.." : "Continue"}
                 </Button>
 
                 <div className="flex items-center justify-between pt-4">

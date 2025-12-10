@@ -45,7 +45,7 @@ export default function AllBookings() {
     };
 
     const renderPageButtons = () => {
-        let buttons = [];
+        const buttons = [];
         for (let i = 1; i <= (pagination?.totalPages || 1); i++) {
             buttons.push(
                 <Button
@@ -68,7 +68,7 @@ export default function AllBookings() {
             <div className="min-h-screen bg-gradient-to-tr from-[#fdeaea] via-[#fff1f3] to-[#ffdae1] p-4 md:py-5">
                 <div className="container mx-auto">
                     <div className="p-8 bg-white">
-                        <WorkerBookingTab setTab={setTab} tab={tab} filteredBookings={filteredBookings} setFilterType={setFilterType} />
+                        <WorkerBookingTab setTab={setTab} tab={tab} setFilterType={setFilterType} />
                         {isLoading ? (
                             <div className="text-center py-8">
                                 <p className="text-gray-500">Loading bookings...</p>

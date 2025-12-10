@@ -1,14 +1,20 @@
-
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-export const BookingTabs = ({ setTab, tab, setFilterType }: any) => {
+type BookingTabsProps = {
+  setTab: (value: "" | "booked" | "completed") => void;
+  tab: "" | "booked" | "completed";
+  setFilterType: (value: "upcoming" | "completed") => void;
+};
+
+export const BookingTabs = ({ setTab, tab, setFilterType }: BookingTabsProps) => {
 
   const handleTabChange = (value: string) => {
-    setTab(value);
+    setTab(value as "" | "booked" | "completed");
     if (value === "booked") {
       setFilterType("upcoming");
     }
-  }
+  };
+
   return (
     <Tabs
       value={tab}

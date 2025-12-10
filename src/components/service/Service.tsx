@@ -5,12 +5,13 @@ import { IMAGES } from "@/constants/image.index";
 import SectionHeader from "../ui/SectionHeader";
 import { usePathname } from "next/navigation";
 import { useGetAllDynamicBannerQuery } from "@/redux/api/publicApi";
+import { BannerData } from "@/types/global.types";
 
 export default function ServicesSection() {
     const path = usePathname();
     const { data } = useGetAllDynamicBannerQuery(undefined);
-    const manicureBannerImage = data?.data.find((banner: any) => banner.title === 'manicure');
-    const pedicureBannerImage = data?.data.find((banner: any) => banner.title === 'pedicure');
+    const manicureBannerImage = data?.data.find((banner: BannerData) => banner.title === 'manicure');
+    const pedicureBannerImage = data?.data.find((banner: BannerData) => banner.title === 'pedicure');
     
 
     const manicureData = {

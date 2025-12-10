@@ -12,38 +12,55 @@ import { IMAGES } from "@/constants/image.index"
 import { useRouter } from "next/navigation"
 import { useLoginUserMutation } from "@/redux/api/authApi"
 import { toast } from "sonner"
-import { storeUserInfo } from "@/services/authServices";
-import setAccessTokenToCookies from "@/services/actions/setAccessTokenToCookie";
+import { storeUserInfo } from "@/services/authServices"
+import setAccessTokenToCookies from "@/services/actions/setAccessTokenToCookie"
+import { ApiError } from "@/types/global.types"
+
+interface LoginResponse {
+  data?: {
+    token: string;
+  };
+  error?: {
+    data?: {
+      message?: string;
+    };
+    status?: number;
+  };
+}
+
+
 
 function LoginForm() {
-  const [showPassword, setShowPassword] = useState(false)
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [rememberMe, setRememberMe] = useState(false)
+  const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [email, setEmail] = useState<string>("")
+  const [password, setPassword] = useState<string>("")
+  const [rememberMe, setRememberMe] = useState<boolean>(false)
 
   const [login, { isLoading }] = useLoginUserMutation()
   const router = useRouter()
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
 
     try {
       const data = { email, password }
-      const res = await login(data)
+      const res = await login(data) as LoginResponse
 
       if (res?.data?.token) {
-        storeUserInfo(res?.data?.token);
-        setAccessTokenToCookies(res?.data?.token, {
+        storeUserInfo(res.data.token)
+        setAccessTokenToCookies(res.data.token, {
           redirect: "/",
-        });
+        })
         router.push('/')
-        toast.success("User login successfully");
+        toast.success("User login successfully")
       } else {
-        const errorMessage = (res?.error as any)?.data?.message || "Login failed. Please try again.";
-        errorMessage && toast.error(errorMessage);
+        const apiError = res?.error as ApiError
+        const errorMessage = apiError?.data?.message || "Login failed. Please try again."
+        toast.error(errorMessage)
       }
-    } catch (error: any) {
-      toast.error(error?.data?.message || "Login failed. Please try again.")
+    } catch (error) {
+      const apiError = error as ApiError
+      toast.error(apiError?.data?.message || "Login failed. Please try again.")
     }
   }
 

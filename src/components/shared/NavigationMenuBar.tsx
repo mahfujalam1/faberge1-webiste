@@ -7,32 +7,34 @@ import Link from "next/link";
 import { IMAGES } from "@/constants/image.index";
 import { cn } from "@/lib/utils";
 import { logoutUser } from "@/services/actions/logoutUser";
-import { getUserInfo } from "@/services/authServices";
+import { GetMeResponse, useGetMeQuery, } from "@/redux/api/baseApi";
+
+
+// Define the structure of each navigation item
+interface NavItem {
+  name: string;
+  href: string;
+}
 
 const NavigationMenuBar = () => {
-  const [user, setUser] = useState<any>(null); // Initially null
-  const [isOpen, setIsOpen] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [loading, setLoading] = useState(true); // Loading state to prevent UI issues
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const pathname = usePathname();
   const router = useRouter();
 
-  // Set the user data on the client side after the component mounts
-  useEffect(() => {
-    const userInfo = getUserInfo(); // Fetch user info client-side
-    setUser(userInfo);
-    setLoading(false); // Once user data is fetched, set loading to false
-  }, []);
+  const { data } = useGetMeQuery<GetMeResponse>();
+  console.log(data)
 
-  const navItemsCustomer = [
+  // Define navigation items for customer and worker roles
+  const navItemsCustomer: NavItem[] = [
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
-    ...(user?.email ? [{ name: "Bookings", href: "/bookings" }] : []),
+    ...(data?.email ? [{ name: "Bookings", href: "/bookings" }] : []),
     { name: "Services", href: "/services" },
     { name: "Contact Us", href: "/contact" },
   ];
 
-  const navItemsWorker = [
+  const navItemsWorker: NavItem[] = [
     { name: "Dashboard", href: "/dashboard" },
     { name: "Schedule", href: "/schedule" },
     { name: "Bookings", href: "/all-bookings" },
@@ -43,14 +45,15 @@ const NavigationMenuBar = () => {
     router.push("/auth/sign-in");
   };
 
-  const isActive = (href: string) => {
+  // Check if the current route is active
+  const isActive = (href: string): boolean => {
     if (href === "/") return pathname === "/";
     const firstSegment = "/" + pathname.split("/")[1];
     return firstSegment === href;
   };
 
-  const navItems = user?.role === "worker" ? navItemsWorker : navItemsCustomer;
-  const isLoggedIn = Boolean(user?.email);
+  const navItems: NavItem[] = data?.role === "worker" ? navItemsWorker : navItemsCustomer;
+  const isLoggedIn = Boolean(data?.email);
 
   useEffect(() => {
     const workerRoutes = ["/dashboard", "/schedule", "/all-bookings"];
@@ -59,34 +62,16 @@ const NavigationMenuBar = () => {
     const isWorkerRoute = workerRoutes.some((route) => pathname.startsWith(route));
     const isCustomerRoute = customerRoutes.some((route) => pathname.startsWith(route));
 
-    if (user?.role === "worker" && isCustomerRoute) {
+    if (data?.role === "worker" && isCustomerRoute) {
       router.push("/dashboard");
     }
 
-    if (user?.role === "customer" && isWorkerRoute) {
+    if (data?.role === "customer" && isWorkerRoute) {
       router.push("/");
     }
-  }, [user, pathname, router]);
+  }, [data, pathname, router]);
 
-  if (loading) {
-    return (
-      <nav className="sticky top-0 bg-white shadow-sm z-50">
-        <div className="container mx-auto px-4 py-1 flex items-center justify-between">
-          <div className="flex-shrink-0 flex items-center justify-start w-[180px]">
-            <Image
-              src={IMAGES.logo.src}
-              alt="IHBS Logo"
-              width={84}
-              height={86}
-              className="object-contain"
-            />
-          </div>
-          {/* You can add a loading spinner here */}
-          <div>Loading...</div>
-        </div>
-      </nav>
-    );
-  }
+
 
   return (
     <nav className={cn("sticky top-0 bg-white shadow-sm z-50")}>
@@ -126,7 +111,7 @@ const NavigationMenuBar = () => {
               >
                 <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
                   <Image
-                    src={user?.uploadPhoto || IMAGES.profile.src}
+                    src={data?.uploadPhoto && data?.uploadPhoto === "http://10.10.20.16:5137undefined" && IMAGES.profile.src || IMAGES.profile.src}
                     alt="Profile"
                     width={40}
                     height={40}
@@ -135,10 +120,10 @@ const NavigationMenuBar = () => {
                 </div>
                 <div className="hidden xl:block">
                   <p className="text-sm font-medium text-black">
-                    {user?.firstName + " " + user?.lastName || "User"}
+                    {data?.firstName + " " + data?.lastName || "User"}
                   </p>
                   <p className="text-xs text-start text-black">
-                    {user?.role === "worker" ? "Nail Tech" : "Customer"}
+                    {data?.role === "worker" ? "Nail Tech" : "Customer"}
                   </p>
                 </div>
                 <ChevronDown className="w-4 h-4 text-black" />
@@ -153,24 +138,24 @@ const NavigationMenuBar = () => {
                   <div className="absolute left-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-20">
                     <div className="block lg:hidden ps-4 pb-2 border-b">
                       <p className="text-sm font-medium text-black">
-                        {user?.firstName + " " + user?.lastName || "User"}
+                        {data?.firstName + " " + data?.lastName || "User"}
                       </p>
                       <p className="text-xs text-start text-black">
-                        {user?.role === "worker" ? "Nail Tech" : "Customer"}
+                        {data?.role === "worker" ? "Nail Tech" : "Customer"}
                       </p>
                     </div>
-                    {user?.role === "customer" && (
+                    {data?.role === "customer" && (
                       <Link href="/my-bookings" onClick={() => setIsDropdownOpen(false)}>
                         <div className="px-4 py-2 border-b border-gray-100 hover:bg-gray-100 hover:text-primary">
                           <p>My Bookings</p>
                         </div>
                       </Link>
                     )}
-                    {user?.role === "worker" && (
+                    {data?.role === "worker" && (
                       <div className="text-xs ms-4 py-2 border-b">
                         <h1>Nail Tech</h1>
                         <h1>New York, NY</h1>
-                        <h1>ID#: {user?._id?.slice(-7)}</h1>
+                        <h1>ID#: {data?._id?.slice(-7)}</h1>
                       </div>
                     )}
                     <button

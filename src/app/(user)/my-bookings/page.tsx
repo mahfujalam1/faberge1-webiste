@@ -4,6 +4,7 @@ import { BookingCard } from "@/components/myBookings/BookingCard";
 import { BookingTabs } from "@/components/myBookings/BookingTabs";
 import { Button } from "@/components/ui/button";
 import { useGetAllBookingsForCustomerQuery } from "@/redux/api/bookingApi";
+import { Booking } from "@/types/booking/bookings";
 import { useState } from "react";
 
 export default function AllBookings() {
@@ -23,14 +24,14 @@ export default function AllBookings() {
     });
 
     // Flatten the bookings from the grouped date structure
-    const bookings = data?.data
-        ? Object.values(data.data).flat()
+    const bookings: Booking[] = data?.data
+        ? (Object.values(data.data).flat() as Booking[])
         : [];
 
 
     const pagination = data?.pagination;
 
-    const filteredBookings = bookings.filter((b: any) =>
+    const filteredBookings = bookings.filter((b: Booking) =>
         tab === "" ? true : b.status === tab
     );
 
@@ -52,7 +53,7 @@ export default function AllBookings() {
     };
 
     const renderPageButtons = () => {
-        let buttons = [];
+        const buttons = [];
         for (let i = 1; i <= (pagination?.totalPages || 1); i++) {
             buttons.push(
                 <Button
@@ -77,7 +78,7 @@ export default function AllBookings() {
             <div className="min-h-screen bg-gradient-to-tr from-[#fdeaea] via-[#fff1f3] to-[#ffdae1] p-4 md:py-5">
                 <div className="container mx-auto">
                     <div className="p-8 bg-white">
-                        <BookingTabs setTab={setTab} tab={tab} filteredBookings={filteredBookings} setFilterType={setFilterType} />
+                        <BookingTabs setTab={setTab} tab={tab} setFilterType={setFilterType} />
                         {isLoading ? (
                             <div className="text-center py-8">
                                 <p className="text-gray-500">Loading bookings...</p>
@@ -88,7 +89,7 @@ export default function AllBookings() {
                             </div>
                         ) : filteredBookings.length > 0 ? (
                             <>
-                                {filteredBookings?.map((booking: any) => (
+                                {filteredBookings?.map((booking: Booking) => (
                                     <BookingCard key={booking._id} booking={booking} />
                                 ))}
 

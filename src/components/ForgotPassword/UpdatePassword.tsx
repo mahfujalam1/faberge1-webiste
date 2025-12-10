@@ -3,7 +3,6 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Eye, EyeOff } from "lucide-react"
-import { toast } from "sonner"
 
 interface StepThreePasswordProps {
     onComplete: (password: string) => void
@@ -18,12 +17,12 @@ export function StepThreePassword({ onComplete, isLoading }: StepThreePasswordPr
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        if (newPassword === confirmPassword && newPassword.length >= 8) {
+        if (newPassword === confirmPassword && newPassword.length >= 6) {
             onComplete(newPassword) // Pass new password to parent
         }
     }
 
-    const isValid = newPassword === confirmPassword && newPassword.length >= 8
+    const isValid = newPassword === confirmPassword && newPassword.length >= 6
 
     return (
         <form className="space-y-6 w-full max-w-xl mx-auto" onSubmit={handleSubmit}>

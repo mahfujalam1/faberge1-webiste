@@ -2,6 +2,7 @@
 
 import { IMAGES } from "@/constants/image.index";
 import { useContactUsMutation } from "@/redux/api/publicApi";
+import { ApiError } from "@/types/global.types";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -47,8 +48,16 @@ export default function ContactSection() {
             if (res?.data) {
                 toast.success(res?.data?.message || "Form submitted successfully");
             } else if (res?.error) {
-                toast.error((res?.error as any)?.data?.message || "Failed to submit the form");
+                const apiError = res?.error as ApiError
+                const errorMessage = apiError?.data?.message || "Login failed. Please try again."
+                toast.error(errorMessage)
             }
+            setFormData({
+                firstName: "",
+                email: "",
+                subject: "",
+                message: ""
+            })
         } catch (error) {
             console.error("Error submitting form:", error);
         }

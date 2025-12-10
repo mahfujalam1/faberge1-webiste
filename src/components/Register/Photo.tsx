@@ -14,6 +14,7 @@ interface StepThreePhotoProps {
     onPrev: () => void
     currentStep: number
     initialData?: PhotoData
+    isLoading?: boolean
 }
 
 export interface PhotoData {
@@ -21,7 +22,7 @@ export interface PhotoData {
     photoFile: File | null
 }
 
-export default function StepThreePhoto({ onContinue, onPrev, initialData }: StepThreePhotoProps) {
+export default function StepThreePhoto({ onContinue, onPrev, initialData, isLoading }: StepThreePhotoProps) {
     const [photoPreview, setPhotoPreview] = useState<string | null>(initialData?.photoUrl || null)
     const [photoFile, setPhotoFile] = useState<File | null>(initialData?.photoFile || null)
     const fileInputRef = useRef<HTMLInputElement>(null)
@@ -108,7 +109,7 @@ export default function StepThreePhoto({ onContinue, onPrev, initialData }: Step
                     onClick={handleContinue}
                     className="h-12 w-full rounded-lg bg-black text-base font-medium text-white hover:bg-gray-800"
                 >
-                    Continue
+                    {isLoading ? "Completing.." : "Complete"}
                 </Button>
             )}
 

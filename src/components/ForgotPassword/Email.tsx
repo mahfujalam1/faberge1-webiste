@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useForgotPassowrdMutation } from "@/redux/api/authApi"
 import { toast } from "sonner"
+import { ApiError } from "@/types/global.types"
 
 interface StepOneEmailProps {
     onContinue: (email: string) => void
@@ -22,7 +23,9 @@ export function StepOneEmail({ onContinue }: StepOneEmailProps) {
                 toast.success("Code sent to email.")
                 onContinue(email) // Proceed to next step with the email
             } else if (res?.error) {
-                toast.error((res?.error as any)?.data?.message)
+                const apiError = res?.error as ApiError
+                const errorMessage = apiError?.data?.message || "Login failed. Please try again."
+                toast.error(errorMessage)
             }
         }
     }
