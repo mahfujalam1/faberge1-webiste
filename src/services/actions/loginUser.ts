@@ -4,7 +4,7 @@ type FieldValues = Record<string, unknown>;
 
 export const loginUser = async (values: FieldValues) => {
   const res = await fetch(
-    `http://10.10.20.16:5137/customer-or-worker/login`,
+    `https://x91h36px-5137.inc1.devtunnels.ms/customer-or-worker/login`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
