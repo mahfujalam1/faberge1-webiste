@@ -15,16 +15,16 @@ interface StepOneProfileProps {
     onPrev: () => void
     currentStep: number
     initialData?: ProfileData,
-    isLoading?:boolean
+    isLoading?: boolean
 }
 
 export interface ProfileData {
     firstName: string
     lastName: string
     address: string
-    zip:string
     city: string
     state: string
+    zip: string
     phone: string
     email: string
 }
@@ -35,9 +35,9 @@ export default function StepOneProfile({ onContinue, onPrev, currentStep, initia
             firstName: "",
             lastName: "",
             address: "",
-            zip:"",
             city: "",
             state: "",
+            zip: "",
             phone: "",
             email: "",
         },
@@ -141,23 +141,6 @@ export default function StepOneProfile({ onContinue, onPrev, currentStep, initia
                         />
                     </div>
                     <div>
-                        <label htmlFor="zip" className="mb-2 block text-sm font-medium text-gray-900">
-                            Zip Code
-                        </label>
-                        <Input
-                            id="zip"
-                            type="text"
-                            placeholder="Enter your zip code"
-                            className="h-12 rounded-lg border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-400"
-                            value={formData.zip}
-                            onChange={(e) => handleChange("zip", e.target.value)}
-                        />
-                    </div>
-                </div>
-
-                {/* City & State */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
                         <label htmlFor="city" className="mb-2 block text-sm font-medium text-gray-900">
                             City
                         </label>
@@ -170,6 +153,11 @@ export default function StepOneProfile({ onContinue, onPrev, currentStep, initia
                             onChange={(e) => handleChange("city", e.target.value)}
                         />
                     </div>
+
+                </div>
+
+                {/* City & State */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label htmlFor="state" className="mb-2 block text-sm font-medium text-gray-900">
                             State
@@ -181,6 +169,19 @@ export default function StepOneProfile({ onContinue, onPrev, currentStep, initia
                             className="h-12 rounded-lg border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-400"
                             value={formData.state}
                             onChange={(e) => handleChange("state", e.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="zip" className="mb-2 block text-sm font-medium text-gray-900">
+                            Zip Code
+                        </label>
+                        <Input
+                            id="zip"
+                            type="text"
+                            placeholder="Enter your zip code"
+                            className="h-12 rounded-lg border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-400"
+                            value={formData.zip}
+                            onChange={(e) => handleChange("zip", e.target.value)}
                         />
                     </div>
                 </div>

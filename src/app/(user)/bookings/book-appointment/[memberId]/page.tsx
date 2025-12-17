@@ -167,7 +167,7 @@ export default function BookAppointmentPage({ params }: BookAppointmentPageProps
                     if (paymentRes?.data) {
                         const paymentUrl = paymentRes.data.url;
                         if (paymentUrl) {
-                            window.location.href = paymentUrl;
+                            window.open(paymentUrl, '_blank');
                         }
                         setIsLoading(false);
                     } else if (paymentRes?.error) {
