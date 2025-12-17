@@ -52,17 +52,18 @@ export default function TeamMembersPage() {
                                         className="bg-white rounded-lg p-4 cursor-pointer hover:shadow-lg duration-300 transition-all hover:scale-105 text-left"
                                     >
                                         {/* Member Image */}
-                                        <div className="relative w-full aspect-square mb-3 rounded-lg overflow-hidden bg-gray-200">
+                                        <div className="relative w-full h-20 rounded-lg overflow-hidden bg-gray-200">
                                             <Image
                                                 src={member?.uploadPhoto === "http://10.10.20.16:5137undefined" ? IMAGES?.workerProfile.src : member?.uploadPhoto}
                                                 alt={`${member.firstName} ${member.lastName}`}
-                                                fill
-                                                className="object-cover"
+                                                height={800}
+                                                width={800}
+                                                className="object-cover object-center  w-full h-full"
                                             />
                                         </div>
 
                                         {/* Member Info */}
-                                        <h3 className="font-semibold text-sm mb-1 text-center">
+                                        <h3 className="font-semibold text-sm mb-1 text-center pt-2">
                                             {member.firstName} {member.lastName}
                                         </h3>
 
@@ -92,11 +93,11 @@ export default function TeamMembersPage() {
                         </div>
 
                         {/* No Members Found */}
-                        {/* {filteredMembers.length === 0 && (
+                        {teamMembers.length === 0 && (
                             <p className="text-center text-gray-500 mt-6">
-                                No team members found for {stateName}.
+                                No team members found.
                             </p>
-                        )} */}
+                        )}
                     </div>
                 </div>
             </div>
