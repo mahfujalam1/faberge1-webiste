@@ -40,7 +40,7 @@ export default function BookingsPage() {
       {/* <DynamicBanner title="States" /> */}
       <div className="flex items-center justify-center bg-gradient-to-tl from-[#fdeaea] via-[#fff1f3] to-[#ffdae1] p-4 md:p-8">
         <div className="w-full px-6 md:px-10 rounded-[2rem] md:rounded-[3rem]">
-          <div className="container mx-auto py-20">
+          <div className="container mx-auto">
             {/* Title */}
             <h1 className="text-3xl text-center md:text-2xl font-serif mb-5 text-balance">
               Select Your State
@@ -71,7 +71,7 @@ export default function BookingsPage() {
 
               }
             </div>
-            <div className="py-10">
+            <div className="">
               {
                 isLoading && <div className="flex items-center justify-center text-center"><GridLoader color="#ff007a" /></div>
               }
