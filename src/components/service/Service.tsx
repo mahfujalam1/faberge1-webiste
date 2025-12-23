@@ -17,7 +17,7 @@ export default function ServicesSection() {
 
     const manicureData = {
         title: "Manicure",
-        image: process.env.NEXT_PUBLIC_SERVER_URL+manicureBannerImage?.image || IMAGES.serviceCardImage1.src,
+        image: process.env.NEXT_PUBLIC_SERVER_URL + (manicureBannerImage?.image || IMAGES.serviceCardImage1.src),
         services: [
             {
                 title: "Manicure",
@@ -34,7 +34,7 @@ export default function ServicesSection() {
 
     const pedicureData = {
         title: "Pedicure",
-        image: process.env.NEXT_PUBLIC_SERVER_URL + pedicureBannerImage?.image || IMAGES.serviceCardImage2.src,
+        image: process.env.NEXT_PUBLIC_SERVER_URL + (pedicureBannerImage?.image || IMAGES.serviceCardImage2.src),
         services: [
             {
                 title: "Pedicure",
@@ -48,6 +48,7 @@ export default function ServicesSection() {
         ],
         serviceTypes: ["Water Method", "Waterless Method"],
     };
+
 
     return (
         <section className="relative min-h-screen">
