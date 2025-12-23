@@ -13,6 +13,8 @@ const Banner = () => {
     const { data } = useGetAllDynamicBannerQuery(undefined);
     const bannerVideo = data?.data.find((banner: BannerData) => banner.title === 'home');
 
+    console.log(bannerVideo)
+
     // State to track if component has mounted on the client side
     const [isClient, setIsClient] = useState(false);
 
@@ -47,9 +49,9 @@ const Banner = () => {
                 playsInline
                 className="absolute top-0 left-0 w-full h-full object-cover"
             >
-                <source src={bannerVideo?.video || "/videos/banner-video.mp4"} type="video/mp4" />
-                <source src={bannerVideo?.video.replace('.mp4', '.webm')} type="video/webm" />
-                <source src={bannerVideo?.video.replace('.mp4', '.ogv')} type="video/ogg" />
+                <source src={`${process.env.NEXT_PUBLIC_SERVER_URL}${bannerVideo?.video || "/videos/banner-video.mp4"}`} type="video/mp4" />
+                <source src={`${process.env.NEXT_PUBLIC_SERVER_URL}${bannerVideo?.video.replace('.mp4', '.webm')}`} type="video/webm" />
+                <source src={`${process.env.NEXT_PUBLIC_SERVER_URL}${bannerVideo?.video.replace('.mp4', '.ogv')}`} type="video/ogg" />
             </video>
 
             {/* Dark Overlay */}

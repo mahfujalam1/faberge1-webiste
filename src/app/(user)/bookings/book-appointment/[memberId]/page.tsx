@@ -205,7 +205,7 @@ export default function BookAppointmentPage({ params }: BookAppointmentPageProps
                             <div className="shadow-lg bg-white p-3 rounded-lg">
                                 <div className="lg:w-40 w-24 h-20 md:w-32 lg:h-40 md:h-32 rounded-lg overflow-hidden mb-4">
                                     <Image
-                                        src={member?.uploadPhoto === "http://10.10.20.16:5137undefined" ? IMAGES?.workerProfile.src : member?.uploadPhoto}
+                                        src={`${process.env.NEXT_PUBLIC_SERVER_URL}${member.uploadPhoto}`}
                                         alt={member.firstName}
                                         width={200}
                                         height={200}

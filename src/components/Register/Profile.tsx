@@ -24,7 +24,7 @@ export interface ProfileData {
     address: string
     city: string
     state: string
-    zip: string
+    zipCode: string
     phone: string
     email: string
 }
@@ -37,11 +37,12 @@ export default function StepOneProfile({ onContinue, onPrev, currentStep, initia
             address: "",
             city: "",
             state: "",
-            zip: "",
+            zipCode: "",
             phone: "",
             email: "",
         },
     )
+    console.log(formData)
 
     const [isValid, setIsValid] = useState(false)
 
@@ -180,8 +181,8 @@ export default function StepOneProfile({ onContinue, onPrev, currentStep, initia
                             type="text"
                             placeholder="Enter your zip code"
                             className="h-12 rounded-lg border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-400"
-                            value={formData.zip}
-                            onChange={(e) => handleChange("zip", e.target.value)}
+                            value={formData.zipCode}
+                            onChange={(e) => handleChange("zipCode", e.target.value)}
                         />
                     </div>
                 </div>

@@ -10,13 +10,14 @@ import { BannerData } from "@/types/global.types";
 export default function ServicesSection() {
     const path = usePathname();
     const { data } = useGetAllDynamicBannerQuery(undefined);
+    console.log(data)
     const manicureBannerImage = data?.data.find((banner: BannerData) => banner.title === 'manicure');
     const pedicureBannerImage = data?.data.find((banner: BannerData) => banner.title === 'pedicure');
     
 
     const manicureData = {
         title: "Manicure",
-        image: manicureBannerImage?.image || IMAGES.serviceCardImage1.src,
+        image: process.env.NEXT_PUBLIC_SERVER_URL+manicureBannerImage?.image || IMAGES.serviceCardImage1.src,
         services: [
             {
                 title: "Manicure",
@@ -33,7 +34,7 @@ export default function ServicesSection() {
 
     const pedicureData = {
         title: "Pedicure",
-        image: pedicureBannerImage?.image || IMAGES.serviceCardImage2.src,
+        image: process.env.NEXT_PUBLIC_SERVER_URL + pedicureBannerImage?.image || IMAGES.serviceCardImage2.src,
         services: [
             {
                 title: "Pedicure",
