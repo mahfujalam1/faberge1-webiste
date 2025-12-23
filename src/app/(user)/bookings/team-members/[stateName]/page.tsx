@@ -24,6 +24,7 @@ export default function TeamMembersPage() {
 
     const { data, isLoading } = useGetAllWorkersQuery(undefined)
     const teamMembers = data?.data || []
+    console.log(teamMembers)
     const router = useRouter()
 
     const handleMemberClick = (workerId: string) => {
@@ -44,18 +45,18 @@ export default function TeamMembersPage() {
 
                         {/* Team Members Grid */}
                         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-9 gap-4 text-center">
-                            {teamMembers.length > 0 && teamMembers?.map(
+                            {teamMembers?.length > 0 && teamMembers?.map(
                                 (member: Member) => (
                                     <button
-                                        key={member._id}
-                                        onClick={() => handleMemberClick(member._id)}
+                                        key={member?._id}
+                                        onClick={() => handleMemberClick(member?._id)}
                                         className="bg-white rounded-lg p-4 cursor-pointer hover:shadow-lg duration-300 transition-all hover:scale-105 text-left"
                                     >
                                         {/* Member Image */}
                                         <div className="relative w-full h-20 rounded-lg overflow-hidden bg-gray-200">
                                             <Image
                                                 src={member?.uploadPhoto === "http://10.10.20.16:5137undefined" ? IMAGES?.workerProfile.src : member?.uploadPhoto}
-                                                alt={`${member.firstName} ${member.lastName}`}
+                                                alt={`${member?.firstName} ${member?.lastName}`}
                                                 height={800}
                                                 width={800}
                                                 className="object-cover object-center  w-full h-full"
@@ -64,14 +65,14 @@ export default function TeamMembersPage() {
 
                                         {/* Member Info */}
                                         <h3 className="font-semibold text-sm mb-1 text-center pt-2">
-                                            {member.firstName} {member.lastName}
+                                            {member?.firstName} {member?.lastName}
                                         </h3>
 
                                         <div className=" text-center">
                                             <div className="flex items-center justify-center gap-1 text-xs text-gray-600 mb-1">
 
                                                 <span>
-                                                    {member.city}, {member.state}
+                                                    {member?.city}, {member?.state}
                                                 </span>
                                             </div>
 
@@ -79,7 +80,7 @@ export default function TeamMembersPage() {
                                             <h1 className=" text-xs">{member?.title}</h1>
                                             <div className="flex items-center justify-center gap-1 text-xs text-gray-700">
                                                 <span>ID#:</span>
-                                                <span>{member.workerId}</span>
+                                                <span>{member?.workerId}</span>
                                             </div>
                                         </div>
                                     </button>
@@ -93,7 +94,7 @@ export default function TeamMembersPage() {
                         </div>
 
                         {/* No Members Found */}
-                        {teamMembers.length === 0 && (
+                        {teamMembers?.length === 0 && (
                             <p className="text-center text-gray-500 mt-6">
                                 No team members found.
                             </p>

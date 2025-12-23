@@ -54,7 +54,7 @@ export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                 {/* Image Section */}
                 <div className="flex-shrink-0 px-6 md:pb-0 pb-3 flex justify-start">
                     <Image
-                        src={booking?.worker?.uploadPhoto || IMAGES.logo.src}
+                        src={booking?.worker?.uploadPhoto === "http://10.10.20.16:5137undefined" ? IMAGES?.workerProfile.src : booking?.worker?.uploadPhoto}
                         alt="customer"
                         width={120}
                         height={120}

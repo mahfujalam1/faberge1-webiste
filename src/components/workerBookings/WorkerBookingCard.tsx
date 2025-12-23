@@ -114,7 +114,7 @@ export const WorkerBookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                 {/* Image Section */}
                 <div className="flex-shrink-0 px-6 md:pb-0 pb-3 flex justify-start">
                     <Image
-                        src={booking.customer?.uploadPhoto || IMAGES.logo.src}
+                        src={booking?.customer?.uploadPhoto === "http://10.10.20.16:5137undefined" ? IMAGES?.workerProfile.src : booking?.customer?.uploadPhoto}
                         alt="customer"
                         width={120}
                         height={120}
