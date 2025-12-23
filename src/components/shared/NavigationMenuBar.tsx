@@ -111,7 +111,7 @@ const NavigationMenuBar = () => {
               >
                 <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
                   <Image
-                    src={data?.uploadPhoto  || IMAGES.profile.src}
+                    src={`${process.env.NEXT_PUBLIC_SERVER_URL}${data.uploadPhoto}`}
                     alt="Profile"
                     width={40}
                     height={40}

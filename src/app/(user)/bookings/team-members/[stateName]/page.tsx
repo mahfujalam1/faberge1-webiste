@@ -55,7 +55,7 @@ export default function TeamMembersPage() {
                                         {/* Member Image */}
                                         <div className="relative w-full h-20 rounded-lg overflow-hidden bg-gray-200">
                                             <Image
-                                                src={member?.uploadPhoto === "http://10.10.20.16:5137undefined" ? IMAGES?.workerProfile.src : member?.uploadPhoto}
+                                                src={`${process.env.NEXT_PUBLIC_SERVER_URL}${member.uploadPhoto}`}
                                                 alt={`${member?.firstName} ${member?.lastName}`}
                                                 height={800}
                                                 width={800}
