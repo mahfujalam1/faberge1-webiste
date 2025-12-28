@@ -72,7 +72,7 @@ function LoginForm() {
           <div className="mb-8 flex justify-center">
             <div className="text-center">
               <div className="mb-2 flex items-center justify-center">
-                <div className="relative ">
+                <Link href={'/'} className="relative ">
                   <Image
                     src={IMAGES.logo.src}
                     alt="IHBS Logo"
@@ -80,7 +80,7 @@ function LoginForm() {
                     height={200}
                     className="object-cover"
                   />
-                </div>
+                </Link>
               </div>
             </div>
           </div>
