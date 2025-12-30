@@ -40,6 +40,15 @@ export default function CalendarModal({ open, onOpenChange }: CalendarModalProps
     const workerId = worker?.data?._id;
     const dateFormat = selectedDate ? format(selectedDate, "yyyy-MM-dd") : "";
 
+    const to12Hour = (time: string) => {
+        const date = new Date(`1970-01-01T${time}`)
+        return date.toLocaleTimeString("en-US", {
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true,
+        })
+    }
+
     const [updateAvailability, { isLoading }] = useUpdateAvailabilityMutation();
     const [assignOffDay] = useAssignOfDayMutation();
     const { data } = useGetAvailableSlotQuery({ workerId, date: dateFormat });
@@ -137,8 +146,8 @@ export default function CalendarModal({ open, onOpenChange }: CalendarModalProps
         <Dialog open={open} onOpenChange={handleOpenChange}>
             <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
-                    <DialogTitle>Update Unavailability</DialogTitle>
-                    <DialogDescription>Select a date and time for unavailability</DialogDescription>
+                    <DialogTitle>Set Schedule</DialogTitle>
+                    <DialogDescription>Select dates and times of unavailability</DialogDescription>
                 </DialogHeader>
 
                 <div className="space-y-6 py-4">
@@ -188,7 +197,7 @@ export default function CalendarModal({ open, onOpenChange }: CalendarModalProps
                                 htmlFor="offDay"
                                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
                             >
-                                This date are off day
+                                Entire Day Off
                             </Label>
                         </div>
                     )}
@@ -196,7 +205,7 @@ export default function CalendarModal({ open, onOpenChange }: CalendarModalProps
                     {/* Time Selection */}
                     {shouldShowTimeSelection && availableTimeSlots.length > 0 && (
                         <div className="space-y-2 animate-in fade-in-50 duration-200 w-full">
-                            <Label>Select Time for unavailability</Label>
+                            <Label>Select times of unavailability</Label>
                             <div className="relative w-full">
                                 <div
                                     className={cn(
@@ -223,7 +232,7 @@ export default function CalendarModal({ open, onOpenChange }: CalendarModalProps
                                                         onCheckedChange={() => handleTimeToggle(time?.startTime)}
                                                         className="pointer-events-none"
                                                     />
-                                                    <span className="text-sm">{time?.startTime}</span>
+                                                    <span className="text-sm">{to12Hour(time?.startTime)}</span>
                                                 </div>
                                             );
                                         })}

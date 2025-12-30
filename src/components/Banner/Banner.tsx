@@ -4,12 +4,12 @@ import { PhoneCall } from "lucide-react";
 import { PrimaryButton } from "../ui/PrimaryButton";
 import { OutlineButton } from "../ui/OutlineButton";
 import Link from "next/link";
-import { getUserInfo } from "@/services/authServices";
 import { useGetAllDynamicBannerQuery } from "@/redux/api/publicApi";
 import { BannerData } from "@/types/global.types";
+import { GetMeResponse, useGetMeQuery } from "@/redux/api/baseApi";
 
 const Banner = () => {
-    const user = getUserInfo();
+    const user = useGetMeQuery<GetMeResponse>()
     const { data } = useGetAllDynamicBannerQuery(undefined);
     const bannerVideo = data?.data.find((banner: BannerData) => banner.title === 'home');
 
@@ -71,7 +71,7 @@ const Banner = () => {
                 {/* Buttons */}
                 <div className="rounded-lg mb-10 py-8 bg-white/10 md:mx-12">
                     {
-                        user?.email ? <Link href="/bookings"><PrimaryButton name="Book Appointment" /></Link> : <div className="flex justify-evenly">
+                        user?.data?.email && user?.data?.role === "customer" ? <Link href="/bookings"><PrimaryButton name="Book Appointment" /></Link> : !user?.data?.role && <div className="flex justify-evenly">
                             <Link href="/auth/sign-up"><PrimaryButton name="Register Now" /></Link>
                             <Link href="/auth/sign-in"><OutlineButton name="Sign In" /></Link>
                         </div>
