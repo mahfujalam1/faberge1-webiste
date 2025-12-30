@@ -10,6 +10,13 @@ const workerApi = baseApi.injectEndpoints({
             }),
             providesTags: [tagTypes.workers],
         }),
+        getWorkerStatistics: build.query({
+            query: () => ({
+                url: `/worker/worker-statistics`,
+                method: "GET",
+            }),
+            providesTags: [tagTypes.workers],
+        }),
         getSingleworker: build.query({
             query: (workerId) => ({
                 url: `/worker/get-one-worker/${workerId}`,
@@ -20,4 +27,4 @@ const workerApi = baseApi.injectEndpoints({
     }),
 });
 
-export const { useGetAllWorkersQuery, useGetSingleworkerQuery } = workerApi;
+export const { useGetAllWorkersQuery, useGetSingleworkerQuery, useGetWorkerStatisticsQuery } = workerApi;

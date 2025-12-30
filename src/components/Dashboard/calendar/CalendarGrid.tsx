@@ -26,13 +26,18 @@ export default function CalendarGrid({ calenderData, setSelectedDate, setOpen }:
 
     // 🔹 handle click logic
     const handleClick = (date: string, status: string) => {
-        setSelectedDate(date)
-        if (status === "bg-red-500") {
-            toast.warning(`This a weekend date: ${date} is unavailable.`)
-        }
-        setOpen(true)
+        console.log(date)
 
-        // handleDayClick(date, status)
+        const [year, month, day] = date.split("-")
+        const formattedDate = `${month}-${day}-${year}`
+
+        setSelectedDate(formattedDate)
+
+        if (status === "bg-red-500") {
+            toast.warning(`This a weekend date: ${formattedDate} is unavailable.`)
+        }
+
+        setOpen(true)
     }
 
     // Get the first day of the month (0 = Sunday, 1 = Monday, etc.)

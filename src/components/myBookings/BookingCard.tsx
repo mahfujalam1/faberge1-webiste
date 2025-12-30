@@ -23,6 +23,15 @@ export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
         setLoading(false);
     }, []);
 
+    const to12Hour = (time: string) => {
+        const date = new Date(`1970-01-01T${time}`)
+        return date.toLocaleTimeString("en-US", {
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true,
+        })
+    }
+
     if (loading) {
         return (
             <Card className="mb-6 rounded-lg shadow-md overflow-hidden overflow-x-auto bg-[#FFEBEF] mt-5 max-w-full">
@@ -82,8 +91,8 @@ export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">
                             {formatDate(booking.date)}
                         </div>
-                        <div className="text-nowrap whitespace-nowrap flex-nowrap">
-                            {booking.startTime} - {booking.endTime}
+                        <div className="text-nowrap whitespace-nowrap flex-nowrap text-xm">
+                            {to12Hour(booking.startTime)}-{to12Hour(booking.endTime)}
                         </div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">
                             {booking.customer?.firstName} {booking.customer?.lastName}

@@ -33,11 +33,11 @@ export function StepOneEmail({ onContinue }: StepOneEmailProps) {
     const isValid = email.includes("@") && email.length > 0
 
     return (
-        <div className="w-full max-w-xl mx-auto pb-16">
-            <h1 className="mb-8 text-center font-serif text-4xl font-normal text-gray-900">Forgot Password</h1>
-            <form className="space-y-6" onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="email" className="mb-2 block text-sm font-medium text-gray-900">Email</label>
+        <div className="w-full max-w-lg mx-auto pb-16">
+            <h1 className="mb-8 text-center font-serif text-4xl font-normal text-gray-900">Reset Password</h1>
+            <form className="space-y-6  mx-auto md:w-96" onSubmit={handleSubmit}>
+                <div className="">
+                    <label htmlFor="email" className="mb-2  block text-sm font-medium text-gray-900">Email</label>
                     <Input
                         id="email"
                         type="email"
@@ -50,7 +50,7 @@ export function StepOneEmail({ onContinue }: StepOneEmailProps) {
                 <Button
                     type="submit"
                     disabled={!isValid || isLoading}
-                    className="h-12 w-full rounded-lg bg-black text-base font-medium text-white hover:bg-gray-800 disabled:opacity-50"
+                    className="h-12 w-full rounded-lg cursor-pointer bg-black text-base font-medium text-white hover:bg-gray-800 disabled:opacity-50"
                 >
                     {isLoading ? "Sending..." : "Send Code"}
                 </Button>

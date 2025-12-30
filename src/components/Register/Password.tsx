@@ -77,7 +77,7 @@ export default function StepTwoPassword({
             <h1 className="mb-8 text-center font-serif text-4xl font-normal text-gray-900">Create Password</h1>
 
             {/* Form */}
-            <form className="space-y-6" onSubmit={handleSubmit}>
+            <form className="space-y-6 md:w-96 mx-auto" onSubmit={handleSubmit}>
                 {/* Password Field */}
                 <div>
                     <label htmlFor="password" className="mb-2 block text-sm font-medium text-gray-900">
@@ -138,9 +138,9 @@ export default function StepTwoPassword({
                 <Button
                     type="submit"
                     disabled={!isValid}
-                    className="h-12 w-full rounded-lg bg-black text-base font-medium text-white hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="h-12 w-full rounded-lg cursor-pointer bg-black text-base font-medium text-white hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                    {isLoading ? "Proccesing.." : "Continue"}
+                    {isLoading ? "Processing.." : "Continue"}
                 </Button>
 
                 <div className="flex items-center justify-between pt-4">

@@ -1,5 +1,5 @@
 'use client'
-// import { DashboardStats } from '@/components/Dashboard/DashboardStats';
+import { DashboardStats } from '@/components/Dashboard/DashboardStats';
 import { BookingCard } from '@/components/myBookings/BookingCard';
 import { Button } from '@/components/ui/button';
 import { useGetAllUpcomingBookingForWorkerQuery } from '@/redux/api/bookingApi';
@@ -65,7 +65,7 @@ function RootLayout() {
             <div className="min-h-screen bg-gradient-to-tr from-[#fdeaea] via-[#fff1f3] to-[#ffdae1] p-4 md:py-5">
                 <div className="container mx-auto">
                     <div className='w-full pb-5'>
-                        {/* <DashboardStats /> */}
+                        <DashboardStats />
                     </div>
                     <div className="p-8 bg-white rounded-lg shadow-md">
                         <h2 className='text-lg font-semibold border-b-2 pb-5'>Upcoming Bookings</h2>
