@@ -135,20 +135,20 @@ export const WorkerBookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                 {/* Content Section */}
                 <div className="flex-grow flex-nowrap min-w-[800px]">
                     {/* Header Row */}
-                    <div className="grid grid-cols-9 bg-[#FFC0CB] px-4 py-3 text-xs sm:text-sm font-bold text-gray-800">
+                    <div className="grid grid-cols-7 bg-[#FFC0CB] px-4 py-3 text-xs sm:text-sm font-bold text-gray-800">
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Date</div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Time</div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Customer</div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Phone</div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Email</div>
-                        <div className="text-nowrap whitespace-nowrap flex-nowrap text-center">Payment Status</div>
-                        <div className="text-nowrap whitespace-nowrap flex-nowrap text-center">Amount</div>
+                        {/* <div className="text-nowrap whitespace-nowrap flex-nowrap text-center">Payment Status</div> */}
+                        <div className="text-nowrap whitespace-nowrap flex-nowrap text-center">Payment amount</div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap text-center">Status</div>
-                        <div className="text-nowrap whitespace-nowrap flex-nowrap text-end">Complete Status</div>
+                        {/* <div className="text-nowrap whitespace-nowrap flex-nowrap text-end">Complete Status</div> */}
                     </div>
 
                     {/* Content Row */}
-                    <div className="grid grid-cols-9 items-center px-4 py-4 text-xs sm:text-sm text-gray-800 border-b border-pink-100">
+                    <div className="grid grid-cols-7 items-center px-4 py-4 text-xs sm:text-sm text-gray-800 border-b border-pink-100">
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">
                             {formatDate(booking?.date)}
                         </div>
@@ -164,22 +164,23 @@ export const WorkerBookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                         <div className="text-nowrap whitespace-nowrap flex-nowrap overflow-hidden text-ellipsis">
                             {booking?.customer?.email || 'N/A'}
                         </div>
-                        <div className="text-nowrap whitespace-nowrap flex-nowrap text-center">
+                        {/* <div className="text-nowrap whitespace-nowrap flex-nowrap text-center">
                             <span className="bg-green-500 px-2 rounded-full text-white">
                                 {booking?.isPayment ? 'Paid' : 'Pending'}
                             </span>
-                        </div>
+                        </div> */}
                         <div className="text-center font-semibold text-nowrap whitespace-nowrap flex-nowrap">
                             ${booking?.paymentAmount || 0}
                         </div>
                         <div className="text-center text-nowrap whitespace-nowrap flex-nowrap">
                             <Badge
-                                className={`${getStatusColor(booking?.status)} text-xs px-2 rounded-sm`}
+                                onClick={handleCompleteBooking}
+                                className={`${getStatusColor(booking?.status)} text-xs px-2 rounded-sm cursor-pointer`}
                             >
                                 {booking?.status === 'booked' ? 'Upcoming' : booking?.status === 'completed' ? 'Completed' : booking?.status}
                             </Badge>
                         </div>
-                        <div className="text-center text-nowrap whitespace-nowrap flex-nowrap flex justify-end">
+                        {/* <div className="text-center text-nowrap whitespace-nowrap flex-nowrap flex justify-end">
                             <Button
                                 onClick={handleCompleteBooking}
                                 disabled={isCompleted || isCompleting}
@@ -204,7 +205,7 @@ export const WorkerBookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                                     'False'
                                 )}
                             </Button>
-                        </div>
+                        </div> */}
                     </div>
 
                     {/* Footer - Services Info */}
