@@ -9,7 +9,6 @@ import { formatDate, getStatusColor } from "@/utils/utils";
 import { Booking, ServiceItem } from "@/types/booking/bookings";
 import { ScaleLoader } from "react-spinners";
 import { useCompleteBookingMutation } from "@/redux/api/bookingApi";
-import { Button } from "../ui/button";
 import { toast } from "sonner";
 import { ApiError } from "@/types/global.types";
 import { Modal } from "antd";
