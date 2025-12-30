@@ -102,7 +102,7 @@ export default function AllBookings() {
                                 </div>
                             </>
                         ) : (
-                            <p className="text-gray-500 text-center py-8">No upcoming bookings found.</p>
+                            <p className="text-gray-500 text-center py-8">No {tab === 'completed' ? 'completed' : tab === 'booked' ? 'Upcoming' : 'bookings'} bookings found.</p>
                         )}
                     </div>
                 </div>
