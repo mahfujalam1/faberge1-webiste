@@ -33,6 +33,15 @@ export const WorkerBookingCard: React.FC<BookingCardProps> = ({ booking }) => {
         setLoading(false);
     }, []);
 
+    const to12Hour = (time: string) => {
+        const date = new Date(`1970-01-01T${time}`)
+        return date.toLocaleTimeString("en-US", {
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true,
+        })
+    }
+
     // Handle complete booking with API call
     const completeBookingAPI = async () => {
         if (!booking?._id) {
@@ -144,7 +153,7 @@ export const WorkerBookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                             {formatDate(booking?.date)}
                         </div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">
-                            {booking?.startTime} - {booking?.endTime}
+                            {to12Hour(booking?.startTime)} - {to12Hour(booking?.endTime)}
                         </div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">
                             {booking?.customer?.firstName} {booking?.customer?.lastName}
