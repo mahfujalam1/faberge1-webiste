@@ -28,6 +28,14 @@ export default function ServiceSelectionTable({
     workerId,
 }: ServiceSelectionTableProps) {
     const { data } = useGetSingleworkerQuery(workerId);
+    const to12Hour = (time: string) => {
+        const date = new Date(`1970-01-01T${time}`)
+        return date.toLocaleTimeString("en-US", {
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true,
+        })
+    }
 
     // Check if the service is selected for the given time slot
     const isServiceSelected = (time: string, service: Service) => {
@@ -80,7 +88,7 @@ export default function ServiceSelectionTable({
                     </thead>
                     <tbody className="divide-y divide-gray-200">
                         {availableSlots?.map((slot: Slot) => {
-                            const timeSlot = `${slot?.startTime} - ${slot?.endTime}`;
+                            const timeSlot = `${to12Hour(slot.startTime)} - ${to12Hour(slot.endTime)}`;
                             return (
                                 <tr key={slot?._id} className="hover:bg-gray-50 transition-colors">
                                     {/* Time column - sticky */}

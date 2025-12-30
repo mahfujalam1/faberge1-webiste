@@ -48,7 +48,7 @@ export default function StepThreePhoto({ onContinue, onPrev, initialData, isLoad
     }
 
     return (
-        <div className="w-full max-w-xl mx-auto py-16">
+        <div className="md:w-96 mx-auto py-16">
             {/* Logo */}
             <div className="mb-8 flex justify-center">
                 <div className="text-center">
@@ -95,7 +95,7 @@ export default function StepThreePhoto({ onContinue, onPrev, initialData, isLoad
                 <Button
                     type="button"
                     onClick={handleChoosePhoto}
-                    className="h-12 w-full rounded-lg bg-black text-base font-medium text-white hover:bg-gray-800 flex items-center justify-center gap-2"
+                    className="h-12 w-full rounded-lg bg-black cursor-pointer text-base font-medium text-white hover:bg-gray-800 flex items-center justify-center gap-2"
                 >
                     <Upload className="h-5 w-5" />
                     Choose Photo
@@ -107,7 +107,7 @@ export default function StepThreePhoto({ onContinue, onPrev, initialData, isLoad
                 <Button
                     type="button"
                     onClick={handleContinue}
-                    className="h-12 w-full rounded-lg bg-black text-base font-medium text-white hover:bg-gray-800"
+                    className="h-12 w-full rounded-lg bg-black cursor-pointer text-base font-medium text-white hover:bg-gray-800"
                 >
                     {isLoading ? "Completing.." : "Complete"}
                 </Button>

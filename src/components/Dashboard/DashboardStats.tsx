@@ -1,5 +1,6 @@
 "use client";
 
+import { useGetWorkerStatisticsQuery } from "@/redux/api/workerApi";
 import React from "react";
 
 type StatCardProps = {
@@ -20,18 +21,28 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, subText, }) => {
 };
 
 export const DashboardStats: React.FC = () => {
+
+    const {data} = useGetWorkerStatisticsQuery(undefined)
+    console.log(data)
+
     return (
         <section className="">
             <div className="grid grid-cols-1  md:grid-cols-3 gap-5">
                 <StatCard
-                    title="Bookings"
-                    value="50"
+                    title="Today's Bookings"
+                    value={data?.todayBookings || 0}
                     subText="Today"
                     bgColor="bg-blue-100"
                 />
                 <StatCard
-                    title="Bookings"
-                    value="40/200"
+                    title="Hours Booked"
+                    value={`${data?.monthly?.hoursBooked || 0}/${data?.yearly?.hoursBooked || 0}`}
+                    subText="Month/Year"
+                    bgColor="bg-purple-100"
+                />
+                <StatCard
+                    title="Total Earnings"
+                    value={`${data?.monthly?.totalEarnings || 0}/${data?.yearly?.totalEarnings || 0}`}
                     subText="Month/Year"
                     bgColor="bg-purple-100"
                 />

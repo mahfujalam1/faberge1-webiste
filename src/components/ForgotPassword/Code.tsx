@@ -65,7 +65,7 @@ export function StepTwoCode({ onContinue, isLoading }: StepTwoCodeProps) {
                 <Button
                     type="submit"
                     disabled={!isValid || isLoading}
-                    className="h-12 w-full rounded-lg bg-black text-base font-medium text-white hover:bg-gray-800 disabled:opacity-50"
+                    className="h-12 w-full rounded-lg bg-black cursor-pointer text-base font-medium text-white hover:bg-gray-800 disabled:opacity-50"
                 >
                     {isLoading ? "Verifying..." : "Verify Code"}
                 </Button>

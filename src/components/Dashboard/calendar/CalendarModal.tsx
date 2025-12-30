@@ -36,6 +36,14 @@ export default function CalendarModal({
     status,
 }: CalendarModalProps) {
     const worker = useGetMeQuery<GetMeResponse>()
+    const to12Hour = (time: string) => {
+        const date = new Date(`1970-01-01T${time}`)
+        return date.toLocaleTimeString("en-US", {
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true,
+        })
+    }
 
     const workerId = worker?.data?._id || ""
     const { data: availabeSlots } = useGetAvailableSlotQuery({ workerId, date: selectedDate || "" })
@@ -97,7 +105,7 @@ export default function CalendarModal({
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-2">
                         <CalendarDays className="w-5 h-5 text-pink-600" />
-                        View Availability - {selectedDate}
+                        My Schedule - {selectedDate}
                     </DialogTitle>
                 </DialogHeader>
 
@@ -122,9 +130,10 @@ export default function CalendarModal({
 
                         {/* Time Slots */}
                         <div className="border rounded-md h-72 overflow-y-auto">
-                            {bookedSlots?.map((booking: BookedSlot, idx: number) => (
-                                <div key={idx} className="flex justify-between items-center px-4 py-2 border-b last:border-none text-sm">
-                                    <span>{booking.startTime} - {booking.endTime}</span>
+                            {bookedSlots?.map((booking: BookedSlot, idx: number) => {
+                                console.log(booking)
+                                return <div key={idx} className="flex justify-between items-center px-4 py-2 border-b last:border-none text-sm">
+                                    <span>{to12Hour(booking.startTime)} - {to12Hour(booking.endTime)}</span>
                                     <span className="font-medium">
                                         {booking.customer?.firstName} {booking.customer?.lastName}
                                     </span>
@@ -136,13 +145,13 @@ export default function CalendarModal({
                                         {booking.status}
                                     </span>
                                 </div>
-                            ))}
-                            {todayAvailabeSlots?.map((slot: Slot, idx: number) => (
-                                <div key={idx} className="flex justify-between items-center px-4 py-2 border-b last:border-none">
-                                    <span className="text-sm">{slot.startTime} - {slot.endTime}</span>
+                            })}
+                            {todayAvailabeSlots?.map((slot: Slot, idx: number) => {
+                                return <div key={idx} className="flex justify-between items-center px-4 py-2 border-b last:border-none">
+                                    <span className="text-sm">{to12Hour(slot.startTime)} - {to12Hour(slot.endTime)}</span>
                                     <span className={`w-3 h-3 rounded-full ${getSlotStatusColor(slot)}`} />
                                 </div>
-                            ))}
+                            })}
                         </div>
 
                         {/* Legend */}
