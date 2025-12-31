@@ -155,12 +155,12 @@ export default function CalendarModal({
                         </div>
 
                         {/* Legend */}
-                        <div className="flex justify-center gap-4 mt-4 text-xs">
+                        {/* <div className="flex justify-center gap-4 mt-4 text-xs">
                             <div className="flex items-center gap-1"><span className="w-3 h-3 bg-white border-2 rounded-full" /> Available</div>
                             <div className="flex items-center gap-1"><span className="w-3 h-3 bg-green-500 rounded-full" /> Booked</div>
                             <div className="flex items-center gap-1"><span className="w-3 h-3 bg-red-500 rounded-full" /> Unavailable</div>
                             <div className="flex items-center gap-1"><span className="w-3 h-3 bg-gray-500 rounded-full" /> Completed</div>
-                        </div>
+                        </div> */}
                     </>
                 )}
             </DialogContent>

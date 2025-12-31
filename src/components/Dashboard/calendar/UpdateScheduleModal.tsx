@@ -256,12 +256,12 @@ export default function CalendarModal({ open, onOpenChange }: CalendarModalProps
                     </Button>
                 </DialogFooter>
 
-                <div className="flex flex-wrap gap-3 text-xs sm:text-sm mt-3">
+                {/* <div className="flex flex-wrap gap-3 text-xs sm:text-sm mt-3">
                     <div className="flex items-center gap-1"><span className="w-3 h-3 bg-white border-2 text-black rounded-full" /> Available</div>
                     <div className="flex items-center gap-1"><span className="w-3 h-3 bg-green-400 rounded-full" /> Booked</div>
                     <div className="flex items-center gap-1"><span className="w-3 h-3 bg-red-400 rounded-full" /> Unavailable</div>
                     <div className="flex items-center gap-1"><span className="w-3 h-3 bg-gray-300 rounded-full" /> Completed</div>
-                </div>
+                </div> */}
             </DialogContent>
         </Dialog>
     );
