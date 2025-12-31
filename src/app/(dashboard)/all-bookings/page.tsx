@@ -25,9 +25,15 @@ export default function AllBookings() {
     const bookings: Booking[] = data?.data ? (Object.values(data.data).flat() as Booking[]) : [];
     const pagination: Pagination | undefined = data?.pagination;
 
-    const filteredBookings = bookings.filter((b: Booking) =>
-        tab === "" ? true : b.status === tab
-    );
+    // Filter out pending and expired bookings
+    const filteredBookings = bookings.filter((b: Booking) => {
+        // Filter out pending and expired status
+        if (b.status === 'pending' || b.status === 'expired') {
+            return false;
+        }
+        // Apply tab filter
+        return tab === "" ? true : b.status === tab;
+    });
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);

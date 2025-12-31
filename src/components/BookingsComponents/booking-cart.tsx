@@ -38,6 +38,12 @@ export default function BookingCart({
 
     console.log('row bookings=>', bookings)
 
+    // Format date from YYYY-MM-DD to MM-DD-YYYY
+    const formatDate = (date: string) => {
+        const [year, month, day] = date.split("-");
+        return `${month}-${day}-${year}`;
+    };
+
     // Total calculation
     const calculateTotal = () => {
         return bookings.reduce((total, booking) => {
@@ -80,7 +86,7 @@ export default function BookingCart({
                                     className="border-b hover:bg-gray-50 transition text-gray-800"
                                 >
                                     <td className="py-3 px-2">{memberName}</td>
-                                    <td className="py-3 px-2">{booking.date}</td>
+                                    <td className="py-3 px-2">{formatDate(booking.date)}</td>
                                     <td className="py-3 px-2">{booking.time}</td>
                                     <td className="py-3 px-2">
                                         {booking.service?.serviceName} ${booking.service?.price}
