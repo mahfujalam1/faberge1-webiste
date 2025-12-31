@@ -164,7 +164,7 @@ function LoginForm() {
 
           {/* Sign Up Link */}
           <p className="mt-6 text-center text-sm text-gray-900">
-            Don't have an account?{" "}
+           {" Don't have an account?"}{" "}
             <Link href="/auth/sign-up" className="font-semibold hover:underline">
               Sign Up
             </Link>
