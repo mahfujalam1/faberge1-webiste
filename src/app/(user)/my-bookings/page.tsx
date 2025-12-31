@@ -25,16 +25,22 @@ export default function AllBookings() {
     });
 
     // Flatten the bookings from the grouped date structure
-    const bookings: Booking[] = data?.data
+    const allBookings: Booking[] = data?.data
         ? (Object.values(data.data).flat() as Booking[])
         : [];
 
 
     const pagination = data?.pagination;
 
-    const filteredBookings = bookings.filter((b: Booking) =>
-        tab === "" ? true : b.status === tab
-    );
+    // Filter to show only booked and completed bookings
+    const filteredBookings = allBookings.filter((b: Booking) => {
+        // First filter: only show booked and completed status
+        if (b.status !== 'booked' && b.status !== 'completed') {
+            return false;
+        }
+        // Second filter: apply tab filter if a tab is selected
+        return tab === "" ? true : b.status === tab;
+    });
 
     // Pagination handlers
     const handlePageChange = (page: number) => {
@@ -48,7 +54,7 @@ export default function AllBookings() {
     };
 
     const handleNextPage = () => {
-        if (bookings?.length === limit || currentPage < (pagination?.totalPages || 1)) {
+        if (allBookings?.length === limit || currentPage < (pagination?.totalPages || 1)) {
             setCurrentPage(currentPage + 1);
         }
     };
