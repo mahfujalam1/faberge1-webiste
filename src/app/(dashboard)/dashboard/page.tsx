@@ -17,9 +17,12 @@ function RootLayout() {
     });
 
     // Flatten the bookings from the grouped date structure
-    const bookings: Booking[] = data?.data
+    const allBookings: Booking[] = data?.data
         ? (Object.values(data.data).flat() as Booking[])
         : [];
+
+    // Filter only booked status bookings
+    const bookings = allBookings.filter((booking: Booking) => booking.status === 'booked');
 
     const pagination = data?.pagination;
 

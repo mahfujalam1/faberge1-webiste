@@ -15,10 +15,12 @@ import { toast } from "sonner"
 import { storeUserInfo } from "@/services/authServices"
 import setAccessTokenToCookies from "@/services/actions/setAccessTokenToCookie"
 import { ApiError } from "@/types/global.types"
+import { GetMeResponse, useGetMeQuery } from "@/redux/api/baseApi"
 
 interface LoginResponse {
   data?: {
     token: string;
+    data?: string;
   };
   error?: {
     data?: {
@@ -47,12 +49,14 @@ function LoginForm() {
       const res = await login(data) as LoginResponse
 
       if (res?.data?.token) {
-        storeUserInfo(res.data.token)
-        setAccessTokenToCookies(res.data.token, {
-          redirect: "/",
-        })
-        router.push('/')
         toast.success("User login successfully")
+        if (res?.data?.data === 'worker') {
+          router.push("/dashboard")
+        } else if (res?.data?.data === 'customer') {
+          router.push("/")
+        }
+        storeUserInfo(res.data.token)
+        setAccessTokenToCookies(res.data.token)
       } else {
         const apiError = res?.error as ApiError
         const errorMessage = apiError?.data?.message || "Login failed. Please try again."
@@ -164,7 +168,7 @@ function LoginForm() {
 
           {/* Sign Up Link */}
           <p className="mt-6 text-center text-sm text-gray-900">
-           {" Don't have an account?"}{" "}
+            {" Don't have an account?"}{" "}
             <Link href="/auth/sign-up" className="font-semibold hover:underline">
               Sign Up
             </Link>

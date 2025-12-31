@@ -176,7 +176,7 @@ export const WorkerBookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                                 onClick={handleCompleteBooking}
                                 className={`${getStatusColor(booking?.status)} text-xs px-2 rounded-sm cursor-pointer`}
                             >
-                                {booking?.status === 'booked' ? 'Upcoming' : booking?.status === 'completed' ? 'Completed' : booking?.status}
+                                {booking?.status}
                             </Badge>
                         </div>
                         {/* <div className="text-center text-nowrap whitespace-nowrap flex-nowrap flex justify-end">
