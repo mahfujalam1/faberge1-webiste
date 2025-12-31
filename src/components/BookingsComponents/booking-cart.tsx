@@ -62,7 +62,7 @@ export default function BookingCart({
                 <table className="w-full">
                     <thead>
                         <tr className="border-b">
-                            <th className="text-left py-3 px-2 font-medium">Customer</th>
+                            <th className="text-left py-3 px-2 font-medium">Worker</th>
                             <th className="text-left py-3 px-2 font-medium">Date</th>
                             <th className="text-left py-3 px-2 font-medium">Time</th>
                             <th className="text-left py-3 px-2 font-medium">Service</th>
