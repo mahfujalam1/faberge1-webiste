@@ -50,16 +50,15 @@ export default function TeamMembersPage() {
                                     <button
                                         key={member?._id}
                                         onClick={() => handleMemberClick(member?._id)}
-                                        className="bg-white rounded-lg p-4 cursor-pointer hover:shadow-lg duration-300 transition-all hover:scale-105 text-left"
+                                        className="bg-white rounded-lg p-4 cursor-pointer hover:shadow-lg duration-300 transition-all hover:scale-105 text-left flex flex-col"
                                     >
-                                        {/* Member Image */}
-                                        <div className="relative w-full h-20 rounded-lg overflow-hidden bg-gray-200">
+                                        {/* Member Image - Fixed Height */}
+                                        <div className="relative w-full h-32 rounded-lg overflow-hidden bg-gray-200 flex-shrink-0">
                                             <Image
                                                 src={`${process.env.NEXT_PUBLIC_SERVER_URL}${member.uploadPhoto}`}
                                                 alt={`${member?.firstName} ${member?.lastName}`}
-                                                height={800}
-                                                width={800}
-                                                className="object-cover object-center  w-full h-full"
+                                                fill
+                                                className="object-cover object-center"
                                             />
                                         </div>
 
@@ -68,16 +67,14 @@ export default function TeamMembersPage() {
                                             {member?.firstName} {member?.lastName}
                                         </h3>
 
-                                        <div className=" text-center">
+                                        <div className="text-center">
                                             <div className="flex items-center justify-center gap-1 text-xs text-gray-600 mb-1">
-
                                                 <span>
                                                     {member?.city}, {member?.state}
                                                 </span>
                                             </div>
 
-
-                                            <h1 className=" text-xs">{member?.title}</h1>
+                                            <h1 className="text-xs">{member?.title}</h1>
                                             <div className="flex items-center justify-center gap-1 text-xs text-gray-700">
                                                 <span>ID#:</span>
                                                 <span>{member?.workerId}</span>
