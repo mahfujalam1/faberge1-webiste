@@ -14,14 +14,7 @@ export default function CheckoutPage() {
         if (isLoading) return;
 
         const timer = setTimeout(() => {
-            // Check user role and redirect accordingly
-            if (user?.role !== 'worker') {
-                router.push("/my-bookings");
-                return
-            } else {
-                router.push("/dashboard");
-                return
-            }
+            router.push("/my-bookings");
         }, 2000);
 
         return () => clearTimeout(timer);
