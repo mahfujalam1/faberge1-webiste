@@ -24,7 +24,7 @@ export interface GetMeResponse {
 export const baseApi = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://x91h36px-5137.inc1.devtunnels.ms",
+    baseUrl: "http://98.93.16.125:5137",
     prepareHeaders: (headers) => {
       const token = Cookies.get(authKey);
       if (token) {
