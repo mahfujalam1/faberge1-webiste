@@ -8,11 +8,13 @@ import { loginUser } from "@/services/actions/loginUser"
 import setAccessTokenToCookies from "@/services/actions/setAccessTokenToCookie"
 import { storeUserInfo } from "@/services/authServices"
 import { ApiError } from "@/types/global.types"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { toast } from "sonner"
 
 export default function RegisterPage() {
   const [currentStep, setCurrentStep] = useState(1)
+  const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [email, setEmail] = useState<string | null>('')
   const [registrationData, setRegistrationData] = useState<{
@@ -92,6 +94,7 @@ export default function RegisterPage() {
         if (loginRes?.token) {
           storeUserInfo(loginRes.token);
           setAccessTokenToCookies(loginRes.token, { redirect: "/" });
+          router.push('/')
         } else {
           toast.error("Login failed. Please try again.");
         }
