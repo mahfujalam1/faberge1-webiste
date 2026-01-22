@@ -61,33 +61,57 @@ export default function RegisterPage() {
   const handleStepThreeComplete = async (data: PhotoData) => {
     const formData = new FormData();
 
-    if (registrationData.profile?.email) {
-      formData.append('email', registrationData.profile.email);
+    // Check for required data before proceeding
+    if (!registrationData.profile?.email || !data?.photoFile) {
+      toast.error("Email or photo is missing!");
+      setIsLoading(false);
+      return;
     }
-    if (data?.photoFile) {
-      formData.append('customerProfileImage', data.photoFile);
-    }
-    setIsLoading(true)
-    const res = await uploadPhoto(formData);
-    if (res?.data) {
-      toast.success("Successfully Completed Profile!")
-      const loginRes = await loginUser({ email: registrationData?.profile?.email, password: registrationData?.password?.password })
-      if (loginRes?.token) {
-        storeUserInfo(loginRes.token);
-        setAccessTokenToCookies(loginRes.token, {
-          redirect: "/",
-        });
-        setIsLoading(false)
-      }
-    } else if (res?.error) {
-      const apiError = res?.error as ApiError
-      const errorMessage = apiError?.data?.message || "Login failed. Please try again."
-      toast.error(errorMessage)
-      setIsLoading(false)
-    }
-    setRegistrationData((prev) => ({ ...prev, photo: data }));
 
+    formData.append('email', registrationData.profile.email);
+    formData.append('customerProfileImage', data.photoFile);
+
+    setIsLoading(true);
+
+    try {
+      const res = await uploadPhoto(formData);
+      console.log(res); // Debugging response
+
+      if (res?.data) {
+        toast.success("Successfully Completed Profile!");
+
+        // Check for required fields before login
+        if (!registrationData?.profile?.email || !registrationData?.password?.password) {
+          toast.error("Email or password is missing for login.");
+          setIsLoading(false);
+          return;
+        }
+
+        const loginRes = await loginUser({ email: registrationData.profile.email, password: registrationData.password.password });
+
+        if (loginRes?.token) {
+          storeUserInfo(loginRes.token);
+          setAccessTokenToCookies(loginRes.token, { redirect: "/" });
+        } else {
+          toast.error("Login failed. Please try again.");
+        }
+      } else if (res?.error) {
+        const apiError = res?.error as ApiError;
+        const errorMessage = apiError?.data?.message || "Profile update failed.";
+        toast.error(errorMessage);
+      } else {
+        toast.error("Unexpected response format from uploadPhoto");
+      }
+    } catch (error) {
+      console.error("Error during the process:", error);
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false); // Ensure loading state is reset
+    }
+
+    setRegistrationData((prev) => ({ ...prev, photo: data }));
   };
+
 
 
   const handlePrevStep = () => {
