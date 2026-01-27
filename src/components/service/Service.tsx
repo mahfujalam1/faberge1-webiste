@@ -7,17 +7,25 @@ import { usePathname } from "next/navigation";
 import { useGetAllDynamicBannerQuery } from "@/redux/api/publicApi";
 import { BannerData } from "@/types/global.types";
 
+// Helper function to construct the full image URL
+const getImageUrl = (relativePath: string | undefined): string => {
+    const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL;
+    return relativePath ? `${baseUrl}${relativePath}` : IMAGES.serviceCardImage1.src; // fallback to default if no image path
+};
+
 export default function ServicesSection() {
     const path = usePathname();
     const { data } = useGetAllDynamicBannerQuery(undefined);
-    console.log(data)
+    console.log(data);
+
     const manicureBannerImage = data?.data.find((banner: BannerData) => banner.title === 'manicure');
     const pedicureBannerImage = data?.data.find((banner: BannerData) => banner.title === 'pedicure');
-    
+    console.log(getImageUrl(manicureBannerImage?.image));
 
+    // Data for the Manicure service
     const manicureData = {
         title: "Manicure",
-        image: process.env.NEXT_PUBLIC_SERVER_URL + (manicureBannerImage?.image || IMAGES.serviceCardImage1.src),
+        image: getImageUrl(manicureBannerImage?.image), // using the helper function
         services: [
             {
                 title: "Manicure",
@@ -32,9 +40,10 @@ export default function ServicesSection() {
         serviceTypes: ["Water Method", "Waterless Method"],
     };
 
+    // Data for the Pedicure service
     const pedicureData = {
         title: "Pedicure",
-        image: process.env.NEXT_PUBLIC_SERVER_URL + (pedicureBannerImage?.image || IMAGES.serviceCardImage2.src),
+        image: getImageUrl(pedicureBannerImage?.image), // using the helper function
         services: [
             {
                 title: "Pedicure",
@@ -48,7 +57,6 @@ export default function ServicesSection() {
         ],
         serviceTypes: ["Water Method", "Waterless Method"],
     };
-
 
     return (
         <section className="relative min-h-screen">

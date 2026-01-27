@@ -110,7 +110,7 @@ const NavigationMenuBar = () => {
                 className="flex items-center gap-2 px-3 py-2 rounded-lg border-2 transition-colors"
               >
                 <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
-                  <Image
+                  <img
                     src={`${process.env.NEXT_PUBLIC_SERVER_URL}${data.uploadPhoto}`}
                     alt="Profile"
                     width={40}
