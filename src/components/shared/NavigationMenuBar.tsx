@@ -98,6 +98,7 @@ const NavigationMenuBar = () => {
                     }`}
                 >
                   {item.name}
+                  
                 </Link>
               ))}
             </div>
