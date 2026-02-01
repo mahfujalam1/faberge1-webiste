@@ -48,8 +48,6 @@ const Banner = () => {
                 className="absolute top-0 left-0 w-full h-full object-cover"
             >
                 <source src={`${process.env.NEXT_PUBLIC_SERVER_URL}${bannerVideo?.video || "/videos/banner-video.mp4"}`} type="video/mp4" />
-                <source src={`${process.env.NEXT_PUBLIC_SERVER_URL}${bannerVideo?.video.replace('.mp4', '.webm')}`} type="video/webm" />
-                <source src={`${process.env.NEXT_PUBLIC_SERVER_URL}${bannerVideo?.video.replace('.mp4', '.ogv')}`} type="video/ogg" />
             </video>
 
             {/* Dark Overlay */}

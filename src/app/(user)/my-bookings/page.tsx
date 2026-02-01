@@ -29,7 +29,6 @@ export default function AllBookings() {
         ? (Object.values(data.data).flat() as Booking[])
         : [];
 
-
     const pagination = data?.pagination;
 
     // Filter to show only booked and completed bookings
