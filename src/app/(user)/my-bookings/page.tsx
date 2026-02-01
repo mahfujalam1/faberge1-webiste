@@ -12,8 +12,6 @@ export default function AllBookings() {
     const [tab, setTab] = useState<"" | "booked" | "completed">("");
     const [filterType, setFilterType] = useState<"" | "upcoming" | "completed">("");
 
-
-
     const [currentPage, setCurrentPage] = useState(1);
     const limit = 4;
 
