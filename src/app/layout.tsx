@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "sonner";
 import { Provider } from "react-redux";
 import { store } from "@/redux/store";
+import { PerformanceMonitor } from "@/components/PerformanceMonitor";
 
 // Import Poppins font
 const poppins = Poppins({
@@ -23,6 +24,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${poppins.variable} font-sans antialiased`}>
         <Provider store={store}>
+          <PerformanceMonitor />
           {children}
           <Toaster richColors position="top-center" />
         </Provider>

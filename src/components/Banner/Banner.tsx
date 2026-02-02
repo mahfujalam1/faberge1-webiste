@@ -56,6 +56,8 @@ const Banner = () => {
                 loop
                 muted
                 playsInline
+                preload="metadata" // ✅ Only load metadata first, not entire video
+                poster="/images/banner-poster.jpg" // ✅ Show poster while loading
                 className="absolute top-0 left-0 w-full h-full object-cover"
             >
                 <source src={`${process.env.NEXT_PUBLIC_SERVER_URL}${bannerVideo?.video || "/videos/banner-video.mp4"}`} type="video/mp4" />

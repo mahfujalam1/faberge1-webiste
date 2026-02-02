@@ -16,11 +16,9 @@ const getImageUrl = (relativePath: string | undefined): string => {
 export default function ServicesSection() {
     const path = usePathname();
     const { data } = useGetAllDynamicBannerQuery(undefined);
-    console.log(data);
 
     const manicureBannerImage = data?.data.find((banner: BannerData) => banner.title === 'manicure');
     const pedicureBannerImage = data?.data.find((banner: BannerData) => banner.title === 'pedicure');
-    console.log(getImageUrl(manicureBannerImage?.image));
 
     // Data for the Manicure service
     const manicureData = {

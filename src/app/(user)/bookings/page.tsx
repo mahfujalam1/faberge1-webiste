@@ -4,7 +4,6 @@ import { useState, useMemo } from "react"
 import { useRouter } from "next/navigation"
 import { useGetAllStateQuery } from "@/redux/api/bookingApi"
 import { GridLoader } from "react-spinners"
-// import { DynamicBanner } from "@/components/shared/DynamicBanner"
 
 type States = {
   _id: string,

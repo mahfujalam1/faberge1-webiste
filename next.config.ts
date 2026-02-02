@@ -1,4 +1,7 @@
 const nextConfig = {
+  // ✅ CRITICAL: Disable React Strict Mode in production to prevent duplicate API calls
+  reactStrictMode: false,
+
   images: {
     remotePatterns: [
       {
@@ -18,7 +21,19 @@ const nextConfig = {
         hostname: '10.10.20.16',
       },
     ],
+    // ✅ Image optimization settings
+    formats: ['image/webp', 'image/avif'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 60 * 60 * 24 * 30, // Cache images for 30 days
+    unoptimized: false, // Enable image optimization
   },
+
+  // ✅ Compress responses
+  compress: true,
+
+  // ✅ Production optimizations
+  productionBrowserSourceMaps: false, // Disable source maps in production
 };
 
 export default nextConfig;

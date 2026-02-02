@@ -25,7 +25,7 @@ export function ServiceCard({ title, image, services, serviceTypes }: ServiceCar
             <div className="bg-white rounded-b-2xl p-6 shadow-lg">
                 {/* Service Image */}
                 <div className="relative w-full h-96 mb-6 rounded-lg overflow-hidden bg-gray-100">
-                    <img src={image || "/placeholder.svg"} alt={title}  className="object-cover w-full h-full" />
+                    <img src={image || "/placeholder.svg"} alt={title} className="object-cover w-full h-full" />
                 </div>
 
                 {/* Service Details */}
