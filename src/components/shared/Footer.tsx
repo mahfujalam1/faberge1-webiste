@@ -5,10 +5,18 @@ import React from "react";
 import { MapPin, Phone, Facebook, Instagram } from "lucide-react";
 import { PiTiktokLogoBold } from "react-icons/pi";
 import Link from "next/link";
-import { GetMeResponse, useGetMeQuery } from "@/redux/api/baseApi";
+import { GetMeResponse } from "@/redux/api/baseApi";
+import { useGetProfileQuery } from "@/redux/api/authApi";
+import Cookies from "js-cookie"; // Make sure to install: npm install js-cookie @types/js-cookie
+import { authKey } from "@/constants/auth";
 
 const Footer: React.FC = () => {
-  const { data } = useGetMeQuery<GetMeResponse>()
+  const accessToken = Cookies.get(authKey);
+
+  // Conditionally call the API only if token exists
+  const {data} = useGetProfileQuery<GetMeResponse>(undefined, {
+    skip: !accessToken, // Skip the query if no accessToken
+  });
 
   return (
     <footer className="w-full bg-[#F48CB840] text-white">

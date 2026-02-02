@@ -1,4 +1,4 @@
-"use server";
+
 // local fallback for FieldValues to avoid requiring react-hook-form types
 type FieldValues = Record<string, unknown>;
 

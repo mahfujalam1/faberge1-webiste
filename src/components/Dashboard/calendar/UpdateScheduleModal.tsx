@@ -18,10 +18,13 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useAssignOfDayMutation, useGetAvailableSlotQuery, useUpdateAvailabilityMutation } from "@/redux/api/calenderApi";
-import { GetMeResponse, useGetMeQuery } from "@/redux/api/baseApi";
+import { GetMeResponse } from "@/redux/api/baseApi";
 import { toast } from "sonner";
 import { Slot } from "@/types/booking/bookings";
 import { ApiError } from "@/types/global.types";
+import { useGetProfileQuery } from "@/redux/api/authApi";
+import { authKey } from "@/constants/auth";
+import Cookies from "js-cookie";
 
 
 // Define props for the CalendarModal component
@@ -31,7 +34,12 @@ interface CalendarModalProps {
 }
 
 export default function CalendarModal({ open, onOpenChange }: CalendarModalProps) {
-    const worker = useGetMeQuery<GetMeResponse>();
+    const accessToken = Cookies.get(authKey);
+
+    // Conditionally call the API only if token exists
+    const worker = useGetProfileQuery<GetMeResponse>(undefined, {
+        skip: !accessToken, // Skip the query if no accessToken
+    });
     const [selectedDate, setSelectedDate] = useState<Date | undefined>();
     const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
     const [isTimeDropdownOpen, setIsTimeDropdownOpen] = useState(false);

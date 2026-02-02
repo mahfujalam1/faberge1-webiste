@@ -81,15 +81,17 @@ export default function RegisterPage() {
 
       if (res?.data) {
         toast.success("Successfully Completed Profile!");
-
+        console.log(res?.data, "123456789")
         // Check for required fields before login
         if (!registrationData?.profile?.email || !registrationData?.password?.password) {
           toast.error("Email or password is missing for login.");
           setIsLoading(false);
           return;
         }
+        console.log(registrationData, "123456782222")
 
-        const loginRes = await loginUser({ email: registrationData.profile.email, password: registrationData.password.password });
+        const loginRes = await loginUser({ email: registrationData?.profile?.email, password: registrationData?.password?.password });
+        console.log(loginRes, "login res=======")
 
         if (loginRes?.token) {
           storeUserInfo(loginRes.token);

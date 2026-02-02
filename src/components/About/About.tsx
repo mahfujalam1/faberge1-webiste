@@ -5,9 +5,14 @@ import { Button } from "@/components/ui/button";
 import { IMAGES } from "@/constants/image.index";
 import { usePathname } from "next/navigation";
 import { useGetAboutUsQuery } from "@/redux/api/publicApi";
+import { authKey } from "@/constants/auth";
+import Cookies from "js-cookie"; 
 
 export default function About() {
-    const { data } = useGetAboutUsQuery(undefined);
+    const accessToken = Cookies.get(authKey);
+    const { data } = useGetAboutUsQuery(undefined, {
+        skip: !accessToken
+    });
     const aboutUs = data?.aboutUs || "";
     const path = usePathname();
 

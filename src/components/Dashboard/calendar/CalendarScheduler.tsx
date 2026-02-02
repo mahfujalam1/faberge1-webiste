@@ -7,9 +7,13 @@ import CalendarModal from "./CalendarModal"
 import { Button } from "@/components/ui/button"
 import UpdateScheduleModal from "./UpdateScheduleModal"
 import { useGetCalenderScheduleQuery } from "@/redux/api/calenderApi"
-import { GetMeResponse, useGetMeQuery } from "@/redux/api/baseApi"
+import { GetMeResponse } from "@/redux/api/baseApi"
 import { GridLoader } from "react-spinners"
 import { CalendarData } from "@/types/booking/appointment"
+import { useGetProfileQuery } from "@/redux/api/authApi"
+import { authKey } from "@/constants/auth"
+import Cookies from "js-cookie"
+
 
 export default function CalendarScheduler() {
     const [selectedMonth, setSelectedMonth] = useState<number>(new Date().getMonth() + 1)
@@ -18,7 +22,12 @@ export default function CalendarScheduler() {
     const [open, setOpen] = useState(false)
     const [updateModalOpen, setUpdateModalOpen] = useState(false)
 
-    const { data: workerData } = useGetMeQuery<GetMeResponse>();
+    const accessToken = Cookies.get(authKey);
+
+    // Conditionally call the API only if token exists
+    const { data: workerData } = useGetProfileQuery<GetMeResponse>(undefined, {
+        skip: !accessToken, // Skip the query if no accessToken
+    });
     const workerId = workerData?._id;
 
     const { data, isLoading } = useGetCalenderScheduleQuery(

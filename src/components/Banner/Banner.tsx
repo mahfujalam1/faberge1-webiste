@@ -6,11 +6,22 @@ import { OutlineButton } from "../ui/OutlineButton";
 import Link from "next/link";
 import { useGetAllDynamicBannerQuery } from "@/redux/api/publicApi";
 import { BannerData } from "@/types/global.types";
-import { GetMeResponse, useGetMeQuery } from "@/redux/api/baseApi";
+import { GetMeResponse } from "@/redux/api/baseApi";
+import { useGetProfileQuery } from "@/redux/api/authApi";
+import Cookies from "js-cookie"; // Make sure to install: npm install js-cookie @types/js-cookie
+import { authKey } from "@/constants/auth";
 
 const Banner = () => {
     const { data } = useGetAllDynamicBannerQuery(undefined);
-    const user = useGetMeQuery<GetMeResponse>();
+
+    // Check if accessToken exists in cookies
+    const accessToken = Cookies.get(authKey);
+
+    // Conditionally call the API only if token exists
+    const user = useGetProfileQuery<GetMeResponse>(undefined, {
+        skip: !accessToken, // Skip the query if no accessToken
+    });
+
     const bannerVideo = data?.data.find((banner: BannerData) => banner.title === 'home');
 
     // State to track if component has mounted on the client side
@@ -62,7 +73,7 @@ const Banner = () => {
 
                 <p className="text-gray-200 text-md md:text-base mb-8">
                     No more waiting in line or struggling to get to the salon. Rest easy,
-                    we’ll come to you! If you’re 55 or older, get your manicures and
+                    we'll come to you! If you're 55 or older, get your manicures and
                     pedicures done in the comfort of your own home or facility!
                 </p>
 

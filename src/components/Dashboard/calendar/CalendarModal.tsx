@@ -1,12 +1,15 @@
 "use client"
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { GetMeResponse, useGetMeQuery } from "@/redux/api/baseApi"
+import { useGetProfileQuery } from "@/redux/api/authApi"
+import { GetMeResponse } from "@/redux/api/baseApi"
 import { useGetAllBookSlotsOneDayQuery } from "@/redux/api/bookingApi"
 import { useGetAvailableSlotQuery } from "@/redux/api/calenderApi"
 import { Service, AddOn } from "@/types/booking/appointment"
 import { Slot } from "@/types/booking/bookings"
 import { CalendarDays } from "lucide-react"
+import Cookies from "js-cookie"
+import { authKey } from "@/constants/auth"
 
 // Define the types for the props
 interface CalendarModalProps {
@@ -35,7 +38,12 @@ export default function CalendarModal({
     selectedDate,
     status,
 }: CalendarModalProps) {
-    const worker = useGetMeQuery<GetMeResponse>()
+    const accessToken = Cookies.get(authKey);
+
+    // Conditionally call the API only if token exists
+    const worker = useGetProfileQuery<GetMeResponse>(undefined, {
+        skip: !accessToken, // Skip the query if no accessToken
+    });
     const to12Hour = (time: string) => {
         const date = new Date(`1970-01-01T${time}`)
         return date.toLocaleTimeString("en-US", {
