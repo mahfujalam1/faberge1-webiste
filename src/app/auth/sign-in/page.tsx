@@ -15,7 +15,6 @@ import { toast } from "sonner"
 import { storeUserInfo } from "@/services/authServices"
 import setAccessTokenToCookies from "@/services/actions/setAccessTokenToCookie"
 import { ApiError } from "@/types/global.types"
-import { GetMeResponse, useGetMeQuery } from "@/redux/api/baseApi"
 
 interface LoginResponse {
   data?: {

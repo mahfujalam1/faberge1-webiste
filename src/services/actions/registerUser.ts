@@ -3,7 +3,7 @@ type FieldValues = Record<string, string>;
 
 export const registerUser = async (values: FieldValues) => {
   const res = await fetch(
-    `https://gardening-tips-platform-server.vercel.app/api/v1/user/create-user`,
+    ``,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },

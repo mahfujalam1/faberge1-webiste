@@ -13,7 +13,7 @@ export default function AllBookings() {
     const [filterType, setFilterType] = useState<"" | "upcoming" | "completed">("");
 
     const [currentPage, setCurrentPage] = useState(1);
-    const limit = 4;
+    const limit = 10;
 
     const { data, isLoading, error } = useGetAllBookingsForCustomerQuery({
         page: currentPage,
@@ -21,6 +21,7 @@ export default function AllBookings() {
         status: tab === "" ? undefined : tab,
         filterType: filterType === "" ? undefined : filterType,
     });
+    console.log(data)
 
     // Flatten the bookings from the grouped date structure
     const allBookings: Booking[] = data?.data
@@ -30,14 +31,7 @@ export default function AllBookings() {
     const pagination = data?.pagination;
 
     // Filter to show only booked and completed bookings
-    const filteredBookings = allBookings.filter((b: Booking) => {
-        // First filter: only show booked and completed status
-        if (b.status !== 'booked' && b.status !== 'completed') {
-            return false;
-        }
-        // Second filter: apply tab filter if a tab is selected
-        return tab === "" ? true : b.status === tab;
-    });
+    const filteredBookings = allBookings
 
     // Pagination handlers
     const handlePageChange = (page: number) => {

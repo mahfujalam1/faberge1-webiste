@@ -3,11 +3,19 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { IMAGES } from "@/constants/image.index";
 import Image from "next/image";
-import { GetMeResponse, useGetMeQuery } from "@/redux/api/baseApi";
+import { GetMeResponse, } from "@/redux/api/baseApi";
+import { useGetProfileQuery } from "@/redux/api/authApi";
+import Cookies from "js-cookie";
+import { authKey } from "@/constants/auth";
 
 export default function CheckoutPage() {
     const router = useRouter();
-    const { data: user, isLoading } = useGetMeQuery<GetMeResponse>();
+    const accessToken = Cookies.get(authKey);
+
+    // Conditionally call the API only if token exists
+    const { data: user, isLoading } = useGetProfileQuery<GetMeResponse>(undefined, {
+        skip: !accessToken, // Skip the query if no accessToken
+    });
 
     useEffect(() => {
         // Wait for user data to load before redirecting

@@ -7,7 +7,10 @@ import Link from "next/link";
 import { IMAGES } from "@/constants/image.index";
 import { cn } from "@/lib/utils";
 import { logoutUser } from "@/services/actions/logoutUser";
-import { GetMeResponse, useGetMeQuery, } from "@/redux/api/baseApi";
+import { GetMeResponse } from "@/redux/api/baseApi";
+import { useGetProfileQuery } from "@/redux/api/authApi";
+import Cookies from "js-cookie"; // Make sure to install: npm install js-cookie @types/js-cookie
+import { authKey } from "@/constants/auth";
 
 
 // Define the structure of each navigation item
@@ -22,8 +25,15 @@ const NavigationMenuBar = () => {
   const pathname = usePathname();
   const router = useRouter();
 
-  const { data } = useGetMeQuery<GetMeResponse>();
-  console.log(data)
+  // Check if accessToken exists in cookies
+  const accessToken = Cookies.get(authKey);
+
+  // Conditionally call the API only if token exists
+  const { data } = useGetProfileQuery<GetMeResponse>(undefined, {
+    skip: !accessToken, // Skip the query if no accessToken
+  });
+
+  console.log(data);
 
   // Define navigation items for customer and worker roles
   const navItemsCustomer: NavItem[] = [
@@ -98,7 +108,7 @@ const NavigationMenuBar = () => {
                     }`}
                 >
                   {item.name}
-                  
+
                 </Link>
               ))}
             </div>

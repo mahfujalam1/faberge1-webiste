@@ -5,9 +5,9 @@ import { authKey } from "@/constants/auth";
 
 export interface User {
   email?: string;
-  title?:string;
-  address?:string;
-  workerId?:string;
+  title?: string;
+  address?: string;
+  workerId?: string;
   firstName?: string;
   lastName?: string;
   role?: "worker" | "customer";
@@ -34,12 +34,7 @@ export const baseApi = createApi({
     },
   }),
   tagTypes: tagTypesList,
-  endpoints: (builder) => ({
-    getMe: builder.query<GetMeResponse, void>({
-      query: () => '/customer-or-worker/me',
-      providesTags: [tagTypes.users]
-    }),
-  }),
+  endpoints: (builder) => ({}),
 });
 
-export const { useGetMeQuery, useLazyGetMeQuery } = baseApi;
+export default baseApi;
