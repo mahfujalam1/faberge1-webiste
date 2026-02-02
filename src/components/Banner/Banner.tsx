@@ -73,7 +73,7 @@ const Banner = () => {
 
                 <p className="text-gray-200 text-md md:text-base mb-8">
                     No more waiting in line or struggling to get to the salon. Rest easy,
-                    we'll come to you! If you're 55 or older, get your manicures and
+                    we will come to you! If you are 55 or older, get your manicures and
                     pedicures done in the comfort of your own home or facility!
                 </p>
 
