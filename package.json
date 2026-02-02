@@ -6,7 +6,11 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "deploy:build": "npm ci --production=false && npm run build",
+    "deploy:pm2": "pm2 start ecosystem.config.js",
+    "deploy:restart": "pm2 restart faberge-client",
+    "deploy:logs": "pm2 logs faberge-client"
   },
   "dependencies": {
     "@ant-design/icons": "^6.1.0",
