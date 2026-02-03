@@ -20,35 +20,39 @@ const Banner = () => {
 
     const bannerVideo = data?.data?.find((banner: BannerData) => banner.title === 'home');
     const [isClient, setIsClient] = useState(false);
-    const [videoLoaded, setVideoLoaded] = useState(false);
     const videoRef = useRef<HTMLVideoElement>(null);
 
     useEffect(() => {
         setIsClient(true);
     }, []);
 
-    // Video play করার জন্য improved useEffect
+    // ✅ Video autoplay - user data এর উপর নির্ভর করে না
     useEffect(() => {
         const playVideo = async () => {
-            if (videoRef.current && bannerVideo && videoLoaded) {
+            if (videoRef.current) {
                 try {
-                    // Ensure video is muted (required for autoplay)
                     videoRef.current.muted = true;
                     await videoRef.current.play();
                     console.log('Video playing successfully');
                 } catch (error) {
                     console.error('Error playing video:', error);
+                    // Fallback: user interaction এর পর try করুন
+                    const playOnInteraction = () => {
+                        videoRef.current?.play();
+                        document.removeEventListener('click', playOnInteraction);
+                    };
+                    document.addEventListener('click', playOnInteraction);
                 }
             }
         };
 
-        playVideo();
-    }, [bannerVideo, videoLoaded]);
+        // Small delay to ensure DOM is ready
+        const timer = setTimeout(() => {
+            playVideo();
+        }, 100);
 
-    // Video load হলে callback
-    const handleVideoLoaded = () => {
-        setVideoLoaded(true);
-    };
+        return () => clearTimeout(timer);
+    }, [bannerVideo]); // শুধুমাত্র bannerVideo change হলে re-run
 
     if (!isClient) return null;
 
@@ -68,8 +72,6 @@ const Banner = () => {
                 preload="auto"
                 poster="/images/banner-poster.jpg"
                 className="absolute top-0 left-0 w-full h-full object-cover"
-                onLoadedData={handleVideoLoaded}
-                onCanPlay={handleVideoLoaded}
             >
                 <source src={videoSrc} type="video/mp4" />
             </video>
