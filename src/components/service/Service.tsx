@@ -10,12 +10,12 @@ import { BannerData } from "@/types/global.types";
 // Helper function to construct the full image URL
 const getImageUrl = (relativePath: string | undefined): string => {
     const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL;
-    return relativePath ? `${baseUrl}${relativePath}` : IMAGES.serviceCardImage1.src; // fallback to default if no image path
+    return relativePath ? `${baseUrl}${relativePath}` : ''; // return empty string if no image
 };
 
 export default function ServicesSection() {
     const path = usePathname();
-    const { data } = useGetAllDynamicBannerQuery(undefined);
+    const { data, isLoading } = useGetAllDynamicBannerQuery(undefined);
 
     const manicureBannerImage = data?.data.find((banner: BannerData) => banner.title === 'manicure');
     const pedicureBannerImage = data?.data.find((banner: BannerData) => banner.title === 'pedicure');
@@ -23,7 +23,7 @@ export default function ServicesSection() {
     // Data for the Manicure service
     const manicureData = {
         title: "Manicure",
-        image: getImageUrl(manicureBannerImage?.image), // using the helper function
+        image: getImageUrl(manicureBannerImage?.image),
         services: [
             {
                 title: "Manicure",
@@ -41,7 +41,7 @@ export default function ServicesSection() {
     // Data for the Pedicure service
     const pedicureData = {
         title: "Pedicure",
-        image: getImageUrl(pedicureBannerImage?.image), // using the helper function
+        image: getImageUrl(pedicureBannerImage?.image),
         services: [
             {
                 title: "Pedicure",
@@ -60,10 +60,8 @@ export default function ServicesSection() {
         <section className="relative min-h-screen">
             {/* Background */}
             {path === "/services" ? (
-                // Gradient background when path is "/services"
                 <div className="absolute inset-0 bg-gradient-to-tl from-[#fdeaea] via-[#fff1f3] to-[#ffdae1]" />
             ) : (
-                // Image background otherwise
                 <div className="absolute inset-0 pointer-events-none">
                     <Image
                         src={IMAGES.serviceBgImage.src}
@@ -79,8 +77,8 @@ export default function ServicesSection() {
             <div className="relative z-10 container mx-auto px-4 py-16">
                 <SectionHeader sectionName="Our Services" />
                 <div className="md:flex justify-around gap-8">
-                    <ServiceCard {...manicureData} />
-                    <ServiceCard {...pedicureData} />
+                    <ServiceCard {...manicureData} isLoading={isLoading} />
+                    <ServiceCard {...pedicureData} isLoading={isLoading} />
                 </div>
             </div>
         </section>

@@ -1,24 +1,25 @@
 import { authKey } from '@/constants/auth'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { jwtDecode } from 'jwt-decode'
+
+interface DecodedToken {
+    role?: string
+    // Add other token properties if needed
+}
 
 export function middleware(request: NextRequest) {
     const token = request.cookies.get(authKey)
     const { pathname } = request.nextUrl
 
-    const authRoutes = ['/auth/sign-in', '/auth/sign-up', '/auth/forgot-password']
+    const authRoutes = ['/auth/sign-in', '/auth/sign-up', '/auth/forgot-password', '/about', '/contact', '/services']
 
-    // Fix 1: Check for exact match or startsWith for sub-paths, but handle '/' carefully
     const isAuthRoute = authRoutes.some(route => pathname === route || pathname.startsWith(`${route}/`))
-
-    // Fix 2: Explicitly define public routes. 
-    // Use exact check for '/' to prevent it from matching everything.
     const isPublicRoute = pathname === '/' || isAuthRoute
 
     // 1. If trying to access protected route without token
     if (!token) {
         if (!isPublicRoute) {
-            // Redirect to sign-in and keep the original destination in query params if needed
             return NextResponse.redirect(new URL('/auth/sign-in', request.url))
         }
     }
@@ -28,18 +29,47 @@ export function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL('/', request.url))
     }
 
+    // 3. Role-based access control
+    if (token) {
+        try {
+            const decoded = jwtDecode<DecodedToken>(token.value)
+            const userRole = decoded.role
+
+            // Worker restrictions
+            if (userRole === 'worker') {
+                const workerRestrictedRoutes = ['/', '/my-bookings']
+                const isWorkerRestricted = workerRestrictedRoutes.some(
+                    route => pathname === route || pathname.startsWith(`${route}/`)
+                )
+
+                if (isWorkerRestricted) {
+                    return NextResponse.redirect(new URL('/dashboard', request.url))
+                }
+            }
+
+            // Customer restrictions
+            if (userRole === 'customer') {
+                const customerRestrictedRoutes = ['/all-bookings', '/schedule', '/dashboard']
+                const isCustomerRestricted = customerRestrictedRoutes.some(
+                    route => pathname === route || pathname.startsWith(`${route}/`)
+                )
+
+                if (isCustomerRestricted) {
+                    return NextResponse.redirect(new URL('/', request.url))
+                }
+            }
+        } catch (error) {
+            console.error('Error decoding token:', error)
+            // If token is invalid, redirect to sign-in
+            return NextResponse.redirect(new URL('/auth/sign-in', request.url))
+        }
+    }
+
     return NextResponse.next()
 }
 
 export const config = {
     matcher: [
-        /*
-         * Match all request paths except for the ones starting with:
-         * - api (API routes)
-         * - _next/static (static files)
-         * - _next/image (image optimization files)
-         * - favicon.ico (favicon file)
-         */
         '/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|mp4)$).*)',
     ],
 }
