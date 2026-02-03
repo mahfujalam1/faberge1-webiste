@@ -205,7 +205,7 @@ export default function CalendarModal({ open, onOpenChange }: CalendarModalProps
                                 htmlFor="offDay"
                                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
                             >
-                                Entire Day Off
+                                {isOffDay ? "Cancel Off Day" : "Entire Day Off"}
                             </Label>
                         </div>
                     )}

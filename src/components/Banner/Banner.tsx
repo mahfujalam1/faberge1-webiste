@@ -8,44 +8,53 @@ import { useGetAllDynamicBannerQuery } from "@/redux/api/publicApi";
 import { BannerData } from "@/types/global.types";
 import { GetMeResponse } from "@/redux/api/baseApi";
 import { useGetProfileQuery } from "@/redux/api/authApi";
-import Cookies from "js-cookie"; // Make sure to install: npm install js-cookie @types/js-cookie
+import Cookies from "js-cookie";
 import { authKey } from "@/constants/auth";
 
 const Banner = () => {
-    const { data } = useGetAllDynamicBannerQuery(undefined);
-
-    // Check if accessToken exists in cookies
+    const { data, isLoading } = useGetAllDynamicBannerQuery(undefined);
     const accessToken = Cookies.get(authKey);
-
-    // Conditionally call the API only if token exists
     const user = useGetProfileQuery<GetMeResponse>(undefined, {
-        skip: !accessToken, // Skip the query if no accessToken
+        skip: !accessToken,
     });
 
-    const bannerVideo = data?.data.find((banner: BannerData) => banner.title === 'home');
-
-    // State to track if component has mounted on the client side
+    const bannerVideo = data?.data?.find((banner: BannerData) => banner.title === 'home');
     const [isClient, setIsClient] = useState(false);
-
-    // Video ref to control playback
+    const [videoLoaded, setVideoLoaded] = useState(false);
     const videoRef = useRef<HTMLVideoElement>(null);
 
-    // Set client-side flag after mount
     useEffect(() => {
         setIsClient(true);
     }, []);
 
-    // Ensure video plays on mount after it's available
+    // Video play করার জন্য improved useEffect
     useEffect(() => {
-        if (videoRef.current) {
-            videoRef.current.play().catch((error) => {
-                console.error('Error attempting to play video:', error);
-            });
-        }
-    }, [bannerVideo]);  // Trigger when the video URL changes
+        const playVideo = async () => {
+            if (videoRef.current && bannerVideo && videoLoaded) {
+                try {
+                    // Ensure video is muted (required for autoplay)
+                    videoRef.current.muted = true;
+                    await videoRef.current.play();
+                    console.log('Video playing successfully');
+                } catch (error) {
+                    console.error('Error playing video:', error);
+                }
+            }
+        };
 
-    // Render content only on the client side
+        playVideo();
+    }, [bannerVideo, videoLoaded]);
+
+    // Video load হলে callback
+    const handleVideoLoaded = () => {
+        setVideoLoaded(true);
+    };
+
     if (!isClient) return null;
+
+    const videoSrc = bannerVideo?.video
+        ? `${process.env.NEXT_PUBLIC_SERVER_URL}${bannerVideo.video}`
+        : "/videos/banner-video.mp4";
 
     return (
         <section className="relative w-full min-h-screen py-28 flex items-center justify-center overflow-hidden -mt-[80px]">
@@ -56,11 +65,13 @@ const Banner = () => {
                 loop
                 muted
                 playsInline
-                preload="metadata" // ✅ Only load metadata first, not entire video
-                poster="/images/banner-poster.jpg" // ✅ Show poster while loading
+                preload="auto"
+                poster="/images/banner-poster.jpg"
                 className="absolute top-0 left-0 w-full h-full object-cover"
+                onLoadedData={handleVideoLoaded}
+                onCanPlay={handleVideoLoaded}
             >
-                <source src={`${process.env.NEXT_PUBLIC_SERVER_URL}${bannerVideo?.video || "/videos/banner-video.mp4"}`} type="video/mp4" />
+                <source src={videoSrc} type="video/mp4" />
             </video>
 
             {/* Dark Overlay */}
@@ -68,7 +79,7 @@ const Banner = () => {
 
             {/* Content */}
             <div className="relative z-10 text-center text-white max-w-3xl px-4">
-                <h1 className="text-xl md:text-5xl font-extrabold leading-tight mb-4">
+                <h1 className="text-[27px] md:text-5xl font-extrabold leading-tight mb-4">
                     <span className="block">In-Home </span>
                     <span className="block">Manicure $25 / Pedicure $35</span> for Seniors
                 </h1>
@@ -79,30 +90,22 @@ const Banner = () => {
                     pedicures done in the comfort of your own home or facility!
                 </p>
 
-                {/* Button Box */}
                 <div className={`${user?.data?.role === 'worker' ? '' : 'rounded-lg mb-10 py-8 bg-white/10 md:mx-12'}`}>
-                    {/* If the user is logged in with the 'customer' role, show the 'Book Appointment' button */}
-                    {
-                        user?.data?.role === 'customer' && user?.data?.email && (
-                            <Link href="/bookings"><PrimaryButton name="Book Appointment" /></Link>
-                        )
-                    }
+                    {user?.data?.role === 'customer' && user?.data?.email && (
+                        <Link href="/bookings"><PrimaryButton name="Book Appointment" /></Link>
+                    )}
 
-                    {/* If the user is not logged in, show 'Sign In' and 'Sign Up' buttons */}
-                    {
-                        !user?.data?.email && user?.data?.role !== 'worker' && (
-                            <div className="flex justify-evenly">
-                                <Link href="/auth/sign-up"><PrimaryButton name="Register Now" /></Link>
-                                <Link href="/auth/sign-in"><OutlineButton name="Sign In" /></Link>
-                            </div>
-                        )
-                    }
+                    {!user?.data?.email && user?.data?.role !== 'worker' && (
+                        <div className="flex justify-evenly">
+                            <Link href="/auth/sign-up"><PrimaryButton name="Register Now" /></Link>
+                            <Link href="/auth/sign-in"><OutlineButton name="Sign In" /></Link>
+                        </div>
+                    )}
                 </div>
 
-                {/* Phone Contact */}
                 <div className="flex flex-col items-center justify-center space-y-2">
                     <div className="flex items-center gap-2">
-                        <PhoneCall size={30} className="text-white" />
+                        <PhoneCall size={25} className="text-white" />
                         <span className="md:text-4xl text-2xl font-bold">1(855) 622-6264</span>
                     </div>
                     <span className="md:text-2xl text-lg text-gray-300">Call Or Book Online</span>
