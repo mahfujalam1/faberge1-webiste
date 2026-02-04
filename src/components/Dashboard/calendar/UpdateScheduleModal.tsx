@@ -128,16 +128,17 @@ export default function CalendarModal({ open, onOpenChange }: CalendarModalProps
 
     const handleAssignOffDay = async (checked: boolean | string) => {
         const isChecked = typeof checked === "boolean" ? checked : checked === "on";
-        setIsOffDay(isChecked);
 
         if (dateFormat) {
             try {
                 const res = await assignOffDay({ date: dateFormat });
                 if (res?.error) {
                     const apiError = res?.error as ApiError
-                    const errorMessage = apiError?.data?.message || "Login failed. Please try again."
+                    const errorMessage = apiError?.data?.message || "Failed to update off day status."
                     toast.error(errorMessage)
                 } else {
+                    // Update local state only after successful API call
+                    setIsOffDay(isChecked);
                     toast.success(res?.data?.message);
                 }
             } catch (error) {
@@ -193,20 +194,42 @@ export default function CalendarModal({ open, onOpenChange }: CalendarModalProps
                         </Popover>
                     </div>
 
-                    {/* Off Day Checkbox */}
+                    {/* Off Day Checkboxes */}
                     {shouldShowTimeSelection && (
-                        <div className="flex items-center space-x-2">
-                            <Checkbox
-                                id="offDay"
-                                checked={isOffDay}
-                                onCheckedChange={handleAssignOffDay}
-                            />
-                            <Label
-                                htmlFor="offDay"
-                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
-                            >
-                                {isOffDay ? "Cancel Off Day" : "Entire Day Off"}
-                            </Label>
+                        <div className="space-y-3">
+                            {isOffDay ? (
+                                // Show Cancel Off Day checkbox when it's an off day (unchecked by default)
+                                <div className="flex items-center space-x-2">
+                                    <Checkbox
+                                        className="cursor-pointer"
+                                        id="cancelOffDay"
+                                        checked={false}
+                                        onCheckedChange={handleAssignOffDay}
+                                    />
+                                    <Label
+                                        htmlFor="cancelOffDay"
+                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                                    >
+                                        Cancel Off Day
+                                    </Label>
+                                </div>
+                            ) : (
+                                // Show Entire Day Off checkbox when it's NOT an off day (unchecked by default)
+                                <div className="flex items-center space-x-2">
+                                    <Checkbox
+                                        className="cursor-pointer"
+                                        id="entireDayOff"
+                                        checked={false}
+                                        onCheckedChange={handleAssignOffDay}
+                                    />
+                                    <Label
+                                        htmlFor="entireDayOff"
+                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                                    >
+                                        Entire Day Off
+                                    </Label>
+                                </div>
+                            )}
                         </div>
                     )}
 
@@ -263,13 +286,6 @@ export default function CalendarModal({ open, onOpenChange }: CalendarModalProps
                         {isLoading ? "Saving..." : "Save"}
                     </Button>
                 </DialogFooter>
-
-                {/* <div className="flex flex-wrap gap-3 text-xs sm:text-sm mt-3">
-                    <div className="flex items-center gap-1"><span className="w-3 h-3 bg-white border-2 text-black rounded-full" /> Available</div>
-                    <div className="flex items-center gap-1"><span className="w-3 h-3 bg-green-400 rounded-full" /> Booked</div>
-                    <div className="flex items-center gap-1"><span className="w-3 h-3 bg-red-400 rounded-full" /> Unavailable</div>
-                    <div className="flex items-center gap-1"><span className="w-3 h-3 bg-gray-300 rounded-full" /> Completed</div>
-                </div> */}
             </DialogContent>
         </Dialog>
     );

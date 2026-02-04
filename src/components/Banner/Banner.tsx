@@ -81,7 +81,7 @@ const Banner = () => {
 
             {/* Content */}
             <div className="relative z-10 text-center text-white max-w-3xl px-4">
-                <h1 className="text-[27px] md:text-5xl font-extrabold leading-tight mb-4">
+                <h1 className="text-[24px] md:text-5xl font-extrabold leading-tight mb-4">
                     <span className="block">In-Home </span>
                     <span className="block">Manicure $25 / Pedicure $35</span> for Seniors
                 </h1>

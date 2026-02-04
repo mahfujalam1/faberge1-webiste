@@ -72,7 +72,7 @@ function LoginForm() {
       <div className="bg-white rounded-xl shadow-md w-full max-w-lg p-10">
         <div className="w-full max-w-xl mx-auto">
           {/* Logo */}
-          <div className="mb-8 flex justify-center">
+          <div className="flex justify-center">
             <div className="text-center">
               <div className="mb-2 flex items-center justify-center">
                 <Link href={'/'} className="relative ">
@@ -89,7 +89,7 @@ function LoginForm() {
           </div>
 
           {/* Welcome Back Title */}
-          <h1 className="mb-8 text-center font-serif text-4xl font-normal text-gray-900">Welcome Back</h1>
+          <h1 className="mb-12 text-center font-serif text-4xl font-normal text-gray-900">Welcome Back</h1>
 
           {/* Form */}
           <form className="space-y-6" onSubmit={handleSubmit}>
