@@ -8,6 +8,10 @@ import { getUserInfo } from "@/services/authServices";
 import { formatDate, getStatusColor } from "@/utils/utils";
 import { Booking, ServiceItem } from "@/types/booking/bookings";
 import { ScaleLoader } from "react-spinners";
+import { useGetProfileQuery } from "@/redux/api/authApi";
+import { GetMeResponse } from "@/redux/api/baseApi";
+import Cookies from "js-cookie";
+import { authKey } from "@/constants/auth";
 
 interface BookingCardProps {
     booking: Booking;
@@ -16,6 +20,17 @@ interface BookingCardProps {
 export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
     const [, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+
+    const accessToken = Cookies.get(authKey);
+
+    // Conditionally call the API only if token exists
+    const { data: userData, isLoading } = useGetProfileQuery<GetMeResponse>(undefined, {
+        skip: !accessToken, // Skip the query if no accessToken
+    });
+
+    // Determine if we should show worker or customer data based on user role
+    const isCustomer = userData?.role === 'customer';
+    const displayData = isCustomer ? booking?.worker : booking?.customer;
 
     useEffect(() => {
         const userInfo = getUserInfo();
@@ -32,7 +47,7 @@ export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
         })
     }
 
-    if (loading) {
+    if (loading || isLoading) {
         return (
             <Card className="mb-6 rounded-lg shadow-md overflow-hidden overflow-x-auto bg-[#FFEBEF] mt-5 max-w-full">
                 <CardContent className="p-0 flex md:flex-row">
@@ -56,15 +71,14 @@ export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
         );
     }
 
-
     return (
         <Card className="mb-6 rounded-lg shadow-md overflow-hidden overflow-x-auto bg-[#FFEBEF] mt-5 max-w-full">
             <CardContent className="p-0 flex md:flex-row">
                 {/* Image Section */}
                 <div className="flex-shrink-0 px-6 md:pb-0 pb-3 flex justify-start">
                     <Image
-                        src={`${process.env.NEXT_PUBLIC_SERVER_URL}${booking?.worker?.uploadPhoto}`}
-                        alt="customer"
+                        src={`${process.env.NEXT_PUBLIC_SERVER_URL}${displayData?.uploadPhoto || ''}`}
+                        alt={isCustomer ? "worker" : "customer"}
                         width={120}
                         height={120}
                         className="object-cover border bg-white rounded"
@@ -78,13 +92,13 @@ export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                     <div className="grid grid-cols-7 bg-[#FFC0CB] px-4 py-3 text-xs sm:text-sm font-bold text-gray-800">
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Date</div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Time</div>
-                        <div className="text-nowrap whitespace-nowrap flex-nowrap">Customer</div>
+                        <div className="text-nowrap whitespace-nowrap flex-nowrap">
+                            {isCustomer ? 'Worker' : 'Customer'}
+                        </div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Phone</div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Email</div>
-                        {/* <div className="text-nowrap whitespace-nowrap flex-nowrap text-center">Payment Status</div> */}
                         <div className="text-nowrap whitespace-nowrap flex-nowrap text-center">Payment amount</div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap text-center">Status</div>
-                        {/* <div className="text-nowrap whitespace-nowrap flex-nowrap text-end">Complete Status</div> */}
                     </div>
 
                     {/* Content Row */}
@@ -96,19 +110,14 @@ export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                             {to12Hour(booking.startTime)}-{to12Hour(booking.endTime)}
                         </div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">
-                            {booking.customer?.firstName} {booking.customer?.lastName}
+                            {displayData?.firstName} {displayData?.lastName}
                         </div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">
-                            {booking.customer?.phone || 'N/A'}
+                            {displayData?.phone || 'N/A'}
                         </div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap overflow-hidden text-ellipsis">
-                            {booking.customer?.email || 'N/A'}
+                            {displayData?.email || 'N/A'}
                         </div>
-                        {/* <div className="text-nowrap whitespace-nowrap flex-nowrap text-center">
-                            <span className="bg-green-500 px-2 rounded-full text-white">
-                                {booking?.isPayment ? 'Paid' : 'Pending'}
-                            </span>
-                        </div> */}
                         <div className="text-center font-semibold text-nowrap whitespace-nowrap flex-nowrap">
                             ${booking?.paymentAmount || 0}
                         </div>
