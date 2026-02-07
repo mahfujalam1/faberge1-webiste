@@ -12,24 +12,17 @@ export function middleware(request: NextRequest) {
     const token = request.cookies.get(authKey)
     const { pathname } = request.nextUrl
 
-    const authRoutes = ['/auth/sign-in', '/auth/sign-up', '/auth/forgot-password', '/about', '/contact', '/services']
+    // Public routes (accessible to everyone, logged in or not)
+    const publicRoutes = ['/', '/auth/sign-in', '/auth/sign-up', '/auth/forgot-password', '/about', '/contact', '/services']
 
-    const isAuthRoute = authRoutes.some(route => pathname === route || pathname.startsWith(`${route}/`))
-    const isPublicRoute = pathname === '/' || isAuthRoute
+    const isPublicRoute = publicRoutes.some(route => pathname === route || pathname.startsWith(`${route}/`))
 
     // 1. If trying to access protected route without token
-    if (!token) {
-        if (!isPublicRoute) {
-            return NextResponse.redirect(new URL('/auth/sign-in', request.url))
-        }
+    if (!token && !isPublicRoute) {
+        return NextResponse.redirect(new URL('/auth/sign-in', request.url))
     }
 
-    // 2. If logged in and trying to access auth pages, redirect to home
-    if (token && isAuthRoute) {
-        return NextResponse.redirect(new URL('/', request.url))
-    }
-
-    // 3. Role-based access control
+    // 2. Role-based access control
     if (token) {
         try {
             const decoded = jwtDecode<DecodedToken>(token.value)
