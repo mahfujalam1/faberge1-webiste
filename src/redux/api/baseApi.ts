@@ -28,6 +28,7 @@ export const baseApi = createApi({
     prepareHeaders: (headers) => {
       const token = Cookies.get(authKey);
       if (token) {
+        headers.set('X-Timezone', Intl.DateTimeFormat().resolvedOptions().timeZone);
         headers.set('Authorization', `Bearer ${token}`);
       }
       return headers;
