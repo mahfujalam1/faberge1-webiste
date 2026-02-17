@@ -39,7 +39,7 @@ const NavigationMenuBar = () => {
   const navItemsCustomer: NavItem[] = [
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
-    ...(data?.email ? [{ name: "Bookings", href: "/bookings" }] : []),
+    ...(data?.email ? [{ name: "Book", href: "/bookings" }] : []),
     { name: "Services", href: "/services" },
     { name: "Contact Us", href: "/contact" },
   ];
@@ -47,7 +47,7 @@ const NavigationMenuBar = () => {
   const navItemsWorker: NavItem[] = [
     { name: "Dashboard", href: "/dashboard" },
     { name: "Schedule", href: "/schedule" },
-    { name: "Bookings", href: "/all-bookings" },
+    { name: "Book", href: "/all-bookings" },
   ];
 
   const handleSignOut = () => {
