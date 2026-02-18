@@ -47,7 +47,7 @@ const NavigationMenuBar = () => {
   const navItemsWorker: NavItem[] = [
     { name: "Dashboard", href: "/dashboard" },
     { name: "Schedule", href: "/schedule" },
-    { name: "Book", href: "/all-bookings" },
+    { name: "Bookings", href: "/all-bookings" },
   ];
 
   const handleSignOut = () => {
