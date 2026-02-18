@@ -138,8 +138,8 @@ export const WorkerBookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Date</div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Time</div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Customer</div>
+                        <div className="text-nowrap whitespace-nowrap flex-nowrap">Address</div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Phone</div>
-                        <div className="text-nowrap whitespace-nowrap flex-nowrap">Email</div>
                         {/* <div className="text-nowrap whitespace-nowrap flex-nowrap text-center">Payment Status</div> */}
                         <div className="text-nowrap whitespace-nowrap flex-nowrap text-center">Payment amount</div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap text-center">Status</div>
@@ -147,7 +147,7 @@ export const WorkerBookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                     </div>
 
                     {/* Content Row */}
-                    <div className="grid grid-cols-7 items-center px-4 py-4 text-xs sm:text-sm text-gray-800 border-b border-pink-100">
+                    <div className="grid grid-cols-7  px-4 py-4 text-xs sm:text-sm text-gray-800 border-b border-pink-100">
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">
                             {formatDate(booking?.date)}
                         </div>
@@ -157,11 +157,11 @@ export const WorkerBookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">
                             {booking?.customer?.firstName} {booking?.customer?.lastName}
                         </div>
+                        <div className="flex-wrap overflow-hidden text-ellipsis ">
+                            {booking?.customer?.address + ", " + booking?.customer?.state + ", " + booking?.customer?.zipCode  || 'N/A'}
+                        </div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">
                             {booking?.customer?.phone || 'N/A'}
-                        </div>
-                        <div className="text-nowrap whitespace-nowrap flex-nowrap overflow-hidden text-ellipsis">
-                            {booking?.customer?.email || 'N/A'}
                         </div>
                         {/* <div className="text-nowrap whitespace-nowrap flex-nowrap text-center">
                             <span className="bg-green-500 px-2 rounded-full text-white">
