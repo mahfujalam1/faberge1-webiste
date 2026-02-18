@@ -13,6 +13,8 @@ export type Service = {
 };
 
 export type Customer = {
+    state: string;
+    zipCode: string;
     address: string;
     email: string;
     firstName: string;
@@ -21,6 +23,8 @@ export type Customer = {
     uploadPhoto: string;
 };
 export type Worker = {
+    state: string;
+    zipCode: string;
     address: string;
     email: string;
     firstName: string;
@@ -32,7 +36,7 @@ export type Worker = {
 export type Booking = {
     _id: string;
     customer: Customer;
-    date: string;
+    date: string;   
     startTime: string;
     endTime: string;
     status: "booked" | "completed" | string;
