@@ -48,11 +48,11 @@ export default function StepThreePhoto({ onContinue, onPrev, initialData, isLoad
     }
 
     return (
-        <div className="md:w-96 mx-auto py-16">
+        <div className="md:w-96 mx-auto py10">
             {/* Logo */}
-            <div className="mb-8 flex justify-center">
+            <div className="flex justify-center">
                 <div className="text-center">
-                    <div className="mb-2 flex items-center justify-center">
+                    <div className="mb flex items-center justify-center">
                         <div className="relative ">
                             <Image
                                 src={IMAGES.logo.src}
@@ -70,12 +70,12 @@ export default function StepThreePhoto({ onContinue, onPrev, initialData, isLoad
             <h1 className="mb-4 text-center font-serif text-4xl font-normal text-gray-900">Upload Photo</h1>
 
             {/* Subtitle */}
-            <p className="mb-12 text-center text-sm text-gray-600">
+            <p className="mb-4 text-center text-sm text-gray-600">
                 Please provide a clear headshot on a light background minus glasses and headwear.
             </p>
 
             {/* Photo Preview */}
-            <div className="mb-8 flex justify-center">
+            <div className="mb-3 flex justify-center">
                 <div className="relative h-32 w-32 overflow-hidden rounded-lg border-4 border-gray-300 bg-gray-200">
                     {photoPreview ? (
                         <Image src={photoPreview || "/placeholder.svg"} alt="Profile preview" fill className="object-cover" />
