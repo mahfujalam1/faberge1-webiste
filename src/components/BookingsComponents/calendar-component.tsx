@@ -81,17 +81,17 @@ export default function CalendarComponent({
 
     const handleDateClick = (date: string, status: string): void => {
         // Check for errors first
-        // if (isPastDate(date)) {
-        //     toast.error(`Cannot select past date: ${date}`, {
-        //         style: {
-        //             background: "#fff",
-        //             color: "#000",
-        //             border: "1px solid #ddd",
-        //         },
-        //         icon: "❌",
-        //     })
-        //     return
-        // }
+        if (isPastDate(date)) {
+            toast.error(`Cannot select past date: ${date}`, {
+                style: {
+                    background: "#fff",
+                    color: "#000",
+                    border: "1px solid #ddd",
+                },
+                icon: "❌",
+            })
+            return
+        }
 
         if (availableSlots && availableSlots.offDay === false) {
             toast.error(`This is an off day: ${date}`, {
