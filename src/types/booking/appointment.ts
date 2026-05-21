@@ -10,6 +10,8 @@ export type Service = {
     _id: string;
     serviceName: string;
     price: number;
+    agencyFee?: number;
+    serviceDuration?: number;
     serviceCategories:[],
     subcategory?: AddOn[]
 };

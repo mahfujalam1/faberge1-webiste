@@ -24,7 +24,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${poppins.variable} font-sans antialiased`}>
         <Provider store={store}>
-          <PerformanceMonitor />
+          {/* <PerformanceMonitor /> */}
           {children}
           <Toaster richColors position="top-center" />
         </Provider>

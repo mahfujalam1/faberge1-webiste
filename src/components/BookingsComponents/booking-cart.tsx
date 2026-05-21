@@ -3,9 +3,6 @@
 import { BookingItem } from "@/types/booking/appointment";
 import { X } from "lucide-react";
 
-// Define the types for the BookingItem, AddOn, and Props
-
-
 interface BookingCartProps {
     bookings: BookingItem[];
     memberName: string;
@@ -18,6 +15,41 @@ interface Props extends BookingCartProps {
     onRemove?: (index: number) => void;
     onClear?: () => void;
 }
+
+const round2 = (n: number) => Math.round(n * 100) / 100;
+
+// "9:00 AM" → minutes since midnight.
+const parse12hToMinutes = (time12: string): number => {
+    const trimmed = time12.trim();
+    const [time, modifier] = trimmed.split(" ");
+    const [hStr, mStr] = time.split(":");
+    let h = parseInt(hStr, 10);
+    const m = parseInt(mStr, 10);
+    const mod = (modifier || "").toUpperCase();
+    if (mod === "PM" && h !== 12) h += 12;
+    if (mod === "AM" && h === 12) h = 0;
+    return h * 60 + m;
+};
+
+const minutesTo12h = (mins: number): string => {
+    const total = ((mins % (24 * 60)) + 24 * 60) % (24 * 60);
+    const h24 = Math.floor(total / 60);
+    const m = total % 60;
+    const modifier = h24 >= 12 ? "PM" : "AM";
+    let h12 = h24 % 12;
+    if (h12 === 0) h12 = 12;
+    return `${h12}:${String(m).padStart(2, "0")} ${modifier}`;
+};
+
+// booking.time is the slot label ("9:00 AM - 9:30 AM") — always +30min.
+// For display, we want the real service end: start + service.serviceDuration.
+const computeServiceTimeRange = (booking: BookingItem): string => {
+    const startStr = (booking.time || "").split(" - ")[0]?.trim();
+    if (!startStr) return booking.time;
+    const startMin = parse12hToMinutes(startStr);
+    const dur = booking.service?.serviceDuration ?? 30;
+    return `${startStr} - ${minutesTo12h(startMin + dur)}`;
+};
 
 export default function BookingCart({
     isLoading,
@@ -36,25 +68,29 @@ export default function BookingCart({
             </div>
         );
 
-    console.log('row bookings=>', bookings)
-
     // Format date from YYYY-MM-DD to MM-DD-YYYY
     const formatDate = (date: string) => {
         const [year, month, day] = date.split("-");
         return `${month}-${day}-${year}`;
     };
 
-    // Total calculation
-    const calculateTotal = () => {
-        return bookings.reduce((total, booking) => {
-            const servicePrice = booking.service?.price || 0;
-            const addOnsPrice = booking.addOns.reduce(
-                (sum: number, addon) => sum + (addon.subcategoryPrice || 0),
-                0
-            );
-            return total + servicePrice + addOnsPrice;
-        }, 0);
-    };
+    // Customer-facing price = service price + agency fee (bundled, fee is invisible per spec).
+    const lineDisplayedServicePrice = (booking: BookingItem) =>
+        (booking.service?.price || 0) + (booking.service?.agencyFee || 0);
+
+    const lineAddOnsPrice = (booking: BookingItem) =>
+        booking.addOns.reduce(
+            (sum: number, addon) => sum + (addon.subcategoryPrice || 0),
+            0
+        );
+
+    // Sales tax is handled by Stripe at checkout, so we don't show or compute it here.
+    const total = round2(
+        bookings.reduce(
+            (acc, b) => acc + lineDisplayedServicePrice(b) + lineAddOnsPrice(b),
+            0
+        )
+    );
 
     return (
         <div className="bg-white rounded-3xl shadow-2xl p-6 md:p-10">
@@ -73,12 +109,10 @@ export default function BookingCart({
                     </thead>
                     <tbody>
                         {bookings?.map((booking, index) => {
-                            const itemTotal =
-                                (booking.service?.price || 0) +
-                                booking.addOns.reduce(
-                                    (sum: number, addon) => sum + (addon.subcategoryPrice || 0),
-                                    0
-                                );
+                            const servicePriceDisplayed = lineDisplayedServicePrice(booking);
+                            const itemTotal = round2(
+                                servicePriceDisplayed + lineAddOnsPrice(booking)
+                            );
 
                             return (
                                 <tr
@@ -87,9 +121,9 @@ export default function BookingCart({
                                 >
                                     <td className="py-3 px-2">{memberName}</td>
                                     <td className="py-3 px-2">{formatDate(booking.date)}</td>
-                                    <td className="py-3 px-2">{booking.time}</td>
+                                    <td className="py-3 px-2">{computeServiceTimeRange(booking)}</td>
                                     <td className="py-3 px-2">
-                                        {booking.service?.serviceName} ${booking.service?.price}
+                                        {booking.service?.serviceName} ${servicePriceDisplayed}
                                     </td>
                                     <td className="py-3 px-2">
                                         {booking.addOns?.length > 0
@@ -118,8 +152,13 @@ export default function BookingCart({
                 Team Member: {memberName}, ID #{workerId}
             </div>
 
-            <div className="mt-4 text-right text-gray-800 font-medium">
-                Total Amount: ${calculateTotal()}
+            <div className="mt-4 text-right text-gray-800 space-y-1">
+                <div className="text-lg font-semibold">
+                    Total: ${total.toFixed(2)}
+                </div>
+                <div className="text-xs text-gray-500">
+                    Any applicable taxes will be added at checkout.
+                </div>
             </div>
 
             {/* Buttons */}

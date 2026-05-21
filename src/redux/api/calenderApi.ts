@@ -12,9 +12,11 @@ const calendarApi = baseApi.injectEndpoints({
         }),
 
         getAvailableSlot: build.query({
-            query: ({ workerId, date }) => {
+            query: ({ workerId, date, durationMinutes }: { workerId: string; date: string; durationMinutes?: number }) => {
+                const params = new URLSearchParams({ date });
+                if (durationMinutes) params.set("durationMinutes", String(durationMinutes));
                 return {
-                    url: `/time-slot/get-one-worker-availability/${workerId}?date=${date}`,
+                    url: `/time-slot/get-one-worker-availability/${workerId}?${params.toString()}`,
                     method: "GET",
                 }
             },
