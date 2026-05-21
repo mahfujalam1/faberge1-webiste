@@ -89,7 +89,7 @@ export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                 {/* Content Section */}
                 <div className="flex-grow flex-nowrap min-w-[800px]">
                     {/* Header Row */}
-                    <div className={`grid ${isCustomer ? 'grid-cols-7' : 'grid-cols-6'} bg-[#FFC0CB] px-4 py-3 text-xs sm:text-sm font-bold text-gray-800`}>
+                    <div className="grid grid-cols-7 bg-[#FFC0CB] px-4 py-3 text-xs sm:text-sm font-bold text-gray-800">
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Date</div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Time</div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">
@@ -97,14 +97,14 @@ export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                         </div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Address</div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">Phone</div>
-                        {
-                            isCustomer ? <div className="text-nowrap whitespace-nowrap flex-nowrap text-center">Payment amount</div> : ""
-                        }
+                        <div className="text-nowrap whitespace-nowrap flex-nowrap text-center">
+                            {isCustomer ? 'Total paid' : 'Your earnings'}
+                        </div>
                         <div className="text-nowrap whitespace-nowrap flex-nowrap text-center">Status</div>
                     </div>
 
                     {/* Content Row */}
-                    <div className={`grid ${isCustomer ? 'grid-cols-7' : 'grid-cols-6'}  px-4 py-4 text-xs sm:text-sm text-gray-800 border-b border-pink-100`}>
+                    <div className="grid grid-cols-7 px-4 py-4 text-xs sm:text-sm text-gray-800 border-b border-pink-100">
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">
                             {formatDate(booking.date)}
                         </div>
@@ -120,11 +120,11 @@ export const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                         <div className="text-nowrap whitespace-nowrap flex-nowrap">
                             {displayData?.phone || 'N/A'}
                         </div>
-                        {
-                            isCustomer ? <div className="text-center font-semibold text-nowrap whitespace-nowrap flex-nowrap">
-                                ${booking?.paymentAmount || 0}
-                            </div> : ''
-                        }
+                        <div className="text-center font-semibold text-nowrap whitespace-nowrap flex-nowrap">
+                            {isCustomer
+                                ? `$${Number(booking?.priceBreakdown?.total ?? booking?.paymentAmount ?? 0).toFixed(2)}`
+                                : `$${Number(booking?.workerEarnings ?? 0).toFixed(2)}`}
+                        </div>
                         <div className="text-center text-nowrap whitespace-nowrap flex-nowrap">
                             <Badge
                                 className={`${getStatusColor(booking?.status)} text-xs px-2 rounded-sm`}

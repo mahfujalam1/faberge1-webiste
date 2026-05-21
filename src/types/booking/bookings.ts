@@ -33,21 +33,30 @@ export type Worker = {
     uploadPhoto: string;
 };
 
+export type PriceBreakdown = {
+    subtotal?: number;
+    agencyFee?: number;
+    total: number;
+};
+
 export type Booking = {
     _id: string;
     customer: Customer;
-    date: string;   
+    date: string;
     startTime: string;
     endTime: string;
+    durationMinutes?: number;
     status: "booked" | "completed" | string;
     isPayment: boolean;
     paymentAmount: number;
     paymentExpiresAt: string;
     services: Service[] | ServiceItem[];
-    worker: Worker; // Worker ID
+    worker: Worker;
     transactionId: string | null;
     createdAt: string;
     updatedAt: string;
+    priceBreakdown?: PriceBreakdown;
+    workerEarnings?: number;
 };
 
 export interface ServiceItem {

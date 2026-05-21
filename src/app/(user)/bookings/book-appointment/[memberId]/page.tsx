@@ -205,7 +205,7 @@ export default function BookAppointmentPage({ params }: BookAppointmentPageProps
                             <div className="shadow-lg bg-white p-3 rounded-lg">
                                 <div className="lg:w-40 w-24 h-20 md:w-32 lg:h-40 md:h-32 rounded-lg overflow-hidden mb-4">
                                     <Image
-                                        src={`${process.env.NEXT_PUBLIC_SERVER_URL}${member.uploadPhoto}`}
+                                        src={`${process.env.NEXT_PUBLIC_SERVER_URL}/${member.uploadPhoto}`}
                                         alt={member.firstName}
                                         width={200}
                                         height={200}
@@ -249,6 +249,9 @@ export default function BookAppointmentPage({ params }: BookAppointmentPageProps
                                             slots={availableSlots.slots || []}
                                             services={member.services || []}
                                             selectedSlots={selectedSlots}
+                                            bookingsForDate={bookings.filter(
+                                                (b) => b.date === selectedDate
+                                            )}
                                             onSlotChange={handleSlotChange}
                                             onAddOnToggle={handleAddOnToggle}
                                         />
