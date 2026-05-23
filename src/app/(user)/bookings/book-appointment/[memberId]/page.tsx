@@ -5,6 +5,7 @@ import { GridLoader } from "react-spinners";
 import BookingCart from "@/components/BookingsComponents/booking-cart";
 import CalendarComponent from "@/components/BookingsComponents/calendar-component";
 import ServiceSelectionTable from "@/components/BookingsComponents/service-selection";
+import TeamMemberGallery from "@/components/BookingsComponents/team-member-gallery";
 import { useGetSingleworkerQuery } from "@/redux/api/workerApi";
 import { useGetAvailableSlotQuery, useGetCalenderScheduleQuery } from "@/redux/api/calenderApi";
 import { toast } from "sonner";
@@ -226,6 +227,16 @@ export default function BookAppointmentPage({ params }: BookAppointmentPageProps
                                         <span>ID#:</span>
                                         <span>{member?.workerId}</span>
                                     </div>
+                                    <TeamMemberGallery
+                                        memberName={`${member?.firstName ?? ""} ${member?.lastName ?? ""}`.trim()}
+                                        photos={
+                                            member?.photos && member.photos.length > 0
+                                                ? member.photos
+                                                : member?.uploadPhoto
+                                                    ? [member.uploadPhoto]
+                                                    : []
+                                        }
+                                    />
                                 </div>
                             </div>
                         </div>

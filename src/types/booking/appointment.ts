@@ -33,6 +33,7 @@ export type Member = {
     services: Service[];
     subservices: AddOn[];
     uploadPhoto: string;
+    photos?: string[];
 };
 
 export type SelectedSlot = {
