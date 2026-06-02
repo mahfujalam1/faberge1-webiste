@@ -22,59 +22,67 @@ const Banner = () => {
     const [isClient, setIsClient] = useState(false);
     const videoRef = useRef<HTMLVideoElement>(null);
 
+    const videoSrc = bannerVideo?.video
+        ? `${process.env.NEXT_PUBLIC_SERVER_URL}${bannerVideo.video}`
+        : "/videos/banner-video.mp4";
+
     useEffect(() => {
         setIsClient(true);
     }, []);
 
-    // ✅ Video autoplay - user data এর উপর নির্ভর করে না
+    // ✅ Reload + autoplay whenever the source URL changes.
+    // Changing a <source> child's src does NOT reload a <video> on its own —
+    // without an explicit load() the element keeps playing the previously
+    // loaded (old/short) clip, so a freshly uploaded banner never shows up.
     useEffect(() => {
+        const video = videoRef.current;
+        if (!video) return;
+
         const playVideo = async () => {
-            if (videoRef.current) {
-                try {
-                    videoRef.current.muted = true;
-                    await videoRef.current.play();
-                    console.log('Video playing successfully');
-                } catch (error) {
-                    console.error('Error playing video:', error);
-                    // Fallback: user interaction এর পর try করুন
-                    const playOnInteraction = () => {
-                        videoRef.current?.play();
-                        document.removeEventListener('click', playOnInteraction);
-                    };
-                    document.addEventListener('click', playOnInteraction);
-                }
+            try {
+                video.muted = true;
+                video.load(); // pick up the new source
+                await video.play();
+            } catch (error) {
+                console.error('Error playing video:', error);
+                // Fallback: retry after the first user interaction
+                const playOnInteraction = () => {
+                    videoRef.current?.play();
+                    document.removeEventListener('click', playOnInteraction);
+                };
+                document.addEventListener('click', playOnInteraction);
             }
         };
 
         // Small delay to ensure DOM is ready
-        const timer = setTimeout(() => {
-            playVideo();
-        }, 100);
-
+        const timer = setTimeout(playVideo, 100);
         return () => clearTimeout(timer);
-    }, [bannerVideo]); // শুধুমাত্র bannerVideo change হলে re-run
+    }, [videoSrc]); // re-run only when the actual URL changes
 
     if (!isClient) return null;
-
-    const videoSrc = bannerVideo?.video
-        ? `${process.env.NEXT_PUBLIC_SERVER_URL}${bannerVideo.video}`
-        : "/videos/banner-video.mp4";
 
     return (
         <section className="relative w-full min-h-screen py-28 flex items-center justify-center overflow-hidden -mt-[80px]">
             {/* Background Video */}
             <video
+                key={videoSrc}
                 ref={videoRef}
+                src={videoSrc}
                 autoPlay
                 loop
                 muted
                 playsInline
                 preload="auto"
                 poster="/images/banner-poster.jpg"
+                onEnded={(e) => {
+                    // Belt-and-suspenders loop in case the `loop` attribute
+                    // is ignored for a given encoding.
+                    const v = e.currentTarget;
+                    v.currentTime = 0;
+                    v.play().catch(() => {});
+                }}
                 className="absolute top-0 left-0 w-full h-full object-cover"
-            >
-                <source src={videoSrc} type="video/mp4" />
-            </video>
+            />
 
             {/* Dark Overlay */}
             <div className="absolute inset-0 bg-black/50"></div>
