@@ -45,7 +45,7 @@ export default function CalendarModal({ open, onOpenChange }: CalendarModalProps
     const [isTimeDropdownOpen, setIsTimeDropdownOpen] = useState(false);
     const [isOffDay, setIsOffDay] = useState(false);
     const [isTimeSlotDisabled, setIsTimeSlotDisabled] = useState(false);
-    const workerId = worker?.data?._id;
+    const workerId = worker?.data?._id || "";
     const dateFormat = selectedDate ? format(selectedDate, "yyyy-MM-dd") : "";
 
     const to12Hour = (time: string) => {
