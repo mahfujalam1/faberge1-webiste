@@ -6,6 +6,7 @@ import Image from "next/image"
 import { IMAGES } from "@/constants/image.index"
 import { useGetAllWorkersQuery } from "@/redux/api/workerApi"
 import { GridLoader } from "react-spinners"
+import TeamMemberGallery from "@/components/BookingsComponents/team-member-gallery"
 // import { DynamicBanner } from "@/components/shared/DynamicBanner"
 
 type Member = {
@@ -14,6 +15,7 @@ type Member = {
     lastName: string,
     workerId: string,
     uploadPhoto: string,
+    photos?: string[],
     title: string,
     city: string,
     state: string
@@ -47,40 +49,60 @@ export default function TeamMembersPage() {
                         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-9 gap-4 text-center">
                             {teamMembers?.length > 0 && teamMembers?.map(
                                 (member: Member) => (
-                                    <button
+                                    <div
                                         key={member?._id}
-                                        onClick={() => handleMemberClick(member?._id)}
-                                        className="bg-white rounded-lg p-4 cursor-pointer hover:shadow-lg duration-300 transition-all hover:scale-105 text-left flex flex-col"
+                                        className="bg-white rounded-lg p-4 hover:shadow-lg duration-300 transition-all hover:scale-105 text-left flex flex-col"
                                     >
-                                        {/* Member Image - Fixed Height */}
-                                        <div className="relative w-full h-32 rounded-lg overflow-hidden bg-gray-200 flex-shrink-0">
-                                            <Image
-                                                src={`${process.env.NEXT_PUBLIC_SERVER_URL}${member.uploadPhoto}`}
-                                                alt={`${member?.firstName} ${member?.lastName}`}
-                                                fill
-                                                className="object-cover object-center"
+                                        {/* Clickable area -> book appointment */}
+                                        <button
+                                            type="button"
+                                            onClick={() => handleMemberClick(member?._id)}
+                                            className="cursor-pointer flex flex-col"
+                                        >
+                                            {/* Member Image - Fixed Height */}
+                                            <div className="relative w-full h-32 rounded-lg overflow-hidden bg-gray-200 flex-shrink-0">
+                                                <Image
+                                                    src={`${process.env.NEXT_PUBLIC_SERVER_URL}${member.uploadPhoto}`}
+                                                    alt={`${member?.firstName} ${member?.lastName}`}
+                                                    fill
+                                                    className="object-cover object-center"
+                                                />
+                                            </div>
+
+                                            {/* Member Info */}
+                                            <h3 className="font-semibold text-sm mb-1 text-center pt-2">
+                                                {member?.firstName} {member?.lastName}
+                                            </h3>
+
+                                            <div className="text-center">
+                                                <div className="flex items-center justify-center gap-1 text-xs text-gray-600 mb-1">
+                                                    <span>
+                                                        {member?.city}, {member?.state}
+                                                    </span>
+                                                </div>
+
+                                                <h1 className="text-xs">{member?.title}</h1>
+                                                <div className="flex items-center justify-center gap-1 text-xs text-gray-700">
+                                                    <span>ID#:</span>
+                                                    <span>{member?.workerId}</span>
+                                                </div>
+                                            </div>
+                                        </button>
+
+                                        {/* Photos field -> opens gallery with all photos */}
+                                        <div className="text-center mt-1">
+                                            <TeamMemberGallery
+                                                memberName={`${member?.firstName ?? ""} ${member?.lastName ?? ""}`.trim()}
+                                                photos={
+                                                    member?.photos && member.photos.length > 0
+                                                        ? member.photos
+                                                        : member?.uploadPhoto
+                                                            ? [member.uploadPhoto]
+                                                            : []
+                                                }
                                             />
                                         </div>
-
-                                        {/* Member Info */}
-                                        <h3 className="font-semibold text-sm mb-1 text-center pt-2">
-                                            {member?.firstName} {member?.lastName}
-                                        </h3>
-
-                                        <div className="text-center">
-                                            <div className="flex items-center justify-center gap-1 text-xs text-gray-600 mb-1">
-                                                <span>
-                                                    {member?.city}, {member?.state}
-                                                </span>
-                                            </div>
-
-                                            <h1 className="text-xs">{member?.title}</h1>
-                                            <div className="flex items-center justify-center gap-1 text-xs text-gray-700">
-                                                <span>ID#:</span>
-                                                <span>{member?.workerId}</span>
-                                            </div>
-                                        </div>
-                                    </button>
+                                    </div>
                                 )
                             )}
                         </div>
