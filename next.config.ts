@@ -20,6 +20,10 @@ const nextConfig = {
         protocol: 'http',
         hostname: '10.10.20.16',
       },
+      {
+        protocol: 'https',
+        hostname: 'faberge-backend-production.up.railway.app',
+      },
     ],
     // ✅ Image optimization settings
     formats: ['image/webp', 'image/avif'],
