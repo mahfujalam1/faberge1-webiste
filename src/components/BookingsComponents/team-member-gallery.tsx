@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import {
@@ -32,6 +33,35 @@ export default function TeamMemberGallery({
     const gallery = (photos ?? []).filter(Boolean).slice(0, MAX_PHOTOS);
     const [open, setOpen] = useState(false);
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
+    const [mounted, setMounted] = useState(false);
+
+    // Portal target is only available on the client.
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    const lightboxOpen = activeIndex !== null;
+
+    // Close the big-photo viewer on Escape and lock background scroll while open.
+    useEffect(() => {
+        if (!lightboxOpen) return;
+
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "Escape") setActiveIndex(null);
+            if (e.key === "ArrowLeft") showPrev();
+            if (e.key === "ArrowRight") showNext();
+        };
+
+        document.addEventListener("keydown", onKeyDown);
+        const prevOverflow = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+
+        return () => {
+            document.removeEventListener("keydown", onKeyDown);
+            document.body.style.overflow = prevOverflow;
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [lightboxOpen]);
 
     if (gallery.length === 0) return null;
 
@@ -43,6 +73,14 @@ export default function TeamMemberGallery({
         setActiveIndex((i) =>
             i === null ? i : (i + 1) % gallery.length
         );
+
+    const openLightbox = (idx: number) => {
+        // Close the thumbnail dialog so the two overlays don't conflict.
+        setOpen(false);
+        setActiveIndex(idx);
+    };
+
+    const closeLightbox = () => setActiveIndex(null);
 
     return (
         <>
@@ -65,7 +103,7 @@ export default function TeamMemberGallery({
                             <button
                                 key={`${photo}-${idx}`}
                                 type="button"
-                                onClick={() => setActiveIndex(idx)}
+                                onClick={() => openLightbox(idx)}
                                 className="relative w-full aspect-square rounded-lg overflow-hidden bg-gray-100 hover:opacity-90 transition cursor-pointer"
                             >
                                 <Image
@@ -81,66 +119,76 @@ export default function TeamMemberGallery({
                 </DialogContent>
             </Dialog>
 
-            {activeIndex !== null && (
-                <div
-                    className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 p-4"
-                    onClick={() => setActiveIndex(null)}
-                >
-                    <button
-                        type="button"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            setActiveIndex(null);
-                        }}
-                        aria-label="Close"
-                        className="absolute top-4 right-4 text-white/90 hover:text-white cursor-pointer"
-                    >
-                        <X size={28} />
-                    </button>
-
-                    {gallery.length > 1 && (
-                        <button
-                            type="button"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                showPrev();
-                            }}
-                            aria-label="Previous photo"
-                            className="absolute left-4 md:left-8 text-white/90 hover:text-white cursor-pointer"
-                        >
-                            <ChevronLeft size={36} />
-                        </button>
-                    )}
-
+            {/* Full-size viewer is portaled to <body> so it escapes the dialog /
+                card DOM entirely — clicks here can never bubble into a parent
+                form, link, or the Radix dialog (which previously caused a reload). */}
+            {mounted &&
+                lightboxOpen &&
+                activeIndex !== null &&
+                createPortal(
                     <div
-                        className="relative w-full max-w-4xl h-[80vh]"
-                        onClick={(e) => e.stopPropagation()}
+                        className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/80 p-4"
+                        onClick={closeLightbox}
                     >
-                        <Image
-                            src={buildSrc(gallery[activeIndex])}
-                            alt={`${memberName} large photo ${activeIndex + 1}`}
-                            fill
-                            sizes="100vw"
-                            className="object-contain"
-                            priority
-                        />
-                    </div>
-
-                    {gallery.length > 1 && (
                         <button
                             type="button"
                             onClick={(e) => {
+                                e.preventDefault();
                                 e.stopPropagation();
-                                showNext();
+                                closeLightbox();
                             }}
-                            aria-label="Next photo"
-                            className="absolute right-4 md:right-8 text-white/90 hover:text-white cursor-pointer"
+                            aria-label="Close"
+                            className="absolute top-4 right-4 text-white/90 hover:text-white cursor-pointer z-[1010]"
                         >
-                            <ChevronRight size={36} />
+                            <X size={28} />
                         </button>
-                    )}
-                </div>
-            )}
+
+                        {gallery.length > 1 && (
+                            <button
+                                type="button"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    showPrev();
+                                }}
+                                aria-label="Previous photo"
+                                className="absolute left-4 md:left-8 text-white/90 hover:text-white cursor-pointer z-[1010]"
+                            >
+                                <ChevronLeft size={36} />
+                            </button>
+                        )}
+
+                        <div
+                            className="relative w-full max-w-4xl h-[80vh]"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <Image
+                                src={buildSrc(gallery[activeIndex])}
+                                alt={`${memberName} large photo ${activeIndex + 1}`}
+                                fill
+                                sizes="100vw"
+                                className="object-contain"
+                                priority
+                            />
+                        </div>
+
+                        {gallery.length > 1 && (
+                            <button
+                                type="button"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    showNext();
+                                }}
+                                aria-label="Next photo"
+                                className="absolute right-4 md:right-8 text-white/90 hover:text-white cursor-pointer z-[1010]"
+                            >
+                                <ChevronRight size={36} />
+                            </button>
+                        )}
+                    </div>,
+                    document.body
+                )}
         </>
     );
 }
