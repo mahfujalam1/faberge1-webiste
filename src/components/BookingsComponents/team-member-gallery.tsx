@@ -107,7 +107,9 @@ export default function TeamMemberGallery({
                                 className="relative w-full aspect-square rounded-lg overflow-hidden bg-gray-100 hover:opacity-90 transition cursor-pointer"
                             >
                                 <Image
-                                    src={buildSrc(photo)}
+                                    // src={buildSrc(photo)}
+                                    src={`${process.env.NEXT_PUBLIC_SERVER_URL}${photo}`}
+                                    // src={buildSrc(photo)}
                                     alt={`${memberName} photo ${idx + 1}`}
                                     fill
                                     sizes="(max-width: 640px) 50vw, 25vw"
