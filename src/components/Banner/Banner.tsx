@@ -89,15 +89,19 @@ const Banner = () => {
 
             {/* Content */}
             <div className="relative z-10 text-center text-white max-w-3xl px-4">
-                <h1 className="text-[24px] md:text-5xl font-extrabold leading-tight mb-4">
-                    <span className="block">In-Home </span>
-                    <span className="block">Manicure $25 / Pedicure $35</span> for Seniors
+                <h1 className="font-[family-name:var(--font-pacifico)] text-[34px] md:text-6xl leading-tight mb-4">
+                    In-Home Beauty Services
                 </h1>
 
-                <p className="text-gray-200 text-md md:text-base mb-8">
-                    No more waiting in line or struggling to get to the salon. Rest easy,
-                    we will come to you! If you are 55 or older, get your manicures and
-                    pedicures done in the comfort of your own home or facility!
+                <p className="font-[family-name:var(--font-eb-garamond)] text-lg md:text-2xl mb-4">
+                    <span className="block">Manicures · Pedicures · Facials · Hairstyling</span>
+                    <span className="block">Makeup · Massages · Hair Cuts</span>
+                </p>
+
+                <p className="font-[family-name:var(--font-eb-garamond)] text-gray-200 text-md md:text-xl mb-8">
+                    No more waiting in line or rushing to get to the shop. Save time and gas
+                    because we&apos;ll come to you! Get your beauty services done by licensed,
+                    qualified professionals in the comfort of your own living space!
                 </p>
 
                 <div className={`${user?.data?.role === 'worker' ? '' : 'rounded-lg mb-10 py-8 bg-white/10 md:mx-12'}`}>
