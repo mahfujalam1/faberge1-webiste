@@ -1,6 +1,6 @@
 "use client"
 
-import { cn } from "@/lib/utils"
+import { cn, formatDateMMDDYYYY, parseLocalDate } from "@/lib/utils"
 import { CalendarData } from "@/types/booking/appointment"
 import { toast } from "sonner"
 
@@ -26,22 +26,22 @@ export default function CalendarGrid({ calenderData, setSelectedDate, setOpen }:
 
     // 🔹 handle click logic
     const handleClick = (date: string, status: string) => {
-        console.log(date)
-
-        const [year, month, day] = date.split("-")
-        const formattedDate = `${month}-${day}-${year}`
-
-        setSelectedDate(formattedDate)
+        // Keep the canonical "YYYY-MM-DD" form: the backend's date endpoints
+        // (worker-book-slot, get-one-worker-availability) and the grouped
+        // booking lookup all key on this format. Reformatting to "MM-DD-YYYY"
+        // here caused 500s and an empty schedule modal.
+        setSelectedDate(date)
 
         if (status === "bg-red-500") {
-            toast.warning(`This a weekend date: ${formattedDate} is unavailable.`)
+            toast.warning(`This a weekend date: ${formatDateMMDDYYYY(date)} is unavailable.`)
         }
 
         setOpen(true)
     }
 
     // Get the first day of the month (0 = Sunday, 1 = Monday, etc.)
-    const firstDay = calenderData.length > 0 ? new Date(calenderData[0].date).getDay() : 0
+    // Parse as a local date so the weekday isn't shifted a day in US timezones.
+    const firstDay = calenderData.length > 0 ? parseLocalDate(calenderData[0].date).getDay() : 0
     // Adjust for Monday-based week (0 = Monday, 6 = Sunday)
     const adjustedFirstDay = firstDay === 0 ? 6 : firstDay - 1
 

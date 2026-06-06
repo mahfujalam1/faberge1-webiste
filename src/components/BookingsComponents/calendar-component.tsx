@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { toast } from "sonner"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
 import { CalendarData } from "@/types/booking/appointment"
+import { parseLocalDate } from "@/lib/utils"
 
 interface TimeSlot {
     time: string;
@@ -50,7 +51,9 @@ export default function CalendarComponent({
 
     // Check if date is in the past
     const isPastDate = (dateString: string): boolean => {
-        const date = new Date(dateString)
+        // Parse as a LOCAL date — `new Date("YYYY-MM-DD")` is UTC midnight, which
+        // makes today look like the past in the Americas (negative UTC offset).
+        const date = parseLocalDate(dateString)
         const today = new Date()
         today.setHours(0, 0, 0, 0)
         return date < today
@@ -162,7 +165,8 @@ export default function CalendarComponent({
     }
 
     // Get the first day of the month (0 = Sunday, 1 = Monday, etc.)
-    const firstDay: number = calenderData.length > 0 ? new Date(calenderData[0].date).getDay() : 0
+    // Parse as a local date so the weekday isn't shifted a day in US timezones.
+    const firstDay: number = calenderData.length > 0 ? parseLocalDate(calenderData[0].date).getDay() : 0
     // Adjust for Monday-based week (0 = Monday, 6 = Sunday)
     const adjustedFirstDay: number = firstDay === 0 ? 6 : firstDay - 1
 

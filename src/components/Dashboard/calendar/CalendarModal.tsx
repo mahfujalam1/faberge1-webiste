@@ -10,6 +10,7 @@ import { Slot } from "@/types/booking/bookings"
 import { CalendarDays } from "lucide-react"
 import Cookies from "js-cookie"
 import { authKey } from "@/constants/auth"
+import { formatDateMMDDYYYY } from "@/lib/utils"
 
 // Define the types for the props
 interface CalendarModalProps {
@@ -54,10 +55,17 @@ export default function CalendarModal({
     }
 
     const workerId = worker?.data?._id || ""
-    const { data: availabeSlots } = useGetAvailableSlotQuery({ workerId, date: selectedDate || "" })
+    // Only hit the date endpoints once we actually have a selected date and a
+    // worker — otherwise we fire `?date=` calls that 400 on every render.
+    const { data: availabeSlots } = useGetAvailableSlotQuery(
+        { workerId, date: selectedDate || "" },
+        { skip: !workerId || !selectedDate }
+    )
     const todayAvailabeSlots = availabeSlots?.data?.slots || []
 
-    const { data } = useGetAllBookSlotsOneDayQuery(selectedDate || "")
+    const { data } = useGetAllBookSlotsOneDayQuery(selectedDate || "", {
+        skip: !selectedDate,
+    })
 
     // Extract the array from the date key (e.g., "2025-12-12")
     const bookedSlots = selectedDate && data?.data?.[selectedDate] ? data.data[selectedDate] : []
@@ -113,7 +121,7 @@ export default function CalendarModal({
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-2">
                         <CalendarDays className="w-5 h-5 text-pink-600" />
-                        My Schedule - {selectedDate}
+                        My Schedule - {selectedDate ? formatDateMMDDYYYY(selectedDate) : ""}
                     </DialogTitle>
                 </DialogHeader>
 
