@@ -85,20 +85,20 @@ const Banner = () => {
             />
 
             {/* Dark Overlay */}
-            <div className="absolute inset-0 bg-black/50"></div>
+            <div className="absolute inset-0 bg-black/60"></div>
 
             {/* Content */}
-            <div className="relative z-10 text-center text-white max-w-3xl px-4">
-                <h1 className="font-[family-name:var(--font-pacifico)] text-[34px] md:text-6xl leading-tight mb-4">
+            <div className="relative z-10 text-center text-white max-w-4xl px-4">
+                <h1 className="font-[family-name:var(--font-pacifico)] text-[56px] md:text-7xl leading-tight mb-6">
                     In-Home Beauty Services
                 </h1>
 
-                <p className="font-[family-name:var(--font-eb-garamond)] text-lg md:text-2xl mb-4">
+                <p className="font-[family-name:var(--font-eb-garamond)] text-2xl md:text-4xl mb-6">
                     <span className="block">Manicures · Pedicures · Facials · Hairstyling</span>
                     <span className="block">Makeup · Massages · Hair Cuts</span>
                 </p>
 
-                <p className="font-[family-name:var(--font-eb-garamond)] text-gray-200 text-md md:text-xl mb-8">
+                <p className="font-[family-name:var(--font-eb-garamond)] text-gray-200 text-xl md:text-2xl mb-8">
                     No more waiting in line or rushing to get to the shop. Save time and gas
                     because we&apos;ll come to you! Get your beauty services done by licensed,
                     qualified professionals in the comfort of your own living space!
@@ -120,9 +120,9 @@ const Banner = () => {
                 <div className="flex flex-col items-center justify-center space-y-2">
                     <div className="flex items-center gap-2">
                         <PhoneCall size={25} className="text-white" />
-                        <span className="md:text-4xl text-2xl font-bold">1(855) 622-6264</span>
+                        <span className="md:text-4xl text-2xl font-bold ">1(855) 622-6264</span>
                     </div>
-                    <span className="md:text-2xl text-lg text-gray-300">Call Or Book Online</span>
+                    <span className="md:text-3xl text-lg text-gray-300 font-[family-name:var(--font-eb-garamond)]">Call Or Book Online</span>
                 </div>
             </div>
         </section>

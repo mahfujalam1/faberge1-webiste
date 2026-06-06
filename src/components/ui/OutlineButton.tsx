@@ -8,7 +8,7 @@ export const OutlineButton = ({ name }: OutlineButtonProps) => {
     return (
         <Button
             variant="outline"
-            className="btn-outline text-xl cursor-pointer md:px-16 px-8 md:py-7 py-5 rounded-lg"
+            className="btn-outline text-2xl cursor-pointer md:px-20 px-10 md:py-9 py-6 rounded-lg"
         >
             {name}
         </Button>

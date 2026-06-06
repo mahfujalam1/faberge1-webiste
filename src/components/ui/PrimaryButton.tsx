@@ -6,7 +6,7 @@ interface PrimaryButtonProps {
 
 export const PrimaryButton = ({ name }: PrimaryButtonProps) => {
     return (
-        <Button className="btn text-xl cursor-pointer md:px-16 px-8 md:py-8 py-6">
+        <Button className="btn text-2xl cursor-pointer md:px-20 px-10 md:py-10 py-7">
             {name}
         </Button>
 
