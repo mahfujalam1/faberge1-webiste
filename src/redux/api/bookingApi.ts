@@ -73,8 +73,21 @@ const bookingApi = baseApi.injectEndpoints({
                 }
             },
             invalidatesTags: [tagTypes.bookings],
+        }),
+        // Free the held slot immediately when the customer closes the payment
+        // screen without paying. Invalidates bookings so the calendar/availability
+        // (both keyed on tagTypes.bookings) refetch and the time reappears at once.
+        releaseSlot: build.mutation({
+            query: (bookingId) => {
+                return {
+                    url: `/booking/release-slot`,
+                    method: "POST",
+                    body: { bookingId },
+                }
+            },
+            invalidatesTags: [tagTypes.bookings],
         })
     }),
 });
 
-export const { useGetAllUpcomingBookingForWorkerQuery, useCompleteBookingMutation, useGetAllBookingsForCustomerQuery, usePaymentForSlotMutation, useGetAllBookingsForWorkerQuery, useBookSlotMutation, useGetAllBookSlotsOneDayQuery, useGetAllStateQuery } = bookingApi;
+export const { useGetAllUpcomingBookingForWorkerQuery, useCompleteBookingMutation, useGetAllBookingsForCustomerQuery, usePaymentForSlotMutation, useGetAllBookingsForWorkerQuery, useBookSlotMutation, useReleaseSlotMutation, useGetAllBookSlotsOneDayQuery, useGetAllStateQuery } = bookingApi;
