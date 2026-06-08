@@ -9,7 +9,7 @@ import TeamMemberGallery from "@/components/BookingsComponents/team-member-galle
 import { useGetSingleworkerQuery } from "@/redux/api/workerApi";
 import { useGetAvailableSlotQuery, useGetCalenderScheduleQuery } from "@/redux/api/calenderApi";
 import { toast } from "sonner";
-import { useBookSlotMutation, usePaymentForSlotMutation } from "@/redux/api/bookingApi";
+import { useBookSlotMutation, usePaymentForSlotMutation, useReleaseSlotMutation } from "@/redux/api/bookingApi";
 import { AddOn, BookingItem, CalendarData, Member, SelectedSlot, Service } from "@/types/booking/appointment";
 import { BookingRequest, BookSlotResponse, GroupedBooking, PaymentResponse } from "@/types/booking/bookings";
 import { IMAGES } from "@/constants/image.index";
@@ -33,6 +33,7 @@ export default function BookAppointmentPage({ params }: BookAppointmentPageProps
     const [bookings, setBookings] = useState<BookingItem[]>([]);
 
     const [slotPayment] = usePaymentForSlotMutation();
+    const [releaseSlot] = useReleaseSlotMutation();
     const { data } = useGetSingleworkerQuery(memberId);
     const member = data?.data as Member;
 
@@ -125,6 +126,18 @@ export default function BookAppointmentPage({ params }: BookAppointmentPageProps
         setBookings([]);
     };
 
+    // Watch the Stripe checkout tab. The moment the customer closes it, free the
+    // held slot if they didn't pay — no waiting for the 3-minute hold to lapse.
+    // The backend leaves already-paid bookings untouched, so this is always safe.
+    const watchPaymentWindow = (paymentWindow: Window, bookingId: string): void => {
+        const timer = setInterval(() => {
+            if (paymentWindow.closed) {
+                clearInterval(timer);
+                releaseSlot(bookingId);
+            }
+        }, 1000);
+    };
+
     const handleCheckout = async (): Promise<void> => {
         if (bookings.length === 0) {
             toast.error("No bookings to checkout");
@@ -165,11 +178,15 @@ export default function BookAppointmentPage({ params }: BookAppointmentPageProps
                     toast.error(res.error.data.message);
                     setIsLoading(false);
                 } else if (res?.data) {
-                    const paymentRes = await slotPayment({ bookingId: res.data.data?._id }) as PaymentResponse;
+                    const bookingId = res.data.data?._id;
+                    const paymentRes = await slotPayment({ bookingId }) as PaymentResponse;
                     if (paymentRes?.data) {
                         const paymentUrl = paymentRes.data.url;
                         if (paymentUrl) {
-                            window.open(paymentUrl, '_blank');
+                            const paymentWindow = window.open(paymentUrl, '_blank');
+                            if (paymentWindow && bookingId) {
+                                watchPaymentWindow(paymentWindow, bookingId);
+                            }
                         }
                         setIsLoading(false);
                     } else if (paymentRes?.error) {
