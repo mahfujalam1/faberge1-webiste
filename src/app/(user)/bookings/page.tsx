@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useMemo } from "react"
 import { useRouter } from "next/navigation"
 import { useGetAllStateQuery } from "@/redux/api/bookingApi"
 import { GridLoader } from "react-spinners"
@@ -13,7 +13,6 @@ type States = {
 
 export default function BookingsPage() {
   const router = useRouter()
-  const [selectedState, setSelectedState] = useState<string | null>(null)
   const { data, isLoading } = useGetAllStateQuery(undefined)
   const statesData = data?.data || []
 
@@ -25,13 +24,10 @@ export default function BookingsPage() {
     )
   }, [statesData])
 
-  const handleContinue = () => {
-    if (selectedState) {
-      const state = statesData.find((s: States) => s._id === selectedState)
-      if (state) {
-        router.push(`/bookings/team-members/${state._id}`)
-      }
-    }
+  // Clicking an active state navigates straight to its team members — no
+  // separate "Continue" step.
+  const handleSelectState = (state: States) => {
+    router.push(`/bookings/team-members/${state._id}`)
   }
 
   return (
@@ -52,14 +48,12 @@ export default function BookingsPage() {
                 sortedStates?.map((state) => (
                   <button
                     key={state._id}
-                    onClick={() => state?.active && setSelectedState(state?._id)}
+                    onClick={() => state?.active && handleSelectState(state)}
                     disabled={!state?.active}
                     className={`
-                    px-4 py-3 rounded-lg text-sm font-medium transition-all 
+                    px-4 py-3 rounded-lg text-sm font-medium transition-all
                     ${state.active
-                        ? selectedState === state?._id
-                          ? "bg-emerald-500 text-white shadow-md"
-                          : "bg-emerald-50 text-emerald-700 hover:bg-emerald-100 cursor-pointer"
+                        ? "bg-emerald-50 text-emerald-700 hover:bg-emerald-100 cursor-pointer"
                         : "bg-[#FDE4DB] text-gray-700 cursor-not-allowed shadow-md"
                       }
                   `}
@@ -74,17 +68,6 @@ export default function BookingsPage() {
               {
                 isLoading && <div className="flex items-center justify-center text-center"><GridLoader color="#ff007a" /></div>
               }
-            </div>
-
-            {/* Continue Button */}
-            <div className="flex justify-center">
-              <button
-                onClick={handleContinue}
-                disabled={!selectedState}
-                className="bg-primary hover:bg-pink-700 cursor-pointer disabled:bg-gray-300 disabled:cursor-not-allowed text-white px-16 py-3 rounded-lg font-medium transition-colors"
-              >
-                Continue
-              </button>
             </div>
           </div>
         </div>
