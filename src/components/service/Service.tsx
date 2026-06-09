@@ -20,40 +20,18 @@ export default function ServicesSection() {
     const manicureBannerImage = data?.data.find((banner: BannerData) => banner.title === 'manicure');
     const pedicureBannerImage = data?.data.find((banner: BannerData) => banner.title === 'pedicure');
 
-    // Data for the Manicure service
+    // Banner 1 (left card)
     const manicureData = {
         title: "Manicure",
         image: getImageUrl(manicureBannerImage?.image),
-        services: [
-            {
-                title: "Manicure",
-                options: ["With Gel", "Without Gel"],
-            },
-            {
-                title: "Nail Polish",
-                note: "Customer provided",
-                options: ["Clear", "Colored"],
-            },
-        ],
-        serviceTypes: ["Water Method", "Waterless Method"],
+        caption: "Mani/Pedi • Hairstyling • Makeup",
     };
 
-    // Data for the Pedicure service
+    // Banner 2 (right card)
     const pedicureData = {
         title: "Pedicure",
         image: getImageUrl(pedicureBannerImage?.image),
-        services: [
-            {
-                title: "Pedicure",
-                options: ["With Gel", "Without Gel"],
-            },
-            {
-                title: "Nail Polish",
-                note: "Customer provided",
-                options: ["Clear", "Colored"],
-            },
-        ],
-        serviceTypes: ["Water Method", "Waterless Method"],
+        caption: "Facials • Massages • Haircuts",
     };
 
     return (
