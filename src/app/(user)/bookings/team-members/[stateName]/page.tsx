@@ -2,11 +2,11 @@
 
 import React from "react"
 import { useRouter } from "next/navigation"
-import Image from "next/image"
 import { IMAGES } from "@/constants/image.index"
 import { useGetAllWorkersQuery } from "@/redux/api/workerApi"
 import { GridLoader } from "react-spinners"
 import TeamMemberGallery from "@/components/BookingsComponents/team-member-gallery"
+import MemberImage from "@/components/shared/MemberImage"
 // import { DynamicBanner } from "@/components/shared/DynamicBanner"
 
 type Member = {
@@ -61,8 +61,10 @@ export default function TeamMembersPage() {
                                         >
                                             {/* Member Image - Fixed Height */}
                                             <div className="relative w-full h-32 rounded-lg overflow-hidden bg-gray-200 flex-shrink-0">
-                                                <Image
-                                                    src={`${process.env.NEXT_PUBLIC_SERVER_URL}${member.uploadPhoto}`}
+                                                {/* uploadPhoto → first gallery photo → default placeholder
+                                                    (also swaps to default if the path 404s) */}
+                                                <MemberImage
+                                                    path={member.uploadPhoto || member.photos?.[0]}
                                                     alt={`${member?.firstName} ${member?.lastName}`}
                                                     fill
                                                     className="object-cover object-center"

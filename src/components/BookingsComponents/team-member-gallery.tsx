@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { buildImageSrc } from "@/lib/utils";
 import {
     Dialog,
     DialogContent,
@@ -107,9 +108,7 @@ export default function TeamMemberGallery({
                                 className="relative w-full aspect-square rounded-lg overflow-hidden bg-gray-100 hover:opacity-90 transition cursor-pointer"
                             >
                                 <Image
-                                    // src={buildSrc(photo)}
-                                    src={`${process.env.NEXT_PUBLIC_SERVER_URL}${photo}`}
-                                    // src={buildSrc(photo)}
+                                    src={buildImageSrc(photo)}
                                     alt={`${memberName} photo ${idx + 1}`}
                                     fill
                                     sizes="(max-width: 640px) 50vw, 25vw"

@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Menu, X, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { IMAGES } from "@/constants/image.index";
-import { cn } from "@/lib/utils";
+import { cn, buildImageSrc } from "@/lib/utils";
 import { logoutUser } from "@/services/actions/logoutUser";
 import { GetMeResponse } from "@/redux/api/baseApi";
 import { useGetProfileQuery } from "@/redux/api/authApi";
@@ -122,7 +122,7 @@ const NavigationMenuBar = () => {
               >
                 <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
                   <img
-                    src={`${process.env.NEXT_PUBLIC_SERVER_URL}${data.uploadPhoto}`}
+                    src={buildImageSrc(data.uploadPhoto)}
                     alt="Profile"
                     width={40}
                     height={40}

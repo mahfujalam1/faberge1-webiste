@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
+import MemberImage from "@/components/shared/MemberImage";
 import { GridLoader } from "react-spinners";
 import BookingCart from "@/components/BookingsComponents/booking-cart";
 import CalendarComponent from "@/components/BookingsComponents/calendar-component";
@@ -222,8 +222,10 @@ export default function BookAppointmentPage({ params }: BookAppointmentPageProps
                         <div className="flex flex-col items-center justify-center p-2 bg-gray-50/50 rounded-lg shadow-md md:h-[300px] ms-5">
                             <div className="shadow-lg bg-white p-3 rounded-lg">
                                 <div className="lg:w-40 w-24 h-20 md:w-32 lg:h-40 md:h-32 rounded-lg overflow-hidden mb-4">
-                                    <Image
-                                        src={`${process.env.NEXT_PUBLIC_SERVER_URL}/${member.uploadPhoto}`}
+                                    {/* uploadPhoto → first gallery photo → default placeholder
+                                        (also swaps to default if the path 404s) */}
+                                    <MemberImage
+                                        path={member.uploadPhoto || member.photos?.[0]}
                                         alt={member.firstName}
                                         width={200}
                                         height={200}

@@ -31,6 +31,11 @@ const nextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 60 * 60 * 24 * 30, // Cache images for 30 days
     unoptimized: false, // Enable image optimization
+    // Allow the optimizer to serve SVGs (e.g. the bundled /default.svg placeholder).
+    // Without this, next/image returns 400 for SVG sources and the default looks broken.
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
 
   // ✅ Compress responses
