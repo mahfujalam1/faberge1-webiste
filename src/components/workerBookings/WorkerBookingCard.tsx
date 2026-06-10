@@ -8,6 +8,7 @@ import { getUserInfo } from "@/services/authServices";
 import { formatDate, getStatusColor } from "@/utils/utils";
 import { Booking, ServiceItem } from "@/types/booking/bookings";
 import { ScaleLoader } from "react-spinners";
+import { buildImageSrc } from "@/lib/utils";
 import { useCompleteBookingMutation } from "@/redux/api/bookingApi";
 import { toast } from "sonner";
 import { ApiError } from "@/types/global.types";
@@ -122,7 +123,7 @@ export const WorkerBookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                 {/* Image Section */}
                 <div className="flex-shrink-0 px-6 md:pb-0 pb-3 flex justify-start">
                     <Image
-                        src={`${process.env.NEXT_PUBLIC_SERVER_URL}${booking?.customer?.uploadPhoto}`}
+                        src={buildImageSrc(booking?.customer?.uploadPhoto)}
                         alt="customer"
                         width={120}
                         height={120}
