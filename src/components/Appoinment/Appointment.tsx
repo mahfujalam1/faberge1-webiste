@@ -7,7 +7,7 @@ const appointmentData = [
         alt: "mobile-icon",
         title: "Contact",
         sublineOne: "T : 1 (855) 622-6264",
-        sublineTwo: "staff@inhomebeautyservices.com",
+        sublineTwo: "info@inhomebeautyservices.com",
     },
     {
         image: IMAGES.houricon.src,

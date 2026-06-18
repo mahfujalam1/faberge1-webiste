@@ -50,12 +50,12 @@ export default function About() {
                         }}>
                         </p>
 
-                        <Button
+                        {/* <Button
                             variant="outline"
                             className="border-2 border-primary cursor-pointer text-primary hover:bg-primary hover:text-white px-8 py-6 text-base font-semibold rounded-lg transition-colors bg-transparent"
                         >
                             Learn More
-                        </Button>
+                        </Button> */}
                     </div>
                 </div>
             </div>
