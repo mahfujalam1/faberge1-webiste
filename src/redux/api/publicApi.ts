@@ -17,6 +17,20 @@ const publicApi = baseApi.injectEndpoints({
             }),
             providesTags: [tagTypes.siteContent],
         }),
+        getTermsAndConditions: build.query({
+            query: () => ({
+                url: `/public/get-terms-and-conditions`,
+                method: "GET",
+            }),
+            providesTags: [tagTypes.termsCondition],
+        }),
+        getPrivacyPolicy: build.query({
+            query: () => ({
+                url: `/public/get-privacy-policy`,
+                method: "GET",
+            }),
+            providesTags: [tagTypes.privacy],
+        }),
         contactUs: build.mutation({
             query: (data) => {
                 return {
@@ -30,4 +44,10 @@ const publicApi = baseApi.injectEndpoints({
     }),
 });
 
-export const { useGetAllDynamicBannerQuery, useGetAboutUsQuery, useContactUsMutation } = publicApi;
+export const { 
+    useGetAllDynamicBannerQuery, 
+    useGetAboutUsQuery, 
+    useContactUsMutation, 
+    useGetTermsAndConditionsQuery, 
+    useGetPrivacyPolicyQuery 
+} = publicApi;

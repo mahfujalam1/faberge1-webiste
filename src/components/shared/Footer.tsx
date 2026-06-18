@@ -100,6 +100,7 @@ const Footer: React.FC = () => {
             <Link href="https://www.tiktok.com/@inhomebeautyservices" className="hover:text-white transition" target="_blank" rel="noopener noreferrer">
               <PiTiktokLogoBold size={20} />
             </Link>
+            
           </div>
 
         </div>
@@ -110,12 +111,12 @@ const Footer: React.FC = () => {
         <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center text-xs text-white/50 gap-2 text-center sm:text-left">
           <p>© 2025 In Home Beauty Services. All Rights Reserved.</p>
           <div className="flex gap-4">
-            <span className="hover:text-white cursor-pointer transition">
+            <Link href="/terms-and-conditions" className="hover:text-white cursor-pointer transition">
               Terms & Conditions
-            </span>
-            <span className="hover:text-white cursor-pointer transition">
+            </Link>
+            <Link href="/privacy-policy" className="hover:text-white cursor-pointer transition">
               Privacy Policy
-            </span>
+            </Link>
           </div>
         </div>
       </div>
