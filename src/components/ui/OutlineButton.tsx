@@ -1,14 +1,16 @@
+import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
 interface OutlineButtonProps {
     name: string
+    className?: string
 }
 
-export const OutlineButton = ({ name }: OutlineButtonProps) => {
+export const OutlineButton = ({ name, className }: OutlineButtonProps) => {
     return (
         <Button
             variant="outline"
-            className="btn-outline text-2xl cursor-pointer md:px-20 px-10 md:py-9 py-6 rounded-lg"
+            className={cn("btn-outline text-xl cursor-pointer md:px-20 px-10 md:py-8 py-5 rounded-lg", className)}
         >
             {name}
         </Button>
