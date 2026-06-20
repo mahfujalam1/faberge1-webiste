@@ -25,7 +25,7 @@ export default function About() {
                 <div className="grid md:grid-cols-2 gap-12 items-center md:px-0 px-4">
                     {/* Left side - Image */}
                     <div className="relative">
-                        <div className="relative rounded-2xl overflow-hidden p-4">
+                        <div className="relative rounded-2xl overflow-hidden p-4 ">
                             <Image
                                 src={IMAGES.AboutImage.src}
                                 alt="Spa pedicure treatment with flowers and natural elements"
