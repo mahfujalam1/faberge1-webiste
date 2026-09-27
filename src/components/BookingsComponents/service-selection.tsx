@@ -20,7 +20,7 @@ interface ServiceSelectionTableProps {
     workerId: string;
 }
 
-const SLOT_DURATION_MIN = 30;
+const SLOT_DURATION_MIN = 15;
 const BUFFER_MINUTES = 60;
 
 const isSlotFree = (slot: Slot | undefined): boolean => {
@@ -88,7 +88,7 @@ export default function ServiceSelectionTable({
     const allSlots = slots || [];
     const availableSlots = allSlots.filter(isSlotFree);
 
-    // Match a slot in `allSlots` from a chip label like "9:00 AM - 9:30 AM".
+    // Match a slot in `allSlots` from a chip label like "9:00 AM - 9:15 AM".
     const findSlotIdxFromLabel = (label: string): number =>
         allSlots.findIndex((s) => {
             const slotLabel = `${to12Hour(s.startTime)} - ${to12Hour(s.endTime)}`;
