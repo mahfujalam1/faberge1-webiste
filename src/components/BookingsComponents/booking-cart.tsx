@@ -41,13 +41,13 @@ const minutesTo12h = (mins: number): string => {
     return `${h12}:${String(m).padStart(2, "0")} ${modifier}`;
 };
 
-// booking.time is the slot label ("9:00 AM - 9:30 AM") — always +30min.
+// booking.time is the slot label ("9:00 AM - 9:15 AM") — always one 15-min slot.
 // For display, we want the real service end: start + service.serviceDuration.
 const computeServiceTimeRange = (booking: BookingItem): string => {
     const startStr = (booking.time || "").split(" - ")[0]?.trim();
     if (!startStr) return booking.time;
     const startMin = parse12hToMinutes(startStr);
-    const dur = booking.service?.serviceDuration ?? 30;
+    const dur = booking.service?.serviceDuration ?? 15;
     return `${startStr} - ${minutesTo12h(startMin + dur)}`;
 };
 
