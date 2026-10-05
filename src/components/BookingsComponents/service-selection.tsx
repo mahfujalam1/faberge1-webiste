@@ -69,12 +69,15 @@ const to12Hour = (time: string) => {
     });
 };
 
+// Same wording as the admin dashboard's duration dropdown, so customers see
+// exactly what the admin picked ("15 minutes", "1 hr", "1 hr 30 mnts").
 const formatDuration = (mins?: number) => {
     if (!mins || mins <= 0) return null;
-    if (mins < 60) return `${mins} min`;
+    if (mins < 60) return `${mins} minutes`;
     const h = Math.floor(mins / 60);
     const m = mins % 60;
-    return m ? `${h}h ${m}m` : `${h}h`;
+    const hPart = `${h} ${h === 1 ? "hr" : "hrs"}`;
+    return m ? `${hPart} ${m} mnts` : hPart;
 };
 
 export default function ServiceSelectionTable({
